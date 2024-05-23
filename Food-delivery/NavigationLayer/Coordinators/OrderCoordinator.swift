@@ -1,5 +1,5 @@
 //
-//  OnboardingCoordinator.swift
+//  OrderCoordinator.swift
 //  Food-delivery
 //
 //  Created by Mukaram Gaitova on 23.05.2024.
@@ -7,9 +7,10 @@
 
 import UIKit
 
-class OnboardingCoordinator: Coordinator {
+class OrderCoordinator: Coordinator {
     override func start() {
         let vc = ViewController()
+        vc.view.backgroundColor = .yellow
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -20,3 +21,4 @@ class OnboardingCoordinator: Coordinator {
     
      
 }
+

@@ -23,7 +23,7 @@ protocol CoordinatorProtocol: AnyObject {
     var finisDelegate: CoordinatorFinishDelegate? { get set }
     
     func start()
-    func finis()
+    func finish()
 }
 
 extension CoordinatorProtocol {
@@ -66,7 +66,7 @@ class Coordinator: CoordinatorProtocol {
         print("Coordinator start")
     }
     
-    func finis() {
+    func finish() {
         print("Coordinator finish")
     }
     
