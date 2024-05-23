@@ -30,6 +30,8 @@
 		9FE71DCE2BFF485600B691E9 /* UIColor+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DCD2BFF485600B691E9 /* UIColor+extension.swift */; };
 		9FE71DD12BFF498700B691E9 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DD02BFF498700B691E9 /* AppColors.swift */; };
 		9FE71DD72BFF51F500B691E9 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DD62BFF51F500B691E9 /* Coordinator.swift */; };
+		9FE71DD92BFF564D00B691E9 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DD82BFF564D00B691E9 /* AppCoordinator.swift */; };
+		9FE71DDB2BFF575000B691E9 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DDA2BFF575000B691E9 /* OnboardingCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		9FE71DCD2BFF485600B691E9 /* UIColor+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+extension.swift"; sourceTree = "<group>"; };
 		9FE71DD02BFF498700B691E9 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 		9FE71DD62BFF51F500B691E9 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		9FE71DD82BFF564D00B691E9 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		9FE71DDA2BFF575000B691E9 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +174,8 @@
 			isa = PBXGroup;
 			children = (
 				9FE71DD62BFF51F500B691E9 /* Coordinator.swift */,
+				9FE71DD82BFF564D00B691E9 /* AppCoordinator.swift */,
+				9FE71DDA2BFF575000B691E9 /* OnboardingCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -263,8 +269,10 @@
 				9FE71DAC2BFF32AA00B691E9 /* ViewController.swift in Sources */,
 				9FE71DCE2BFF485600B691E9 /* UIColor+extension.swift in Sources */,
 				9FE71DD12BFF498700B691E9 /* AppColors.swift in Sources */,
+				9FE71DD92BFF564D00B691E9 /* AppCoordinator.swift in Sources */,
 				9FE71DCC2BFF3FBE00B691E9 /* UIFont+Extension.swift in Sources */,
 				9FE71D972BFF329400B691E9 /* SceneDelegate.swift in Sources */,
+				9FE71DDB2BFF575000B691E9 /* OnboardingCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
