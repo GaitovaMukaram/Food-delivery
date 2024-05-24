@@ -20,7 +20,6 @@ class OnboardingViewController: UIViewController {
     weak var viewOutout: OnboardingViewOutPut!
     
     init(pages: [UIViewController] = [UIViewController](), viewOutout: OnboardingViewOutPut!) {
-        
         self.pages = pages
         self.viewOutout = viewOutout
         super.init(nibName: nil, bundle: nil)
@@ -38,7 +37,7 @@ class OnboardingViewController: UIViewController {
     }
     
     
-
+    
 }
 
 // MARK: - - Layout
@@ -48,11 +47,18 @@ private extension OnboardingViewController {
         pageViewController.dataSource = self
         
         pageViewController.setViewControllers([pages.first!], direction: .forward, animated: true)
-        view.addSubview(pageControl)
+        view.addSubview(pageViewController.view)
         
         addChild(pageViewController)
-        view.addSubview(pageViewController.view)
         pageViewController.didMove(toParent: self)
+        
+        pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            pageViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pageViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pageViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            pageViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     func setupPageControll() {
@@ -60,6 +66,7 @@ private extension OnboardingViewController {
         pageControl.currentPage = 0
         
         pageControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pageControl)
         
         NSLayoutConstraint.activate([
             pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -73,12 +80,12 @@ private extension OnboardingViewController {
 // MARK: - UIPageViewControllerDataSource
 extension OnboardingViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let currentIndex = pages.firstIndex(of: viewController), currentIndex < pages.count - 1 else { return UIViewController() }
+        guard let currentIndex = pages.firstIndex(of: viewController), currentIndex > 0 else { return nil }
         return pages[currentIndex - 1]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let currentIndex = pages.firstIndex(of: viewController), currentIndex < pages.count - 1 else { return UIViewController() }
+        guard let currentIndex = pages.firstIndex(of: viewController), currentIndex < pages.count - 1 else { return nil }
         return pages[currentIndex + 1]
     }
 }
@@ -87,7 +94,7 @@ extension OnboardingViewController: UIPageViewControllerDataSource {
 extension OnboardingViewController: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        if let index = pages.firstIndex(of: pendingViewControllers.first!) {
+        if let currentVC = pageViewController.viewControllers?.first, let index = pages.firstIndex(of: currentVC) {
             pageControl.currentPage = index
         }
     }

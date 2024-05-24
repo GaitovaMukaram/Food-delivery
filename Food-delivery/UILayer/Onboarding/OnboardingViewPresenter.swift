@@ -23,3 +23,4 @@ class OnboardingViewPresenter: OnboardingViewOutPut {
         coordinator.finish()
     }
 }
+
