@@ -40,6 +40,8 @@
 		9FE71DE92BFF907300B691E9 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DE82BFF907300B691E9 /* OnboardingViewController.swift */; };
 		9FE71DEB2BFF90AD00B691E9 /* OnboardingViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DEA2BFF90AD00B691E9 /* OnboardingViewPresenter.swift */; };
 		9FE71DED2C00318100B691E9 /* OnboardingPartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DEC2C00318100B691E9 /* OnboardingPartViewController.swift */; };
+		9FE71DF02C0059B500B691E9 /* UserStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DEF2C0059B500B691E9 /* UserStorage.swift */; };
+		9FE71DF32C006A6200B691E9 /* SceneFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DF22C006A6200B691E9 /* SceneFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +80,8 @@
 		9FE71DE82BFF907300B691E9 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		9FE71DEA2BFF90AD00B691E9 /* OnboardingViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewPresenter.swift; sourceTree = "<group>"; };
 		9FE71DEC2C00318100B691E9 /* OnboardingPartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPartViewController.swift; sourceTree = "<group>"; };
+		9FE71DEF2C0059B500B691E9 /* UserStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStorage.swift; sourceTree = "<group>"; };
+		9FE71DF22C006A6200B691E9 /* SceneFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +114,7 @@
 		9FE71D932BFF329400B691E9 /* Food-delivery */ = {
 			isa = PBXGroup;
 			children = (
+				9FE71DEE2C00599B00B691E9 /* ServicesLayer */,
 				9FE71DE62BFF902200B691E9 /* UILayer */,
 				9FE71DD22BFF51B100B691E9 /* NavigationLayer */,
 				9FE71DAD2BFF3D0300B691E9 /* Resources */,
@@ -205,6 +210,7 @@
 		9FE71DE62BFF902200B691E9 /* UILayer */ = {
 			isa = PBXGroup;
 			children = (
+				9FE71DF12C006A4600B691E9 /* SceneFactory */,
 				9FE71DE72BFF905B00B691E9 /* Onboarding */,
 			);
 			path = UILayer;
@@ -218,6 +224,22 @@
 				9FE71DEC2C00318100B691E9 /* OnboardingPartViewController.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		9FE71DEE2C00599B00B691E9 /* ServicesLayer */ = {
+			isa = PBXGroup;
+			children = (
+				9FE71DEF2C0059B500B691E9 /* UserStorage.swift */,
+			);
+			path = ServicesLayer;
+			sourceTree = "<group>";
+		};
+		9FE71DF12C006A4600B691E9 /* SceneFactory */ = {
+			isa = PBXGroup;
+			children = (
+				9FE71DF22C006A6200B691E9 /* SceneFactory.swift */,
+			);
+			path = SceneFactory;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,12 +329,14 @@
 				9FE71D9F2BFF329400B691E9 /* Food_delivery.xcdatamodeld in Sources */,
 				9FE71D952BFF329400B691E9 /* AppDelegate.swift in Sources */,
 				9FE71DE52BFF5C6200B691E9 /* TabBarController.swift in Sources */,
+				9FE71DF02C0059B500B691E9 /* UserStorage.swift in Sources */,
 				9FE71DE12BFF5C1000B691E9 /* ListCoordinator.swift in Sources */,
 				9FE71DAC2BFF32AA00B691E9 /* ViewController.swift in Sources */,
 				9FE71DCE2BFF485600B691E9 /* UIColor+extension.swift in Sources */,
 				9FE71DD12BFF498700B691E9 /* AppColors.swift in Sources */,
 				9FE71DD92BFF564D00B691E9 /* AppCoordinator.swift in Sources */,
 				9FE71DE32BFF5C1D00B691E9 /* ProfileCoordinator.swift in Sources */,
+				9FE71DF32C006A6200B691E9 /* SceneFactory.swift in Sources */,
 				9FE71DEB2BFF90AD00B691E9 /* OnboardingViewPresenter.swift in Sources */,
 				9FE71DCC2BFF3FBE00B691E9 /* UIFont+Extension.swift in Sources */,
 				9FE71DED2C00318100B691E9 /* OnboardingPartViewController.swift in Sources */,

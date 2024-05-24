@@ -20,7 +20,7 @@ protocol CoordinatorProtocol: AnyObject {
     var childCoordinators: [CoordinatorProtocol] { get set }
     var type: CoordinatorType { get }
     var navigationController: UINavigationController? { get set }
-    var finisDelegate: CoordinatorFinishDelegate? { get set }
+    var finishDelegate: CoordinatorFinishDelegate? { get set }
     
     func start()
     func finish()
@@ -47,18 +47,18 @@ class Coordinator: CoordinatorProtocol {
     var childCoordinators: [any CoordinatorProtocol] = []
     var type: CoordinatorType
     var navigationController: UINavigationController?
-    var finisDelegate: (any CoordinatorFinishDelegate)?
+    var finishDelegate: (any CoordinatorFinishDelegate)?
     
-    init(childCoordinators: [CoordinatorProtocol] = [CoordinatorProtocol](), type: CoordinatorType, navigationController: UINavigationController, finisDelegate: (any CoordinatorFinishDelegate)? = nil) {
+    init(childCoordinators: [CoordinatorProtocol] = [CoordinatorProtocol](), type: CoordinatorType, navigationController: UINavigationController, finishDelegate: (any CoordinatorFinishDelegate)? = nil) {
         self.childCoordinators = childCoordinators
         self.type = type
         self.navigationController = navigationController
-        self.finisDelegate = finisDelegate
+        self.finishDelegate = finishDelegate
     }
     
     deinit {
         print("Coordinator deinited \(type)")
-        childCoordinators.forEach { $0.finisDelegate = nil }
+        childCoordinators.forEach { $0.finishDelegate = nil }
         childCoordinators.removeAll()
     }
     
