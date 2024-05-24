@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol OnboardingViewOutPut: AnyObject {
+protocol OnboardingViewOutput: AnyObject {
     func onboardingFinish()
 }
 
-class OnboardingViewPresenter: OnboardingViewOutPut {
+class OnboardingViewPresenter: OnboardingViewOutput {
     // MARK: - Properties
     weak var coordinator: OnboardingCoordinator!
     
