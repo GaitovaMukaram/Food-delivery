@@ -37,6 +37,8 @@
 		9FE71DE12BFF5C1000B691E9 /* ListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DE02BFF5C1000B691E9 /* ListCoordinator.swift */; };
 		9FE71DE32BFF5C1D00B691E9 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DE22BFF5C1D00B691E9 /* ProfileCoordinator.swift */; };
 		9FE71DE52BFF5C6200B691E9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DE42BFF5C6200B691E9 /* TabBarController.swift */; };
+		9FE71DE92BFF907300B691E9 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DE82BFF907300B691E9 /* OnboardingViewController.swift */; };
+		9FE71DEB2BFF90AD00B691E9 /* OnboardingViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DEA2BFF90AD00B691E9 /* OnboardingViewPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +74,8 @@
 		9FE71DE02BFF5C1000B691E9 /* ListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCoordinator.swift; sourceTree = "<group>"; };
 		9FE71DE22BFF5C1D00B691E9 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		9FE71DE42BFF5C6200B691E9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		9FE71DE82BFF907300B691E9 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		9FE71DEA2BFF90AD00B691E9 /* OnboardingViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +108,7 @@
 		9FE71D932BFF329400B691E9 /* Food-delivery */ = {
 			isa = PBXGroup;
 			children = (
+				9FE71DE62BFF902200B691E9 /* UILayer */,
 				9FE71DD22BFF51B100B691E9 /* NavigationLayer */,
 				9FE71DAD2BFF3D0300B691E9 /* Resources */,
 				9FE71D942BFF329400B691E9 /* AppDelegate.swift */,
@@ -193,6 +198,23 @@
 				9FE71DE22BFF5C1D00B691E9 /* ProfileCoordinator.swift */,
 			);
 			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		9FE71DE62BFF902200B691E9 /* UILayer */ = {
+			isa = PBXGroup;
+			children = (
+				9FE71DE72BFF905B00B691E9 /* Onboarding */,
+			);
+			path = UILayer;
+			sourceTree = "<group>";
+		};
+		9FE71DE72BFF905B00B691E9 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				9FE71DE82BFF907300B691E9 /* OnboardingViewController.swift */,
+				9FE71DEA2BFF90AD00B691E9 /* OnboardingViewPresenter.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,7 +310,9 @@
 				9FE71DD12BFF498700B691E9 /* AppColors.swift in Sources */,
 				9FE71DD92BFF564D00B691E9 /* AppCoordinator.swift in Sources */,
 				9FE71DE32BFF5C1D00B691E9 /* ProfileCoordinator.swift in Sources */,
+				9FE71DEB2BFF90AD00B691E9 /* OnboardingViewPresenter.swift in Sources */,
 				9FE71DCC2BFF3FBE00B691E9 /* UIFont+Extension.swift in Sources */,
+				9FE71DE92BFF907300B691E9 /* OnboardingViewController.swift in Sources */,
 				9FE71D972BFF329400B691E9 /* SceneDelegate.swift in Sources */,
 				9FE71DDF2BFF5BDB00B691E9 /* OrderCoordinator.swift in Sources */,
 				9FE71DDB2BFF575000B691E9 /* OnboardingCoordinator.swift in Sources */,
