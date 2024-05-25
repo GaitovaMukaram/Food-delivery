@@ -15,6 +15,8 @@ class HomeViewController: UIViewController, HomeView {
     private let contentView = UIView()
     private let searchController = UISearchController(searchResultsController: nil)
     
+    private let addressView = AddressView()
+    
     // Массивы данных для секций
         private var categories: [Category] = [
             Category(name: "Food", icon: UIImage(resource: .foodIcon)),
@@ -73,6 +75,15 @@ class HomeViewController: UIViewController, HomeView {
         return collection
     }()
     
+    private let bigHTitleLabel: UILabel = {
+            let label = UILabel()
+            label.text = "Food Menu"
+            label.font = .boldSystemFont(ofSize: 20)
+            label.textColor = .black
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
+    
     lazy var bigVCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -83,6 +94,15 @@ class HomeViewController: UIViewController, HomeView {
         collection.tag = 3
         return collection
     }()
+    
+    private let nearMeTitleLabel: UILabel = {
+            let label = UILabel()
+            label.text = "Near Me"
+            label.font = .boldSystemFont(ofSize: 20)
+            label.textColor = .black
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
     
     init(presenter: HomePresenter) {
         self.presenter = presenter
@@ -98,6 +118,10 @@ class HomeViewController: UIViewController, HomeView {
         setupLayout()
         setupSearchController()
         presenter.viewDidLoad()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openMap))
+        addressView.addGestureRecognizer(tapGesture)
+        addressView.isUserInteractionEnabled = true
     }
 }
 
@@ -107,8 +131,11 @@ extension HomeViewController {
         configureScrollview()
         configureContentview()
         prepareScrollView()
+        setupAddressView()
         setupSmallHCollection()
+        setupBigHTitle()
         setupBigHCollection()
+        setupNearMeTitle()
         setupBigVCollection()
     }
     
@@ -160,57 +187,97 @@ extension HomeViewController {
         
     }
     
+    private func setupAddressView() {
+            contentView.addSubview(addressView)
+            
+            addressView.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                addressView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+                addressView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+                addressView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+                addressView.heightAnchor.constraint(equalToConstant: 30)
+            ])
+        }
+    
     func setupSmallHCollection() {
         contentView.addSubview(smallHCollection)
         
-//        smallHCollection.backgroundColor = .red
         smallHCollection.translatesAutoresizingMaskIntoConstraints = false
         smallHCollection.delegate = self
         smallHCollection.dataSource = self
         smallHCollection.register(SmallHCollectionViewCell.self, forCellWithReuseIdentifier: "SmallHCollectionViewCell")
         
         NSLayoutConstraint.activate([
-            smallHCollection.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 100),
+            smallHCollection.topAnchor.constraint(equalTo: addressView.bottomAnchor, constant: 30),
             smallHCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 30),
             smallHCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             smallHCollection.heightAnchor.constraint(equalToConstant: 91)
         ])
     }
     
+    private func setupBigHTitle() {
+            contentView.addSubview(bigHTitleLabel)
+            
+            NSLayoutConstraint.activate([
+                bigHTitleLabel.topAnchor.constraint(equalTo: smallHCollection.bottomAnchor, constant: 20),
+                bigHTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+                bigHTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+                bigHTitleLabel.heightAnchor.constraint(equalToConstant: 30)
+            ])
+        }
+    
     func setupBigHCollection() {
         contentView.addSubview(bigHCollection)
-        
-//        bigHCollection.backgroundColor = .red
         bigHCollection.translatesAutoresizingMaskIntoConstraints = false
         bigHCollection.delegate = self
         bigHCollection.dataSource = self
         bigHCollection.register(BigHCollectionViewCell.self, forCellWithReuseIdentifier: "BigHCollectionViewCell")
         
         NSLayoutConstraint.activate([
-            bigHCollection.topAnchor.constraint(equalTo: smallHCollection.bottomAnchor, constant: 100),
+            bigHCollection.topAnchor.constraint(equalTo: smallHCollection.bottomAnchor, constant: 70),
             bigHCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 30),
             bigHCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             bigHCollection.heightAnchor.constraint(equalToConstant: 130*2+20)
         ])
     }
     
+    private func setupNearMeTitle() {
+            contentView.addSubview(nearMeTitleLabel)
+            
+            NSLayoutConstraint.activate([
+                nearMeTitleLabel.topAnchor.constraint(equalTo: bigHCollection.bottomAnchor, constant: 20),
+                nearMeTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+                nearMeTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+                nearMeTitleLabel.heightAnchor.constraint(equalToConstant: 30)
+            ])
+        }
+    
     func setupBigVCollection() {
         contentView.addSubview(bigVCollection)
-//        bigVCollection.backgroundColor = .red
         bigVCollection.translatesAutoresizingMaskIntoConstraints = false
         bigVCollection.delegate = self
         bigVCollection.dataSource = self
         bigVCollection.register(RestaurantCollectionViewCell.self, forCellWithReuseIdentifier: "RestaurantCollectionViewCell")
         
         NSLayoutConstraint.activate([
-            bigVCollection.topAnchor.constraint(equalTo: bigHCollection.bottomAnchor, constant: 50),
+            bigVCollection.topAnchor.constraint(equalTo: bigHCollection.bottomAnchor, constant: 70),
             bigVCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 30),
             bigVCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
             bigVCollection.heightAnchor.constraint(equalToConstant: 1000),
             bigVCollection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
+    
+    @objc private func openMap() {
+        let mapVC = MapViewController()
+        mapVC.addressCompletion = { [weak self] address in
+            self?.addressView.addressLabel.text = address
+        }
+        navigationController?.pushViewController(mapVC, animated: true)
+    }
 }
+
 
 // MARK: - UISearchResultsUpdating
 extension HomeViewController: UISearchResultsUpdating {
@@ -246,6 +313,17 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BigHCollectionViewCell", for: indexPath) as! BigHCollectionViewCell
             let menuItem = menuItems[indexPath.item]
             cell.configure(with: menuItem)
+            // Установка цвета фона
+            switch indexPath.item % 3 {
+            case 0:
+                cell.topView.backgroundColor = UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 0.3)
+            case 1:
+                cell.topView.backgroundColor = UIColor(red: 155/255, green: 89/255, blue: 182/255, alpha: 0.3)
+            case 2:
+                cell.topView.backgroundColor = UIColor(red: 85/255, green: 239/255, blue: 196/255, alpha: 0.5)
+            default:
+                cell.topView.backgroundColor = UIColor.clear
+            }
             return cell
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RestaurantCollectionViewCell", for: indexPath) as! RestaurantCollectionViewCell

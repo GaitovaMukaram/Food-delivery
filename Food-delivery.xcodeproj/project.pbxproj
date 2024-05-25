@@ -59,6 +59,8 @@
 		9FE71E242C025CD300B691E9 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E232C025CD300B691E9 /* HomePresenter.swift */; };
 		9FE71E272C0266AD00B691E9 /* HomeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E262C0266AD00B691E9 /* HomeModels.swift */; };
 		9FE71E292C02794600B691E9 /* RestaurantCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E282C02794600B691E9 /* RestaurantCollectionViewCell.swift */; };
+		9FE71E2B2C02A03800B691E9 /* AdressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E2A2C02A03800B691E9 /* AdressView.swift */; };
+		9FE71E2D2C02A76800B691E9 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E2C2C02A76800B691E9 /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +114,8 @@
 		9FE71E232C025CD300B691E9 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
 		9FE71E262C0266AD00B691E9 /* HomeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModels.swift; sourceTree = "<group>"; };
 		9FE71E282C02794600B691E9 /* RestaurantCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantCollectionViewCell.swift; sourceTree = "<group>"; };
+		9FE71E2A2C02A03800B691E9 /* AdressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdressView.swift; sourceTree = "<group>"; };
+		9FE71E2C2C02A76800B691E9 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -363,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				9FE71E0D2C02122D00B691E9 /* HomeViewController.swift */,
+				9FE71E2C2C02A76800B691E9 /* MapViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -371,6 +376,7 @@
 			isa = PBXGroup;
 			children = (
 				9FE71E0F2C021C9900B691E9 /* CollectionViewCells */,
+				9FE71E2A2C02A03800B691E9 /* AdressView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -506,6 +512,7 @@
 				9FE71DD12BFF498700B691E9 /* AppColors.swift in Sources */,
 				9FE71E0E2C02122D00B691E9 /* HomeViewController.swift in Sources */,
 				9FE71DD92BFF564D00B691E9 /* AppCoordinator.swift in Sources */,
+				9FE71E2B2C02A03800B691E9 /* AdressView.swift in Sources */,
 				9FE71DE32BFF5C1D00B691E9 /* ProfileCoordinator.swift in Sources */,
 				9FE71DF32C006A6200B691E9 /* SceneFactory.swift in Sources */,
 				9FE71E272C0266AD00B691E9 /* HomeModels.swift in Sources */,
@@ -518,6 +525,7 @@
 				9FE71DDF2BFF5BDB00B691E9 /* OrderCoordinator.swift in Sources */,
 				9FE71DDB2BFF575000B691E9 /* OnboardingCoordinator.swift in Sources */,
 				9FE71DDD2BFF5B9100B691E9 /* HomeCoordinator.swift in Sources */,
+				9FE71E2D2C02A76800B691E9 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,8 +674,8 @@
 				INFOPLIST_FILE = "Food-delivery/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -693,8 +701,8 @@
 				INFOPLIST_FILE = "Food-delivery/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -8,7 +8,9 @@
 import UIKit
 
 class BigHCollectionViewCell: UICollectionViewCell {
-    let topView = UIImageView()
+    
+    let topView = UIView()
+    let imageView = UIImageView()
     let titleLabel = UILabel()
     
     override init(frame: CGRect) {
@@ -23,6 +25,7 @@ class BigHCollectionViewCell: UICollectionViewCell {
     func setupCell() {
         contentView.backgroundColor = .white
         setupTopView()
+        setupImageView()
         setupBottomLabel()
     }
     
@@ -30,7 +33,6 @@ class BigHCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(topView)
         
         topView.translatesAutoresizingMaskIntoConstraints = false
-        topView.backgroundColor = .white
         topView.layer.cornerRadius = 20
         topView.layer.masksToBounds = true
         
@@ -42,12 +44,26 @@ class BigHCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    func setupImageView() {
+            topView.addSubview(imageView)
+            
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.contentMode = .scaleAspectFit
+            
+            NSLayoutConstraint.activate([
+                imageView.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
+                imageView.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
+                imageView.widthAnchor.constraint(equalToConstant: 130),
+                imageView.heightAnchor.constraint(equalToConstant: 130)
+            ])
+        }
+    
     func setupBottomLabel() {
         contentView.addSubview(titleLabel)
         
-        titleLabel.font = .Roboto.regular.size(of: 14)
+        titleLabel.font = .Roboto.bold.size(of: 15)
         titleLabel.text = "Title label"
-        titleLabel.textColor = .black
+        titleLabel.textColor = .white
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -57,7 +73,7 @@ class BigHCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with menuItem: MenuItem) {
-        topView.image = menuItem.image
+        imageView.image = menuItem.image
         titleLabel.text = menuItem.name
     }
 }

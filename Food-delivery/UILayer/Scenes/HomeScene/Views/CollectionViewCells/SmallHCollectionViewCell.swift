@@ -75,6 +75,7 @@ class SmallHCollectionViewCell: UICollectionViewCell {
     
     func configure(with category: Category) {
         iconView.image = category.icon?.withRenderingMode(.alwaysTemplate)
+        iconView.tintColor = .black
         iconView.image = category.icon
         bottomLabel.text = category.name
     }
