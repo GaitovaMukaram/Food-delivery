@@ -41,20 +41,22 @@ protocol CoordinatorFinishDelegate: AnyObject {
 }
 
 protocol TabBarCoordinator: AnyObject, CoordinatorProtocol{
-    var tabBarCoordinator: UITabBarController? { get set }
+    var tabBarController: UITabBarController? { get set }
 }
 
 class Coordinator: CoordinatorProtocol {
     var childCoordinators: [any CoordinatorProtocol] = []
     var type: CoordinatorType
     var navigationController: UINavigationController?
+    var window: UIWindow?
     weak var finishDelegate: (any CoordinatorFinishDelegate)?
     
-    init(childCoordinators: [CoordinatorProtocol] = [CoordinatorProtocol](), type: CoordinatorType, navigationController: UINavigationController, finishDelegate: (any CoordinatorFinishDelegate)? = nil) {
+    init(childCoordinators: [CoordinatorProtocol] = [CoordinatorProtocol](), type: CoordinatorType, navigationController: UINavigationController, finishDelegate: (any CoordinatorFinishDelegate)? = nil, window: UIWindow? = nil) {
         self.childCoordinators = childCoordinators
         self.type = type
         self.navigationController = navigationController
         self.finishDelegate = finishDelegate
+        self.window = window
     }
     
     deinit {
