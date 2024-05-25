@@ -8,7 +8,7 @@
 import UIKit
 
 class BigHCollectionViewCell: UICollectionViewCell {
-    let topView = UIView()
+    let topView = UIImageView()
     let titleLabel = UILabel()
     
     override init(frame: CGRect) {
@@ -21,7 +21,7 @@ class BigHCollectionViewCell: UICollectionViewCell {
     }
     
     func setupCell() {
-        contentView.backgroundColor = .blue
+        contentView.backgroundColor = .white
         setupTopView()
         setupBottomLabel()
     }
@@ -30,7 +30,7 @@ class BigHCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(topView)
         
         topView.translatesAutoresizingMaskIntoConstraints = false
-        topView.backgroundColor = .green
+        topView.backgroundColor = .white
         topView.layer.cornerRadius = 20
         topView.layer.masksToBounds = true
         
@@ -54,5 +54,10 @@ class BigHCollectionViewCell: UICollectionViewCell {
             titleLabel.topAnchor.constraint(equalTo: topView.topAnchor, constant: 10),
             titleLabel.leftAnchor.constraint(equalTo: topView.leftAnchor, constant: 15),
         ])
+    }
+    
+    func configure(with menuItem: MenuItem) {
+        topView.image = menuItem.image
+        titleLabel.text = menuItem.name
     }
 }

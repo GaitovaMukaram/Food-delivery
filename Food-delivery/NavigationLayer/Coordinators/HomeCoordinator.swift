@@ -16,7 +16,7 @@ class HomeCoordinator: Coordinator {
     }
     
     override func finish() {
-        print("AppCoordinator finish")
+        print("HomeCoordinator finish")
     }
      
 }
@@ -29,3 +29,5 @@ extension HomeCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
 }
+
+

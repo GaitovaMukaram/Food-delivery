@@ -10,6 +10,7 @@ import UIKit
 class SmallHCollectionViewCell: UICollectionViewCell {
     
     let topView = UIView()
+    let iconView = UIImageView()
     let bottomLabel = UILabel()
     
     override init(frame: CGRect) {
@@ -22,8 +23,9 @@ class SmallHCollectionViewCell: UICollectionViewCell {
     }
     
     func setupCell() {
-        contentView.backgroundColor = .blue
+        contentView.backgroundColor = .white
         setupTopView()
+        setupIconView()
         setupBottomLabel()
     }
     
@@ -31,15 +33,29 @@ class SmallHCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(topView)
         
         topView.translatesAutoresizingMaskIntoConstraints = false
-        topView.backgroundColor = .green
+        topView.backgroundColor = AppColors.gray
         topView.layer.cornerRadius = 20
         topView.layer.masksToBounds = true
         
         NSLayoutConstraint.activate([
-            topView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            topView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             topView.topAnchor.constraint(equalTo: contentView.topAnchor),
             topView.widthAnchor.constraint(equalToConstant: 70),
             topView.heightAnchor.constraint(equalToConstant: 70)
+        ])
+    }
+    
+    func setupIconView() {
+        topView.addSubview(iconView)
+        
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        iconView.contentMode = .scaleAspectFit
+        
+        NSLayoutConstraint.activate([
+            iconView.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
+            iconView.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
+            iconView.widthAnchor.constraint(equalToConstant: 30),
+            iconView.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
     
@@ -48,12 +64,25 @@ class SmallHCollectionViewCell: UICollectionViewCell {
         
         bottomLabel.font = .Roboto.regular.size(of: 14)
         bottomLabel.text = "test label"
-        bottomLabel.textColor = .white
+        bottomLabel.textColor = AppColors.black
         bottomLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             bottomLabel.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 5),
             bottomLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
+    }
+    
+    func configure(with category: Category) {
+        iconView.image = category.icon?.withRenderingMode(.alwaysTemplate)
+        iconView.image = category.icon
+        bottomLabel.text = category.name
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            topView.backgroundColor = isSelected ? .orange : .systemGray6
+            iconView.tintColor = isSelected ? .white : .black
+        }
     }
 }

@@ -6,11 +6,51 @@
 //
 
 import UIKit
+import CoreLocation
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, HomeView {
     
+    private let presenter: HomePresenter
     private let scrollView = UIScrollView()
     private let contentView = UIView()
+    private let searchController = UISearchController(searchResultsController: nil)
+    
+    // Массивы данных для секций
+        private var categories: [Category] = [
+            Category(name: "Food", icon: UIImage(resource: .foodIcon)),
+            Category(name: "Drink", icon: UIImage(named: "drinkIcon")),
+            Category(name: "Cake", icon: UIImage(named: "cakeIcon")),
+            Category(name: "Snack", icon: UIImage(named: "snackIcon")),
+            Category(name: "Food", icon: UIImage(named: "foodIcon")),
+            Category(name: "Drink", icon: UIImage(named: "drinkIcon")),
+            Category(name: "Cake", icon: UIImage(named: "cakeIcon")),
+            Category(name: "Snack", icon: UIImage(named: "snackIcon"))
+        ]
+        
+    private var restaurants: [Restaurant] = [
+            Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5),
+            Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5),
+            Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5),
+            Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5),
+            Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5)
+        ]
+        
+        private var menuItems: [MenuItem] = [
+            MenuItem(name: "Burgers", image: UIImage(named: "burgerImage")),
+            MenuItem(name: "Pizza", image: UIImage(named: "pizzaImage")),
+            MenuItem(name: "BBQ", image: UIImage(named: "bbqImage")),
+            MenuItem(name: "Fruit", image: UIImage(named: "fruitImage")),
+            MenuItem(name: "Sushi", image: UIImage(named: "sushiImage")),
+            MenuItem(name: "Noodle", image: UIImage(named: "noodleImage")),
+            MenuItem(name: "Burgers", image: UIImage(named: "burgerImage")),
+            MenuItem(name: "Pizza", image: UIImage(named: "pizzaImage")),
+            MenuItem(name: "BBQ", image: UIImage(named: "bbqImage")),
+            MenuItem(name: "Fruit", image: UIImage(named: "fruitImage")),
+            MenuItem(name: "Sushi", image: UIImage(named: "sushiImage")),
+            MenuItem(name: "Noodle", image: UIImage(named: "noodleImage"))
+        ]
+    
+    
     lazy var smallHCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -43,10 +83,21 @@ class HomeViewController: UIViewController {
         collection.tag = 3
         return collection
     }()
-
+    
+    init(presenter: HomePresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
+        setupSearchController()
+        presenter.viewDidLoad()
     }
 }
 
@@ -69,11 +120,11 @@ extension HomeViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = true
         scrollView.alwaysBounceVertical = true
-        scrollView.backgroundColor = .brown
+        scrollView.backgroundColor = .white
     }
     func configureContentview() {
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.backgroundColor = .systemMint
+        contentView.backgroundColor = .white
     }
     func prepareScrollView() {
         view.addSubview(scrollView)
@@ -93,10 +144,26 @@ extension HomeViewController {
         ])
     }
     
+    private func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
+    func updateSearchResults() {
+        
+    }
+    
+    func updateLocation() {
+        
+    }
+    
     func setupSmallHCollection() {
         contentView.addSubview(smallHCollection)
         
-        smallHCollection.backgroundColor = .red
+//        smallHCollection.backgroundColor = .red
         smallHCollection.translatesAutoresizingMaskIntoConstraints = false
         smallHCollection.delegate = self
         smallHCollection.dataSource = self
@@ -113,7 +180,7 @@ extension HomeViewController {
     func setupBigHCollection() {
         contentView.addSubview(bigHCollection)
         
-        bigHCollection.backgroundColor = .red
+//        bigHCollection.backgroundColor = .red
         bigHCollection.translatesAutoresizingMaskIntoConstraints = false
         bigHCollection.delegate = self
         bigHCollection.dataSource = self
@@ -129,11 +196,11 @@ extension HomeViewController {
     
     func setupBigVCollection() {
         contentView.addSubview(bigVCollection)
-        bigVCollection.backgroundColor = .red
+//        bigVCollection.backgroundColor = .red
         bigVCollection.translatesAutoresizingMaskIntoConstraints = false
         bigVCollection.delegate = self
         bigVCollection.dataSource = self
-        bigVCollection.register(BigHCollectionViewCell.self, forCellWithReuseIdentifier: "BigHCollectionViewCell")
+        bigVCollection.register(RestaurantCollectionViewCell.self, forCellWithReuseIdentifier: "RestaurantCollectionViewCell")
         
         NSLayoutConstraint.activate([
             bigVCollection.topAnchor.constraint(equalTo: bigHCollection.bottomAnchor, constant: 50),
@@ -145,16 +212,23 @@ extension HomeViewController {
     }
 }
 
-// MARK: - CollectionView delegate
+// MARK: - UISearchResultsUpdating
+extension HomeViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else { return }
+    }
+}
+
+// MARK: - CollectionView delegate, UICollectionViewDataSource
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView.tag {
         case 1:
-            return 30
+            return categories.count
         case 2:
-            return 15
+            return menuItems.count
         case 3:
-            return 20
+            return restaurants.count
         default:
             return 0
         }
@@ -165,12 +239,18 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         switch collectionView.tag {
         case 1:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SmallHCollectionViewCell", for: indexPath) as! SmallHCollectionViewCell
+            let category = categories[indexPath.item]
+            cell.configure(with: category)
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BigHCollectionViewCell", for: indexPath) as! BigHCollectionViewCell
+            let menuItem = menuItems[indexPath.item]
+            cell.configure(with: menuItem)
             return cell
         case 3:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BigHCollectionViewCell", for: indexPath) as! BigHCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RestaurantCollectionViewCell", for: indexPath) as! RestaurantCollectionViewCell
+            let restaurant = restaurants[indexPath.item]
+            cell.configure(with: restaurant)
             return cell
         default:
             return UICollectionViewCell()
@@ -194,3 +274,5 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 }
+
+
