@@ -27,6 +27,8 @@ class LoginViewController: UIViewController {
     // MARK: - Properties
     private var state: LoginViewState = .initial
     var viewOutput: LoginViewOutput?
+    private var isKeyboardShown = false
+    private var bottomCTValue = 0.0
     
     // MARK: - Views
     private lazy var bottomView = FDBottomView()
@@ -41,6 +43,9 @@ class LoginViewController: UIViewController {
     private lazy var signInButton = FDButton()
     private lazy var signUpButton = FDButton()
     private lazy var verticalStack = UIStackView()
+    
+    // MARK: - Constraints
+    private var stackViewBottomCT = NSLayoutConstraint()
     
     // MARK: - Initializers
     init(viewOutput: LoginViewOutput, state: LoginViewState) {
@@ -58,6 +63,11 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupLayout()
+        setupObservers()
+    }
+    
+    deinit {
+        stopKeyboardListener()
     }
     
     func facebookPress() {
@@ -110,19 +120,23 @@ private extension LoginViewController {
         case .signIn:
             verticalStack.addArrangedSubview(signInUsername)
             verticalStack.addArrangedSubview(signInPassword)
+            bottomCTValue = -262
+            stackViewBottomCT = verticalStack.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: bottomCTValue)
             
             NSLayoutConstraint.activate([
                 verticalStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                verticalStack.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -262)
+                stackViewBottomCT
             ])
         case .signUp:
             verticalStack.addArrangedSubview(signUpUsername)
             verticalStack.addArrangedSubview(signUpPassword)
             verticalStack.addArrangedSubview(signUpReEnterPass)
+            bottomCTValue = -227
+            stackViewBottomCT = verticalStack.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: bottomCTValue)
             
             NSLayoutConstraint.activate([
                 verticalStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                verticalStack.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -227)
+                stackViewBottomCT
             ])
         }
     }
@@ -333,6 +347,52 @@ extension LoginViewController: LoginViewInput {
     
     func onBackPressed() {
         
+    }
+}
+
+// MARK: - Observers
+private extension LoginViewController {
+    func setupObservers() {
+        startKeyboardListener()
+    }
+    
+    func startKeyboardListener() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    func stopKeyboardListener() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        
+        if !isKeyboardShown {
+            UIView.animate(withDuration: 0.3) {
+                self.stackViewBottomCT.constant -= keyboardHeight/4
+                self.view.layoutIfNeeded()
+                self.isKeyboardShown = true
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        if isKeyboardShown {
+            UIView.animate(withDuration: 0.3) {
+                self.stackViewBottomCT.constant = self.bottomCTValue
+                self.view.layoutIfNeeded()
+                self.isKeyboardShown = false
+            }
+        }
     }
 }
 
