@@ -47,6 +47,7 @@
 		9FE71E022C009E6D00B691E9 /* FDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E012C009E6D00B691E9 /* FDButton.swift */; };
 		9FE71E042C00F66000B691E9 /* FDTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E032C00F66000B691E9 /* FDTextField.swift */; };
 		9FE71E062C00FE1900B691E9 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E052C00FE1900B691E9 /* LoginPresenter.swift */; };
+		9FE71E082C01E4E600B691E9 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E072C01E4E600B691E9 /* LoginCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +93,7 @@
 		9FE71E012C009E6D00B691E9 /* FDButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDButton.swift; sourceTree = "<group>"; };
 		9FE71E032C00F66000B691E9 /* FDTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDTextField.swift; sourceTree = "<group>"; };
 		9FE71E052C00FE1900B691E9 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		9FE71E072C01E4E600B691E9 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +211,7 @@
 				9FE71DD62BFF51F500B691E9 /* Coordinator.swift */,
 				9FE71DD82BFF564D00B691E9 /* AppCoordinator.swift */,
 				9FE71DDA2BFF575000B691E9 /* OnboardingCoordinator.swift */,
+				9FE71E072C01E4E600B691E9 /* LoginCoordinator.swift */,
 				9FE71DDC2BFF5B9100B691E9 /* HomeCoordinator.swift */,
 				9FE71DDE2BFF5BDB00B691E9 /* OrderCoordinator.swift */,
 				9FE71DE02BFF5C1000B691E9 /* ListCoordinator.swift */,
@@ -400,6 +403,7 @@
 				9FE71DD72BFF51F500B691E9 /* Coordinator.swift in Sources */,
 				9FE71D9F2BFF329400B691E9 /* Food_delivery.xcdatamodeld in Sources */,
 				9FE71D952BFF329400B691E9 /* AppDelegate.swift in Sources */,
+				9FE71E082C01E4E600B691E9 /* LoginCoordinator.swift in Sources */,
 				9FE71DE52BFF5C6200B691E9 /* TabBarController.swift in Sources */,
 				9FE71E062C00FE1900B691E9 /* LoginPresenter.swift in Sources */,
 				9FE71DF02C0059B500B691E9 /* UserStorage.swift in Sources */,
