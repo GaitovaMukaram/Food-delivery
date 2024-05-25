@@ -26,6 +26,7 @@ struct SceneFactory {
     
     static func makeOnboardingScene(coordinator: OnboardingCoordinator) -> OnboardingViewController {
         var pages = [OnboardingPartViewController]()
+        
         let firstVC = OnboardingPartViewController()
         firstVC.imageToShow = UIImage(resource: .chickenLeg)
         firstVC.titleText = "Delicious Food"
@@ -54,6 +55,7 @@ struct SceneFactory {
         pages.append(secondVC)
         pages.append(thirdVC)
         pages.append(fourthVC)
+        
         let presenter = OnboardingViewPresenter(coordinator: coordinator)
         let viewController = OnboardingViewController(pages: pages, viewOutout: presenter)
         
@@ -69,19 +71,19 @@ struct SceneFactory {
         homeCoordinator.start()
         
         let orderNavigationController = UINavigationController()
-        let orderCoordinator = HomeCoordinator(type: .order, navigationController: orderNavigationController)
+        let orderCoordinator = OrderCoordinator(type: .order, navigationController: orderNavigationController)
         orderNavigationController.tabBarItem = UITabBarItem(title: "Order", image: UIImage.init(systemName: "sun.max.fill"), tag: 1)
         orderCoordinator.finishDelegate = finishDelegate
         orderCoordinator.start()
         
         let listNavigationController = UINavigationController()
-        let listCoordinator = HomeCoordinator(type: .list, navigationController: listNavigationController)
+        let listCoordinator = ListCoordinator(type: .list, navigationController: listNavigationController)
         listNavigationController.tabBarItem = UITabBarItem(title: "List", image: UIImage.init(systemName: "sun.max.fill"), tag: 2)
         listCoordinator.finishDelegate = finishDelegate
         listCoordinator.start()
         
         let profileNavigationController = UINavigationController()
-        let profileCoordinator = HomeCoordinator(type: .profile, navigationController: profileNavigationController)
+        let profileCoordinator = ProfileCoordinator(type: .profile, navigationController: profileNavigationController)
         profileNavigationController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage.init(systemName: "sun.max.fill"), tag: 3)
         profileCoordinator.finishDelegate = finishDelegate
         profileCoordinator.start()
