@@ -97,6 +97,7 @@ private extension LoginViewController {
             setupTitleLabel()
             setupSignInButton()
             setupForgotPasswordLabel()
+            setupNavigationBar()
         case .signUp:
             setupBottomView()
             setupStack()
@@ -106,7 +107,18 @@ private extension LoginViewController {
             setupTitleLabel()
             setupSignInButton()
             setupForgotPasswordLabel()
+            setupNavigationBar()
         }
+    }
+    
+    func setupNavigationBar() {
+        let backImage = UIImage(resource: .back)
+        let backButtonItem = UIBarButtonItem(image: backImage,
+                                             style: .plain,
+                                             target: navigationController,
+                                             action: #selector(navigationController?.popViewController(animated:)))
+        navigationItem.leftBarButtonItem = backButtonItem
+        navigationItem.leftBarButtonItem?.tintColor = AppColors.black
     }
     
     func setupStack() {
