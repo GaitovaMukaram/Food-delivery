@@ -21,7 +21,6 @@ class AppCoordinator: Coordinator, TabBarCoordinator {
 //            showOnboardingFlow()
 //        }
         showMainFlow()
-//        showAuthFlow()
     }
     
     override func finish() {
@@ -55,6 +54,8 @@ private extension AppCoordinator {
         let loginCoordinator = factory.makeLoginFlow(coordinator: self, finishDelegate: self, navigationController: navigationController)
         loginCoordinator.start()
     }
+    
+    
 }
 
 // MARK: - CoordinatorFinishDelegate

@@ -193,7 +193,7 @@ extension HomeViewController {
         addressView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            addressView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            addressView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             addressView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             addressView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
             addressView.heightAnchor.constraint(equalToConstant: 30)
@@ -210,7 +210,7 @@ extension HomeViewController {
         smallHCollection.register(SmallHCollectionViewCell.self, forCellWithReuseIdentifier: "SmallHCollectionViewCell")
         
         NSLayoutConstraint.activate([
-            smallHCollection.topAnchor.constraint(equalTo: addressView.bottomAnchor, constant: 30),
+            smallHCollection.topAnchor.constraint(equalTo: addressView.bottomAnchor, constant: 20),
             smallHCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 30),
             smallHCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             smallHCollection.heightAnchor.constraint(equalToConstant: 91)

@@ -6,8 +6,12 @@
 //
 
 import UIKit
+import CoreLocation
 
-class AddressView: UIView {
+class AddressView: UIView, CLLocationManagerDelegate {
+    
+    let locationManager = CLLocationManager()
+    let geocoder = CLGeocoder()
     
     let locationIcon: UIImageView = {
         let imageView = UIImageView()
@@ -20,7 +24,7 @@ class AddressView: UIView {
     
     let addressLabel: UILabel = {
         let label = UILabel()
-        label.text = "9 West 46 Th Street, New York City"
+        label.text = "Detecting address..."
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -30,6 +34,7 @@ class AddressView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        setupLocationManager()
     }
     
     required init?(coder: NSCoder) {
@@ -51,5 +56,46 @@ class AddressView: UIView {
             addressLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
     }
+    
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+    
+    // CLLocationManagerDelegate methods
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        geocodeLocation(location)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to get user location: \(error.localizedDescription)")
+    }
+    
+    private func geocodeLocation(_ location: CLLocation) {
+        geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
+            guard let self = self else { return }
+            if let error = error {
+                print("Failed to geocode location: \(error.localizedDescription)")
+                return
+            }
+            
+            if let placemark = placemarks?.first {
+                let address = [
+                    placemark.subThoroughfare,
+                    placemark.thoroughfare,
+                    placemark.locality,
+                    placemark.administrativeArea,
+                    placemark.postalCode,
+                    placemark.country
+                ].compactMap { $0 }.joined(separator: ", ")
+                
+                DispatchQueue.main.async {
+                    self.addressLabel.text = address
+                }
+            }
+        }
+    }
 }
-

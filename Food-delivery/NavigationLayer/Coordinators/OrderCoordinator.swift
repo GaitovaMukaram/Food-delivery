@@ -7,18 +7,33 @@
 
 import UIKit
 
-class OrderCoordinator: Coordinator {
+class OrderCoordinator: Coordinator, MenuItemDetailViewControllerDelegate {
+    
+    var order = Order(items: [])
+    private let factory = SceneFactory.self
+
     override func start() {
-        let vc = ViewController()
-        vc.view.backgroundColor = .yellow
-        navigationController?.pushViewController(vc, animated: true)
+        showOrder()
+    }
+    
+    func didAddToOrder(menuItem: MenuItem) {
+        order.items.append(menuItem)
+        print(order)
+        if let orderViewController = navigationController?.topViewController as? OrderViewController {
+            orderViewController.presenter.addItem(menuItem)
+        }
     }
     
     override func finish() {
-//        finisDelegate?.coordinatorDidFinish(childCoordinator: self)
-        print("AppCoordinator finish")
+        print("OrderCoordinator finish")
     }
-    
-     
 }
 
+// MARK: - Navigation
+extension OrderCoordinator {
+    func showOrder() {
+        guard let navigationController = navigationController else { return }
+        let vc = factory.makeOrderScene(coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+}

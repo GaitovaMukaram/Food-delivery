@@ -128,4 +128,25 @@ struct SceneFactory {
         return controller
     }
     
+    static func makeOrderScene(coordinator: OrderCoordinator) -> OrderViewController {
+        let presenter = OrderPresenter(coordinator: coordinator)
+        let controller = OrderViewController(presenter: presenter)
+        presenter.view = controller
+        return controller
+    }
+    
+    static func makeProfileScene(coordinator: ProfileCoordinator) -> ProfileViewController {
+            let presenter = ProfilePresenter(coordinator: coordinator)
+            let controller = ProfileViewController(presenter: presenter)
+            presenter.view = controller
+            return controller
+        }
+    
+    static func makePaymentSettingsScene() -> PaymentSettingsViewController {
+        return PaymentSettingsViewController()
+    }
+    
+    static func makeAddCreditCardScene() -> AddCreditCardViewController {
+        return AddCreditCardViewController()
+    }
 }

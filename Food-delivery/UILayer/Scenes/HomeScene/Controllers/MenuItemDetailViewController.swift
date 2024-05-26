@@ -7,9 +7,15 @@
 
 import UIKit
 
+
+protocol MenuItemDetailViewControllerDelegate: AnyObject {
+    func didAddToOrder(menuItem: MenuItem)
+}
+
 class MenuItemDetailViewController: UIViewController {
 
     private let menuItem: MenuItem
+    weak var delegate: MenuItemDetailViewControllerDelegate?
 
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
@@ -34,6 +40,17 @@ class MenuItemDetailViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         configureView()
+        setupNavigationBar()
+    }
+    
+    func setupNavigationBar() {
+        let backImage = UIImage(resource: .back)
+        let backButtonItem = UIBarButtonItem(image: backImage,
+                                             style: .plain,
+                                             target: navigationController,
+                                             action: #selector(navigationController?.popViewController(animated:)))
+        navigationItem.leftBarButtonItem = backButtonItem
+        navigationItem.leftBarButtonItem?.tintColor = AppColors.black
     }
 
     private func setupLayout() {
@@ -133,6 +150,14 @@ class MenuItemDetailViewController: UIViewController {
         addToOrderButton.backgroundColor = UIColor(red: 1, green: 0.5, blue: 0, alpha: 1)
         addToOrderButton.setTitleColor(.white, for: .normal)
         addToOrderButton.layer.cornerRadius = 25
+        
+        addToOrderButton.addTarget(self, action: #selector(addToOrderButtonTapped), for: .touchUpInside)
     }
+    
+    @objc private func addToOrderButtonTapped() {
+        delegate?.didAddToOrder(menuItem: menuItem)
+        navigationController?.popViewController(animated: true)
+    }
+    
 }
 
