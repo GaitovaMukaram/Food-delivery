@@ -18,7 +18,12 @@ struct Restaurant {
     let distance: Double
     let image: UIImage?
     let rating: Double
+    let latitude: Double
+    let longitude: Double
+    let menuItems: [String]
 }
+
+
 
 struct MenuItem {
     let name: String

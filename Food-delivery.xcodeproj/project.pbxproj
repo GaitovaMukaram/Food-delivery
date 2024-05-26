@@ -61,6 +61,7 @@
 		9FE71E292C02794600B691E9 /* RestaurantCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E282C02794600B691E9 /* RestaurantCollectionViewCell.swift */; };
 		9FE71E2B2C02A03800B691E9 /* AdressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E2A2C02A03800B691E9 /* AdressView.swift */; };
 		9FE71E2D2C02A76800B691E9 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E2C2C02A76800B691E9 /* MapViewController.swift */; };
+		9FE71E2F2C02B7D900B691E9 /* FilteredRestaurantsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71E2E2C02B7D900B691E9 /* FilteredRestaurantsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -116,6 +117,7 @@
 		9FE71E282C02794600B691E9 /* RestaurantCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantCollectionViewCell.swift; sourceTree = "<group>"; };
 		9FE71E2A2C02A03800B691E9 /* AdressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdressView.swift; sourceTree = "<group>"; };
 		9FE71E2C2C02A76800B691E9 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		9FE71E2E2C02B7D900B691E9 /* FilteredRestaurantsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredRestaurantsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -368,6 +370,7 @@
 			children = (
 				9FE71E0D2C02122D00B691E9 /* HomeViewController.swift */,
 				9FE71E2C2C02A76800B691E9 /* MapViewController.swift */,
+				9FE71E2E2C02B7D900B691E9 /* FilteredRestaurantsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				9FE71D972BFF329400B691E9 /* SceneDelegate.swift in Sources */,
 				9FE71DDF2BFF5BDB00B691E9 /* OrderCoordinator.swift in Sources */,
 				9FE71DDB2BFF575000B691E9 /* OnboardingCoordinator.swift in Sources */,
+				9FE71E2F2C02B7D900B691E9 /* FilteredRestaurantsViewController.swift in Sources */,
 				9FE71DDD2BFF5B9100B691E9 /* HomeCoordinator.swift in Sources */,
 				9FE71E2D2C02A76800B691E9 /* MapViewController.swift in Sources */,
 			);

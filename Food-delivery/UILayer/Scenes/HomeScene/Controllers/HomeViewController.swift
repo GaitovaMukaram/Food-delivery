@@ -18,39 +18,33 @@ class HomeViewController: UIViewController, HomeView {
     private let addressView = AddressView()
     
     // Массивы данных для секций
-        private var categories: [Category] = [
-            Category(name: "Food", icon: UIImage(resource: .foodIcon)),
-            Category(name: "Drink", icon: UIImage(named: "drinkIcon")),
-            Category(name: "Cake", icon: UIImage(named: "cakeIcon")),
-            Category(name: "Snack", icon: UIImage(named: "snackIcon")),
-            Category(name: "Food", icon: UIImage(named: "foodIcon")),
-            Category(name: "Drink", icon: UIImage(named: "drinkIcon")),
-            Category(name: "Cake", icon: UIImage(named: "cakeIcon")),
-            Category(name: "Snack", icon: UIImage(named: "snackIcon"))
-        ]
-        
-    private var restaurants: [Restaurant] = [
-            Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5),
-            Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5),
-            Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5),
-            Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5),
-            Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5)
-        ]
-        
-        private var menuItems: [MenuItem] = [
-            MenuItem(name: "Burgers", image: UIImage(named: "burgerImage")),
-            MenuItem(name: "Pizza", image: UIImage(named: "pizzaImage")),
-            MenuItem(name: "BBQ", image: UIImage(named: "bbqImage")),
-            MenuItem(name: "Fruit", image: UIImage(named: "fruitImage")),
-            MenuItem(name: "Sushi", image: UIImage(named: "sushiImage")),
-            MenuItem(name: "Noodle", image: UIImage(named: "noodleImage")),
-            MenuItem(name: "Burgers", image: UIImage(named: "burgerImage")),
-            MenuItem(name: "Pizza", image: UIImage(named: "pizzaImage")),
-            MenuItem(name: "BBQ", image: UIImage(named: "bbqImage")),
-            MenuItem(name: "Fruit", image: UIImage(named: "fruitImage")),
-            MenuItem(name: "Sushi", image: UIImage(named: "sushiImage")),
-            MenuItem(name: "Noodle", image: UIImage(named: "noodleImage"))
-        ]
+    private var categories: [Category] = [
+        Category(name: "Food", icon: UIImage(resource: .foodIcon)),
+        Category(name: "Drink", icon: UIImage(named: "drinkIcon")),
+        Category(name: "Cake", icon: UIImage(named: "cakeIcon")),
+        Category(name: "Snack", icon: UIImage(named: "snackIcon")),
+        Category(name: "Food", icon: UIImage(named: "foodIcon")),
+        Category(name: "Drink", icon: UIImage(named: "drinkIcon")),
+        Category(name: "Cake", icon: UIImage(named: "cakeIcon")),
+        Category(name: "Snack", icon: UIImage(named: "snackIcon"))
+    ]
+    
+    private var restaurants: [Restaurant] = []
+    
+    private var menuItems: [MenuItem] = [
+        MenuItem(name: "Burgers", image: UIImage(named: "burgerImage")),
+        MenuItem(name: "Pizza", image: UIImage(named: "pizzaImage")),
+        MenuItem(name: "BBQ", image: UIImage(named: "bbqImage")),
+        MenuItem(name: "Fruit", image: UIImage(named: "fruitImage")),
+        MenuItem(name: "Sushi", image: UIImage(named: "sushiImage")),
+        MenuItem(name: "Noodle", image: UIImage(named: "noodleImage")),
+        MenuItem(name: "Burgers", image: UIImage(named: "burgerImage")),
+        MenuItem(name: "Pizza", image: UIImage(named: "pizzaImage")),
+        MenuItem(name: "BBQ", image: UIImage(named: "bbqImage")),
+        MenuItem(name: "Fruit", image: UIImage(named: "fruitImage")),
+        MenuItem(name: "Sushi", image: UIImage(named: "sushiImage")),
+        MenuItem(name: "Noodle", image: UIImage(named: "noodleImage"))
+    ]
     
     
     lazy var smallHCollection: UICollectionView = {
@@ -76,13 +70,13 @@ class HomeViewController: UIViewController, HomeView {
     }()
     
     private let bigHTitleLabel: UILabel = {
-            let label = UILabel()
-            label.text = "Food Menu"
-            label.font = .boldSystemFont(ofSize: 20)
-            label.textColor = .black
-            label.translatesAutoresizingMaskIntoConstraints = false
-            return label
-        }()
+        let label = UILabel()
+        label.text = "Food Menu"
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     lazy var bigVCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -96,13 +90,13 @@ class HomeViewController: UIViewController, HomeView {
     }()
     
     private let nearMeTitleLabel: UILabel = {
-            let label = UILabel()
-            label.text = "Near Me"
-            label.font = .boldSystemFont(ofSize: 20)
-            label.textColor = .black
-            label.translatesAutoresizingMaskIntoConstraints = false
-            return label
-        }()
+        let label = UILabel()
+        label.text = "Near Me"
+        label.font = .boldSystemFont(ofSize: 20)
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     init(presenter: HomePresenter) {
         self.presenter = presenter
@@ -117,6 +111,7 @@ class HomeViewController: UIViewController, HomeView {
         super.viewDidLoad()
         setupLayout()
         setupSearchController()
+        presenter.view = self
         presenter.viewDidLoad()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openMap))
@@ -187,23 +182,29 @@ extension HomeViewController {
         
     }
     
+    func updateNearbyRestaurants(_ restaurants: [Restaurant]) {
+        self.restaurants = restaurants
+        bigVCollection.reloadData()
+    }
+    
     private func setupAddressView() {
-            contentView.addSubview(addressView)
-            
-            addressView.translatesAutoresizingMaskIntoConstraints = false
-            
-            NSLayoutConstraint.activate([
-                addressView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-                addressView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-                addressView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
-                addressView.heightAnchor.constraint(equalToConstant: 30)
-            ])
-        }
+        contentView.addSubview(addressView)
+        
+        addressView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            addressView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            addressView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            addressView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            addressView.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
     
     func setupSmallHCollection() {
         contentView.addSubview(smallHCollection)
         
         smallHCollection.translatesAutoresizingMaskIntoConstraints = false
+        smallHCollection.showsHorizontalScrollIndicator = false
         smallHCollection.delegate = self
         smallHCollection.dataSource = self
         smallHCollection.register(SmallHCollectionViewCell.self, forCellWithReuseIdentifier: "SmallHCollectionViewCell")
@@ -217,19 +218,20 @@ extension HomeViewController {
     }
     
     private func setupBigHTitle() {
-            contentView.addSubview(bigHTitleLabel)
-            
-            NSLayoutConstraint.activate([
-                bigHTitleLabel.topAnchor.constraint(equalTo: smallHCollection.bottomAnchor, constant: 20),
-                bigHTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-                bigHTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-                bigHTitleLabel.heightAnchor.constraint(equalToConstant: 30)
-            ])
-        }
+        contentView.addSubview(bigHTitleLabel)
+        
+        NSLayoutConstraint.activate([
+            bigHTitleLabel.topAnchor.constraint(equalTo: smallHCollection.bottomAnchor, constant: 20),
+            bigHTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            bigHTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            bigHTitleLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
     
     func setupBigHCollection() {
         contentView.addSubview(bigHCollection)
         bigHCollection.translatesAutoresizingMaskIntoConstraints = false
+        bigHCollection.showsHorizontalScrollIndicator = false
         bigHCollection.delegate = self
         bigHCollection.dataSource = self
         bigHCollection.register(BigHCollectionViewCell.self, forCellWithReuseIdentifier: "BigHCollectionViewCell")
@@ -243,19 +245,20 @@ extension HomeViewController {
     }
     
     private func setupNearMeTitle() {
-            contentView.addSubview(nearMeTitleLabel)
-            
-            NSLayoutConstraint.activate([
-                nearMeTitleLabel.topAnchor.constraint(equalTo: bigHCollection.bottomAnchor, constant: 20),
-                nearMeTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-                nearMeTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-                nearMeTitleLabel.heightAnchor.constraint(equalToConstant: 30)
-            ])
-        }
+        contentView.addSubview(nearMeTitleLabel)
+        
+        NSLayoutConstraint.activate([
+            nearMeTitleLabel.topAnchor.constraint(equalTo: bigHCollection.bottomAnchor, constant: 20),
+            nearMeTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            nearMeTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            nearMeTitleLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
     
     func setupBigVCollection() {
         contentView.addSubview(bigVCollection)
         bigVCollection.translatesAutoresizingMaskIntoConstraints = false
+        bigVCollection.showsHorizontalScrollIndicator = false
         bigVCollection.delegate = self
         bigVCollection.dataSource = self
         bigVCollection.register(RestaurantCollectionViewCell.self, forCellWithReuseIdentifier: "RestaurantCollectionViewCell")
@@ -264,7 +267,7 @@ extension HomeViewController {
             bigVCollection.topAnchor.constraint(equalTo: bigHCollection.bottomAnchor, constant: 70),
             bigVCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 30),
             bigVCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
-            bigVCollection.heightAnchor.constraint(equalToConstant: 1000),
+            bigVCollection.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
             bigVCollection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
@@ -349,6 +352,16 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: width, height: height)
         default:
             return CGSize(width: 0, height: 0)
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch collectionView.tag {
+        case 2:
+            let selectedMenuItem = menuItems[indexPath.item]
+            let filteredVC = FilteredRestaurantsViewController(menuItem: selectedMenuItem, restaurants: presenter.allRestaurants)
+            navigationController?.pushViewController(filteredVC, animated: true)
+        default:
+            break
         }
     }
 }

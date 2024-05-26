@@ -5,15 +5,14 @@
 //  Created by Mukaram Gaitova on 25.05.2024.
 //
 
-import Foundation
+import UIKit
 import CoreLocation
 
 protocol HomeView: AnyObject {
     func updateSearchResults()
     func updateLocation()
-    
+    func updateNearbyRestaurants(_ restaurants: [Restaurant]) // Добавлено
 }
-
 
 class HomePresenter: NSObject {
     weak var view: HomeView?
@@ -22,21 +21,44 @@ class HomePresenter: NSObject {
     private let locationManager = CLLocationManager()
     private var userLocation: CLLocation?
     
+    // Добавлен массив для всех ресторанов и для отфильтрованных ресторанов
+    var allRestaurants: [Restaurant] = [
+        // Пример данных ресторанов
+        Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, menuItems: ["Burgers","Noodle"]),
+        Restaurant(name: "Another Restaurant", address: "14th Street, 47 W 12th St, NY", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 40.740, longitude: -73.95, menuItems: ["Noodle", "Sushi"]),
+        Restaurant(name: "Coffee cafe", address: "улица Нурмакова, 79", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 43.247690, longitude: 76.906667, menuItems: ["Burgers", "Pizza"])
+    ]
+    
+    private var nearbyRestaurants: [Restaurant] = []
+    
     func viewDidLoad() {
         setupLocationManager()
+        filterNearByRestaurants()
     }
     
-    func setupLocationManager() {
+    private func setupLocationManager() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
     
-    func filterNearByRestaurants() {
-        guard let userLocation = userLocation else { return }
+    private func filterNearByRestaurants() {
+        guard let userLocation = userLocation else {
+            // Если локация пользователя недоступна, показываем все рестораны
+            nearbyRestaurants = allRestaurants
+            view?.updateNearbyRestaurants(nearbyRestaurants)
+            return
+        }
         
-        view?.updateSearchResults()
+        // Фильтрация ресторанов по расстоянию от пользователя (например, 5 км)
+        nearbyRestaurants = allRestaurants.filter { restaurant in
+            let restaurantLocation = CLLocation(latitude: restaurant.latitude, longitude: restaurant.longitude)
+            let distance = userLocation.distance(from: restaurantLocation) / 1000 // В км
+            return distance <= 5.0 // Показываем только рестораны в радиусе 5 км
+        }
+        
+        view?.updateNearbyRestaurants(nearbyRestaurants)
     }
 }
 
@@ -48,7 +70,7 @@ extension HomePresenter: CLLocationManagerDelegate {
         view?.updateLocation()
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Не удалось определить местоположение пользователя: \(error.localizedDescription)")
     }
 }
