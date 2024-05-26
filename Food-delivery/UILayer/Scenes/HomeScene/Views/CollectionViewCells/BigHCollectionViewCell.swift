@@ -72,7 +72,7 @@ class BigHCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(with menuItem: MenuItem) {
+    func configure(with menuItem: Subcategory) {
         imageView.image = menuItem.image
         titleLabel.text = menuItem.name
     }

@@ -110,6 +110,7 @@ private extension LoginViewController {
         setupLoaderView()
     }
     
+    // MARK: - backButtonItem
     func setupNavigationBar() {
         let backImage = UIImage(resource: .back)
         let backButtonItem = UIBarButtonItem(image: backImage,

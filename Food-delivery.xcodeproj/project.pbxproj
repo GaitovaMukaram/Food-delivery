@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F2EF6112C0331D600E20340 /* RestaurantMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6102C0331D600E20340 /* RestaurantMenuViewController.swift */; };
+		9F2EF6132C0331FA00E20340 /* MenuItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6122C0331FA00E20340 /* MenuItemCollectionViewCell.swift */; };
+		9F2EF6152C03442200E20340 /* MenuItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6142C03442200E20340 /* MenuItemDetailViewController.swift */; };
 		9FE71D952BFF329400B691E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D942BFF329400B691E9 /* AppDelegate.swift */; };
 		9FE71D972BFF329400B691E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D962BFF329400B691E9 /* SceneDelegate.swift */; };
 		9FE71D9F2BFF329400B691E9 /* Food_delivery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D9D2BFF329400B691E9 /* Food_delivery.xcdatamodeld */; };
@@ -65,6 +68,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F2EF6102C0331D600E20340 /* RestaurantMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantMenuViewController.swift; sourceTree = "<group>"; };
+		9F2EF6122C0331FA00E20340 /* MenuItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		9F2EF6142C03442200E20340 /* MenuItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemDetailViewController.swift; sourceTree = "<group>"; };
 		9FE71D912BFF329400B691E9 /* Food-delivery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food-delivery.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FE71D942BFF329400B691E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9FE71D962BFF329400B691E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -371,6 +377,8 @@
 				9FE71E0D2C02122D00B691E9 /* HomeViewController.swift */,
 				9FE71E2C2C02A76800B691E9 /* MapViewController.swift */,
 				9FE71E2E2C02B7D900B691E9 /* FilteredRestaurantsViewController.swift */,
+				9F2EF6102C0331D600E20340 /* RestaurantMenuViewController.swift */,
+				9F2EF6142C03442200E20340 /* MenuItemDetailViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -390,6 +398,7 @@
 				9FE71E102C021CD400B691E9 /* SmallHCollectionViewCell.swift */,
 				9FE71E122C02313B00B691E9 /* BigHCollectionViewCell.swift */,
 				9FE71E282C02794600B691E9 /* RestaurantCollectionViewCell.swift */,
+				9F2EF6122C0331FA00E20340 /* MenuItemCollectionViewCell.swift */,
 			);
 			path = CollectionViewCells;
 			sourceTree = "<group>";
@@ -512,12 +521,14 @@
 				9FE71DAC2BFF32AA00B691E9 /* ViewController.swift in Sources */,
 				9FE71DCE2BFF485600B691E9 /* UIColor+extension.swift in Sources */,
 				9FE71E022C009E6D00B691E9 /* FDButton.swift in Sources */,
+				9F2EF6152C03442200E20340 /* MenuItemDetailViewController.swift in Sources */,
 				9FE71DD12BFF498700B691E9 /* AppColors.swift in Sources */,
 				9FE71E0E2C02122D00B691E9 /* HomeViewController.swift in Sources */,
 				9FE71DD92BFF564D00B691E9 /* AppCoordinator.swift in Sources */,
 				9FE71E2B2C02A03800B691E9 /* AdressView.swift in Sources */,
 				9FE71DE32BFF5C1D00B691E9 /* ProfileCoordinator.swift in Sources */,
 				9FE71DF32C006A6200B691E9 /* SceneFactory.swift in Sources */,
+				9F2EF6132C0331FA00E20340 /* MenuItemCollectionViewCell.swift in Sources */,
 				9FE71E272C0266AD00B691E9 /* HomeModels.swift in Sources */,
 				9FE71DEB2BFF90AD00B691E9 /* OnboardingViewPresenter.swift in Sources */,
 				9FE71DCC2BFF3FBE00B691E9 /* UIFont+Extension.swift in Sources */,
@@ -525,6 +536,7 @@
 				9FE71DED2C00318100B691E9 /* OnboardingPartViewController.swift in Sources */,
 				9FE71DE92BFF907300B691E9 /* OnboardingViewController.swift in Sources */,
 				9FE71D972BFF329400B691E9 /* SceneDelegate.swift in Sources */,
+				9F2EF6112C0331D600E20340 /* RestaurantMenuViewController.swift in Sources */,
 				9FE71DDF2BFF5BDB00B691E9 /* OrderCoordinator.swift in Sources */,
 				9FE71DDB2BFF575000B691E9 /* OnboardingCoordinator.swift in Sources */,
 				9FE71E2F2C02B7D900B691E9 /* FilteredRestaurantsViewController.swift in Sources */,

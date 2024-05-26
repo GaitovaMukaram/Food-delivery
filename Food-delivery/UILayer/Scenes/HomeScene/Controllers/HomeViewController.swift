@@ -31,19 +31,19 @@ class HomeViewController: UIViewController, HomeView {
     
     private var restaurants: [Restaurant] = []
     
-    private var menuItems: [MenuItem] = [
-        MenuItem(name: "Burgers", image: UIImage(named: "burgerImage")),
-        MenuItem(name: "Pizza", image: UIImage(named: "pizzaImage")),
-        MenuItem(name: "BBQ", image: UIImage(named: "bbqImage")),
-        MenuItem(name: "Fruit", image: UIImage(named: "fruitImage")),
-        MenuItem(name: "Sushi", image: UIImage(named: "sushiImage")),
-        MenuItem(name: "Noodle", image: UIImage(named: "noodleImage")),
-        MenuItem(name: "Burgers", image: UIImage(named: "burgerImage")),
-        MenuItem(name: "Pizza", image: UIImage(named: "pizzaImage")),
-        MenuItem(name: "BBQ", image: UIImage(named: "bbqImage")),
-        MenuItem(name: "Fruit", image: UIImage(named: "fruitImage")),
-        MenuItem(name: "Sushi", image: UIImage(named: "sushiImage")),
-        MenuItem(name: "Noodle", image: UIImage(named: "noodleImage"))
+    private var menuItems: [Subcategory] = [
+        Subcategory(name: "Burgers", image: UIImage(named: "burgerImage")),
+        Subcategory(name: "Pizza", image: UIImage(named: "pizzaImage")),
+        Subcategory(name: "BBQ", image: UIImage(named: "bbqImage")),
+        Subcategory(name: "Fruit", image: UIImage(named: "fruitImage")),
+        Subcategory(name: "Sushi", image: UIImage(named: "sushiImage")),
+        Subcategory(name: "Noodle", image: UIImage(named: "noodleImage")),
+        Subcategory(name: "Burgers", image: UIImage(named: "burgerImage")),
+        Subcategory(name: "Pizza", image: UIImage(named: "pizzaImage")),
+        Subcategory(name: "BBQ", image: UIImage(named: "bbqImage")),
+        Subcategory(name: "Fruit", image: UIImage(named: "fruitImage")),
+        Subcategory(name: "Sushi", image: UIImage(named: "sushiImage")),
+        Subcategory(name: "Noodle", image: UIImage(named: "noodleImage"))
     ]
     
     
@@ -360,6 +360,11 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             let selectedMenuItem = menuItems[indexPath.item]
             let filteredVC = FilteredRestaurantsViewController(menuItem: selectedMenuItem, restaurants: presenter.allRestaurants)
             navigationController?.pushViewController(filteredVC, animated: true)
+        case 3:
+               let selectedRestaurant = restaurants[indexPath.item]
+               let menuVC = RestaurantMenuViewController(menuItems: selectedRestaurant.menuItems)
+               menuVC.title = selectedRestaurant.name
+               navigationController?.pushViewController(menuVC, animated: true)
         default:
             break
         }

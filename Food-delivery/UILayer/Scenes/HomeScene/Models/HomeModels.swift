@@ -12,6 +12,11 @@ struct Category {
     let icon: UIImage?
 }
 
+struct Subcategory {
+    let name: String
+    let image: UIImage?
+}
+
 struct Restaurant {
     let name: String
     let address: String
@@ -20,12 +25,17 @@ struct Restaurant {
     let rating: Double
     let latitude: Double
     let longitude: Double
-    let menuItems: [String]
+    let subcategory: [String]
+    let menuItems: [MenuItem]
 }
-
 
 
 struct MenuItem {
     let name: String
     let image: UIImage?
+    let price: Double
+    let likeIcon: UIImage?
+    let likes: Int
+    let dislikeIcon: UIImage?
+    let dislikes: Int
 }

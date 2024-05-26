@@ -7,17 +7,17 @@
 
 import UIKit
 
-class FilteredRestaurantsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
+class FilteredRestaurantsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
 
     private let collectionView: UICollectionView
     private var filteredRestaurants: [Restaurant]
-    private let menuItem: MenuItem
+    private let menuItem: Subcategory
     private let allRestaurants: [Restaurant]
-    private let searchController = UISearchController(searchResultsController: nil)
+    private let searchBar = UISearchBar()
 
-    init(menuItem: MenuItem, restaurants: [Restaurant]) {
+    init(menuItem: Subcategory, restaurants: [Restaurant]) {
         self.menuItem = menuItem
-        self.allRestaurants = restaurants.filter { $0.menuItems.contains(menuItem.name) }
+        self.allRestaurants = restaurants.filter { $0.subcategory.contains(menuItem.name) }
         self.filteredRestaurants = self.allRestaurants
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -37,34 +37,46 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLayout()
-        setupSearchController()
         self.title = menuItem.name
+        setupNavigationBar()
+        setupSearchBar()
+        setupLayout()
+    }
+    
+    func setupNavigationBar() {
+        let backImage = UIImage(resource: .back)
+        let backButtonItem = UIBarButtonItem(image: backImage,
+                                             style: .plain,
+                                             target: navigationController,
+                                             action: #selector(navigationController?.popViewController(animated:)))
+        navigationItem.leftBarButtonItem = backButtonItem
+        navigationItem.leftBarButtonItem?.tintColor = AppColors.black
     }
 
     private func setupLayout() {
         view.backgroundColor = .white
+        view.addSubview(searchBar)
         view.addSubview(collectionView)
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 28),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
-    private func setupSearchController() {
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search restaurants"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
+    private func setupSearchBar() {
+        searchBar.delegate = self
+        searchBar.placeholder = "Search"
     }
 
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text else { return }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
             filteredRestaurants = allRestaurants
         } else {
@@ -85,6 +97,14 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width - 32, height: 150)
+        return CGSize(width: collectionView.bounds.width, height: 130)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            let selectedRestaurant = filteredRestaurants[indexPath.item]
+            let menuVC = RestaurantMenuViewController(menuItems: selectedRestaurant.menuItems)
+            menuVC.title = selectedRestaurant.name
+            navigationController?.pushViewController(menuVC, animated: true)
+    }
+
 }

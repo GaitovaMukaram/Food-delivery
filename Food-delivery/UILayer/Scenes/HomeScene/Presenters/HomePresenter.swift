@@ -24,9 +24,9 @@ class HomePresenter: NSObject {
     // Добавлен массив для всех ресторанов и для отфильтрованных ресторанов
     var allRestaurants: [Restaurant] = [
         // Пример данных ресторанов
-        Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, menuItems: ["Burgers","Noodle"]),
-        Restaurant(name: "Another Restaurant", address: "14th Street, 47 W 12th St, NY", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 40.740, longitude: -73.95, menuItems: ["Noodle", "Sushi"]),
-        Restaurant(name: "Coffee cafe", address: "улица Нурмакова, 79", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 43.247690, longitude: 76.906667, menuItems: ["Burgers", "Pizza"])
+        Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, subcategory: ["Burgers","Noodle"], menuItems: [MenuItem(name: "Dogmie jagong tutung", image: UIImage(named: "restaurantImage"), price: 99.99, likeIcon: UIImage(resource: .like), likes: 999, dislikeIcon: UIImage(resource: .dislike), dislikes: 93)]),
+        Restaurant(name: "Another Restaurant", address: "14th Street, 47 W 12th St, NY", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 40.740, longitude: -73.95, subcategory: ["Noodle", "Sushi"], menuItems: [MenuItem(name: "akjhbdvfa.sknclD", image: UIImage(named: "restaurantImage"), price: 99.99, likeIcon: UIImage(resource: .like), likes: 999, dislikeIcon: UIImage(resource: .dislike), dislikes: 93)]),
+        Restaurant(name: "Coffee cafe", address: "улица Нурмакова, 79", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 43.247690, longitude: 76.906667, subcategory: ["Burgers", "Pizza"], menuItems: [MenuItem(name: "Dhviauhdvuhdv", image: UIImage(named: "restaurantImage"), price: 99.99, likeIcon: UIImage(resource: .like), likes: 999, dislikeIcon: UIImage(resource: .dislike), dislikes: 93)])
     ]
     
     private var nearbyRestaurants: [Restaurant] = []
