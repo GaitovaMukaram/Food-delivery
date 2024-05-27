@@ -87,8 +87,13 @@ class CartItemCell: UITableViewCell {
         self.item = item
         itemImageView.image = item.menuItem.image
         nameLabel.text = item.menuItem.name
-        priceLabel.text = String(format: "$%.2f", item.menuItem.price)
+        priceLabel.text = String(format: "$%.2f", item.totalPrice)
         quantityLabel.text = "\(item.quantity)"
+    }
+    
+    func updateQuantity(_ quantity: Int, totalPrice: Double) {
+        quantityLabel.text = "\(quantity)"
+        priceLabel.text = String(format: "$%.2f", totalPrice)
     }
     
     @objc private func increaseButtonTapped() {

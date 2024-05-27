@@ -10,6 +10,8 @@ import UIKit
 protocol CartViewControllerProtocol: AnyObject {
     func reloadData()
     func showEmptyCart()
+    func updateTotalPrice(_ totalPrice: Double)
+    func updateCell(for item: CartMenuItem)
 }
 
 class CartViewController: UIViewController, CartViewControllerProtocol {
@@ -57,6 +59,14 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
         return view
     }()
     
+    private let totalPriceLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Total: $0.00"
+        label.font = .boldSystemFont(ofSize: 18)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private let sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send Order", for: .normal)
@@ -78,6 +88,7 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
         navigationItem.title = "Cart"
         view.addSubview(tableView)
         view.addSubview(emptyCartView)
+        view.addSubview(totalPriceLabel)
         view.addSubview(sendButton)
         
         tableView.delegate = self
@@ -87,10 +98,14 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -20),
+            tableView.bottomAnchor.constraint(equalTo: totalPriceLabel.topAnchor, constant: -20),
             
             emptyCartView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyCartView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            totalPriceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            totalPriceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            totalPriceLabel.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -10),
             
             sendButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -112,6 +127,7 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
         tableView.isHidden = false
         emptyCartView.isHidden = true
         sendButton.isHidden = false
+        totalPriceLabel.isHidden = false
         tableView.reloadData()
     }
     
@@ -120,6 +136,11 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
         tableView.isHidden = true
         emptyCartView.isHidden = false
         sendButton.isHidden = true
+        totalPriceLabel.isHidden = true
+    }
+    
+    func updateTotalPrice(_ totalPrice: Double) {
+        totalPriceLabel.text = String(format: "Total: $%.2f", totalPrice)
     }
 }
 
@@ -147,6 +168,14 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartIt
     func didTapDecreaseButton(for item: CartMenuItem) {
         presenter.didTapDecreaseButton(for: item)
     }
+    
+    func updateCell(for item: CartMenuItem) {
+        if let index = presenter.cartItems.firstIndex(where: { $0.menuItem.id == item.menuItem.id }) {
+            let indexPath = IndexPath(row: index, section: 0)
+            if let cell = tableView.cellForRow(at: indexPath) as? CartItemCell {
+                cell.updateQuantity(item.quantity, totalPrice: item.totalPrice)
+            }
+        }
+    }
 }
-
 

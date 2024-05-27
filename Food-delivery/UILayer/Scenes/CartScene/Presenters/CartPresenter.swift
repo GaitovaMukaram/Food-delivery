@@ -45,6 +45,7 @@ class CartPresenter: CartPresenterProtocol {
         } else {
             print("Cart has items")
             view?.reloadData()
+            updateTotalPrice()
         }
     }
 
@@ -67,12 +68,14 @@ class CartPresenter: CartPresenterProtocol {
             cartItems[index].quantity += 1
             cartItems[index].totalPrice = Double(cartItems[index].quantity) * menuItem.price
             print("Updated quantity for item: \(menuItem.name), new quantity: \(cartItems[index].quantity)")
+            view?.updateCell(for: cartItems[index])
         } else {
             let cartMenuItem = CartMenuItem(cart: cart, menuItem: menuItem, quantity: 1, totalPrice: menuItem.price)
             cartItems.append(cartMenuItem)
             print("Added new item to cart: \(menuItem.name)")
+            checkCartItems()
         }
-        checkCartItems()
+        updateTotalPrice()
     }
 
     func didTapDecreaseButton(for item: CartMenuItem) {
@@ -85,8 +88,15 @@ class CartPresenter: CartPresenterProtocol {
             } else {
                 cartItems[index].totalPrice = Double(cartItems[index].quantity) * item.menuItem.price
                 print("Updated quantity for item: \(item.menuItem.name), new quantity: \(cartItems[index].quantity)")
+                view?.updateCell(for: cartItems[index])
             }
             checkCartItems()
         }
+        updateTotalPrice()
+    }
+    
+    private func updateTotalPrice() {
+        let totalPrice = cartItems.reduce(0) { $0 + $1.totalPrice }
+        view?.updateTotalPrice(totalPrice)
     }
 }
