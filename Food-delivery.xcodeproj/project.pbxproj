@@ -10,9 +10,7 @@
 		9F2EF6112C0331D600E20340 /* RestaurantMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6102C0331D600E20340 /* RestaurantMenuViewController.swift */; };
 		9F2EF6132C0331FA00E20340 /* MenuItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6122C0331FA00E20340 /* MenuItemCollectionViewCell.swift */; };
 		9F2EF6152C03442200E20340 /* MenuItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6142C03442200E20340 /* MenuItemDetailViewController.swift */; };
-		9F2EF6192C035AB900E20340 /* OrderModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6182C035AB900E20340 /* OrderModels.swift */; };
-		9F2EF61B2C035C1900E20340 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF61A2C035C1900E20340 /* OrderViewController.swift */; };
-		9F2EF61E2C0361A600E20340 /* OrderPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF61D2C0361A600E20340 /* OrderPresenter.swift */; };
+		9F2EF6192C035AB900E20340 /* CartModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6182C035AB900E20340 /* CartModels.swift */; };
 		9F2EF6252C037B4600E20340 /* ProfileModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6242C037B4600E20340 /* ProfileModels.swift */; };
 		9F2EF6272C037B6D00E20340 /* ProfilePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6262C037B6D00E20340 /* ProfilePresenter.swift */; };
 		9F2EF6292C037BB000E20340 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6282C037BB000E20340 /* ProfileViewController.swift */; };
@@ -23,6 +21,11 @@
 		9F2EF6342C038A8F00E20340 /* PaymentMethodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6332C038A8F00E20340 /* PaymentMethodTableViewCell.swift */; };
 		9F2EF6362C038BC900E20340 /* PaymentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6352C038BC900E20340 /* PaymentModels.swift */; };
 		9F2EF6382C039A5D00E20340 /* PaymentMethodButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6372C039A5D00E20340 /* PaymentMethodButtonView.swift */; };
+		9F6406992C04EF6100190AC0 /* OrderModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6406982C04EF6100190AC0 /* OrderModels.swift */; };
+		9F64069B2C04EFA200190AC0 /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F64069A2C04EFA200190AC0 /* CartViewController.swift */; };
+		9F64069E2C04EFD800190AC0 /* CartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F64069D2C04EFD800190AC0 /* CartPresenter.swift */; };
+		9F6406A02C04F19600190AC0 /* CartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F64069F2C04F19600190AC0 /* CartCoordinator.swift */; };
+		9F6406A32C04F54F00190AC0 /* CartItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6406A22C04F54F00190AC0 /* CartItemCell.swift */; };
 		9FE71D952BFF329400B691E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D942BFF329400B691E9 /* AppDelegate.swift */; };
 		9FE71D972BFF329400B691E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D962BFF329400B691E9 /* SceneDelegate.swift */; };
 		9FE71D9F2BFF329400B691E9 /* Food_delivery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D9D2BFF329400B691E9 /* Food_delivery.xcdatamodeld */; };
@@ -49,7 +52,6 @@
 		9FE71DD92BFF564D00B691E9 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DD82BFF564D00B691E9 /* AppCoordinator.swift */; };
 		9FE71DDB2BFF575000B691E9 /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DDA2BFF575000B691E9 /* OnboardingCoordinator.swift */; };
 		9FE71DDD2BFF5B9100B691E9 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DDC2BFF5B9100B691E9 /* HomeCoordinator.swift */; };
-		9FE71DDF2BFF5BDB00B691E9 /* OrderCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DDE2BFF5BDB00B691E9 /* OrderCoordinator.swift */; };
 		9FE71DE12BFF5C1000B691E9 /* ListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DE02BFF5C1000B691E9 /* ListCoordinator.swift */; };
 		9FE71DE32BFF5C1D00B691E9 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DE22BFF5C1D00B691E9 /* ProfileCoordinator.swift */; };
 		9FE71DE52BFF5C6200B691E9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71DE42BFF5C6200B691E9 /* TabBarController.swift */; };
@@ -84,9 +86,7 @@
 		9F2EF6102C0331D600E20340 /* RestaurantMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantMenuViewController.swift; sourceTree = "<group>"; };
 		9F2EF6122C0331FA00E20340 /* MenuItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		9F2EF6142C03442200E20340 /* MenuItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemDetailViewController.swift; sourceTree = "<group>"; };
-		9F2EF6182C035AB900E20340 /* OrderModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModels.swift; sourceTree = "<group>"; };
-		9F2EF61A2C035C1900E20340 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
-		9F2EF61D2C0361A600E20340 /* OrderPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPresenter.swift; sourceTree = "<group>"; };
+		9F2EF6182C035AB900E20340 /* CartModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartModels.swift; sourceTree = "<group>"; };
 		9F2EF6242C037B4600E20340 /* ProfileModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModels.swift; sourceTree = "<group>"; };
 		9F2EF6262C037B6D00E20340 /* ProfilePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePresenter.swift; sourceTree = "<group>"; };
 		9F2EF6282C037BB000E20340 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +97,11 @@
 		9F2EF6332C038A8F00E20340 /* PaymentMethodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodTableViewCell.swift; sourceTree = "<group>"; };
 		9F2EF6352C038BC900E20340 /* PaymentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentModels.swift; sourceTree = "<group>"; };
 		9F2EF6372C039A5D00E20340 /* PaymentMethodButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodButtonView.swift; sourceTree = "<group>"; };
+		9F6406982C04EF6100190AC0 /* OrderModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModels.swift; sourceTree = "<group>"; };
+		9F64069A2C04EFA200190AC0 /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
+		9F64069D2C04EFD800190AC0 /* CartPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPresenter.swift; sourceTree = "<group>"; };
+		9F64069F2C04F19600190AC0 /* CartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCoordinator.swift; sourceTree = "<group>"; };
+		9F6406A22C04F54F00190AC0 /* CartItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemCell.swift; sourceTree = "<group>"; };
 		9FE71D912BFF329400B691E9 /* Food-delivery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food-delivery.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FE71D942BFF329400B691E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9FE71D962BFF329400B691E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -125,7 +130,6 @@
 		9FE71DD82BFF564D00B691E9 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		9FE71DDA2BFF575000B691E9 /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		9FE71DDC2BFF5B9100B691E9 /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
-		9FE71DDE2BFF5BDB00B691E9 /* OrderCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCoordinator.swift; sourceTree = "<group>"; };
 		9FE71DE02BFF5C1000B691E9 /* ListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCoordinator.swift; sourceTree = "<group>"; };
 		9FE71DE22BFF5C1D00B691E9 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		9FE71DE42BFF5C6200B691E9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -167,36 +171,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9F2EF6162C034ABE00E20340 /* OrderScene */ = {
+		9F2EF6162C034ABE00E20340 /* CartScene */ = {
 			isa = PBXGroup;
 			children = (
+				9F6406A12C04F4FF00190AC0 /* Views */,
+				9F64069C2C04EFBD00190AC0 /* Presenters */,
 				9F2EF61F2C036AB800E20340 /* Controllers */,
-				9F2EF61C2C03618A00E20340 /* Presenters */,
 				9F2EF6172C035A9F00E20340 /* Models */,
 			);
-			path = OrderScene;
+			path = CartScene;
 			sourceTree = "<group>";
 		};
 		9F2EF6172C035A9F00E20340 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9F2EF6182C035AB900E20340 /* OrderModels.swift */,
+				9F2EF6182C035AB900E20340 /* CartModels.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		9F2EF61C2C03618A00E20340 /* Presenters */ = {
-			isa = PBXGroup;
-			children = (
-				9F2EF61D2C0361A600E20340 /* OrderPresenter.swift */,
-			);
-			path = Presenters;
 			sourceTree = "<group>";
 		};
 		9F2EF61F2C036AB800E20340 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9F2EF61A2C035C1900E20340 /* OrderViewController.swift */,
+				9F64069A2C04EFA200190AC0 /* CartViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -246,6 +243,46 @@
 				9F2EF62B2C03809700E20340 /* ProfileOptionTableViewCell.swift */,
 				9F2EF6332C038A8F00E20340 /* PaymentMethodTableViewCell.swift */,
 				9F2EF6372C039A5D00E20340 /* PaymentMethodButtonView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9F6406942C04EC6400190AC0 /* OrderScene */ = {
+			isa = PBXGroup;
+			children = (
+				9F6406972C04EF1D00190AC0 /* Controllers */,
+				9F6406962C04EF1200190AC0 /* Models */,
+			);
+			path = OrderScene;
+			sourceTree = "<group>";
+		};
+		9F6406962C04EF1200190AC0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9F6406982C04EF6100190AC0 /* OrderModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9F6406972C04EF1D00190AC0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		9F64069C2C04EFBD00190AC0 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				9F64069D2C04EFD800190AC0 /* CartPresenter.swift */,
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
+		9F6406A12C04F4FF00190AC0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9F6406A22C04F54F00190AC0 /* CartItemCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -357,9 +394,9 @@
 				9FE71DDA2BFF575000B691E9 /* OnboardingCoordinator.swift */,
 				9FE71E072C01E4E600B691E9 /* LoginCoordinator.swift */,
 				9FE71DDC2BFF5B9100B691E9 /* HomeCoordinator.swift */,
-				9FE71DDE2BFF5BDB00B691E9 /* OrderCoordinator.swift */,
 				9FE71DE02BFF5C1000B691E9 /* ListCoordinator.swift */,
 				9FE71DE22BFF5C1D00B691E9 /* ProfileCoordinator.swift */,
+				9F64069F2C04F19600190AC0 /* CartCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -454,11 +491,12 @@
 		9FE71E002C009E1800B691E9 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				9F2EF6202C037AE300E20340 /* ProfileScene */,
-				9F2EF6162C034ABE00E20340 /* OrderScene */,
-				9FE71E092C0211E100B691E9 /* HomeScene */,
 				9FE71DE72BFF905B00B691E9 /* OnboardingScene */,
 				9FE71DF42C0074FB00B691E9 /* AuthScene */,
+				9FE71E092C0211E100B691E9 /* HomeScene */,
+				9F2EF6162C034ABE00E20340 /* CartScene */,
+				9F6406942C04EC6400190AC0 /* OrderScene */,
+				9F2EF6202C037AE300E20340 /* ProfileScene */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -619,6 +657,7 @@
 				9FE71E292C02794600B691E9 /* RestaurantCollectionViewCell.swift in Sources */,
 				9FE71E112C021CD400B691E9 /* SmallHCollectionViewCell.swift in Sources */,
 				9FE71DD72BFF51F500B691E9 /* Coordinator.swift in Sources */,
+				9F64069E2C04EFD800190AC0 /* CartPresenter.swift in Sources */,
 				9FE71E242C025CD300B691E9 /* HomePresenter.swift in Sources */,
 				9FE71D9F2BFF329400B691E9 /* Food_delivery.xcdatamodeld in Sources */,
 				9F2EF6382C039A5D00E20340 /* PaymentMethodButtonView.swift in Sources */,
@@ -628,6 +667,7 @@
 				9F2EF6272C037B6D00E20340 /* ProfilePresenter.swift in Sources */,
 				9F2EF6362C038BC900E20340 /* PaymentModels.swift in Sources */,
 				9FE71E082C01E4E600B691E9 /* LoginCoordinator.swift in Sources */,
+				9F64069B2C04EFA200190AC0 /* CartViewController.swift in Sources */,
 				9FE71DE52BFF5C6200B691E9 /* TabBarController.swift in Sources */,
 				9FE71E062C00FE1900B691E9 /* LoginPresenter.swift in Sources */,
 				9FE71DF02C0059B500B691E9 /* UserStorage.swift in Sources */,
@@ -635,7 +675,7 @@
 				9FE71E042C00F66000B691E9 /* FDTextField.swift in Sources */,
 				9F2EF62C2C03809700E20340 /* ProfileOptionTableViewCell.swift in Sources */,
 				9FE71DAC2BFF32AA00B691E9 /* ViewController.swift in Sources */,
-				9F2EF6192C035AB900E20340 /* OrderModels.swift in Sources */,
+				9F2EF6192C035AB900E20340 /* CartModels.swift in Sources */,
 				9F2EF6302C038A3F00E20340 /* PaymentSettingsViewController.swift in Sources */,
 				9FE71DCE2BFF485600B691E9 /* UIColor+extension.swift in Sources */,
 				9FE71E022C009E6D00B691E9 /* FDButton.swift in Sources */,
@@ -645,21 +685,21 @@
 				9FE71DD92BFF564D00B691E9 /* AppCoordinator.swift in Sources */,
 				9FE71E2B2C02A03800B691E9 /* AdressView.swift in Sources */,
 				9FE71DE32BFF5C1D00B691E9 /* ProfileCoordinator.swift in Sources */,
+				9F6406A32C04F54F00190AC0 /* CartItemCell.swift in Sources */,
+				9F6406A02C04F19600190AC0 /* CartCoordinator.swift in Sources */,
 				9FE71DF32C006A6200B691E9 /* SceneFactory.swift in Sources */,
 				9F2EF6132C0331FA00E20340 /* MenuItemCollectionViewCell.swift in Sources */,
 				9F2EF6342C038A8F00E20340 /* PaymentMethodTableViewCell.swift in Sources */,
 				9FE71E272C0266AD00B691E9 /* HomeModels.swift in Sources */,
+				9F6406992C04EF6100190AC0 /* OrderModels.swift in Sources */,
 				9FE71DEB2BFF90AD00B691E9 /* OnboardingViewPresenter.swift in Sources */,
 				9FE71DCC2BFF3FBE00B691E9 /* UIFont+Extension.swift in Sources */,
 				9FE71DFD2C00771700B691E9 /* FDBottomView.swift in Sources */,
 				9FE71DED2C00318100B691E9 /* OnboardingPartViewController.swift in Sources */,
-				9F2EF61B2C035C1900E20340 /* OrderViewController.swift in Sources */,
 				9FE71DE92BFF907300B691E9 /* OnboardingViewController.swift in Sources */,
 				9F2EF6252C037B4600E20340 /* ProfileModels.swift in Sources */,
 				9FE71D972BFF329400B691E9 /* SceneDelegate.swift in Sources */,
 				9F2EF6112C0331D600E20340 /* RestaurantMenuViewController.swift in Sources */,
-				9FE71DDF2BFF5BDB00B691E9 /* OrderCoordinator.swift in Sources */,
-				9F2EF61E2C0361A600E20340 /* OrderPresenter.swift in Sources */,
 				9FE71DDB2BFF575000B691E9 /* OnboardingCoordinator.swift in Sources */,
 				9F2EF6322C038A6600E20340 /* AddCreditCardViewController.swift in Sources */,
 				9FE71E2F2C02B7D900B691E9 /* FilteredRestaurantsViewController.swift in Sources */,

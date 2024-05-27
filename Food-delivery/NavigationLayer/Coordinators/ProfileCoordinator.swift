@@ -10,7 +10,7 @@ import UIKit
 class ProfileCoordinator: Coordinator {
     
     private let factory = SceneFactory.self
-
+    
     override func start() {
         showProfile()
     }

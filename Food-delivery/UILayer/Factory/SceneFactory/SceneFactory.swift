@@ -70,15 +70,15 @@ struct SceneFactory {
         homeCoordinator.finishDelegate = finishDelegate
         homeCoordinator.start()
         
-        let orderNavigationController = UINavigationController()
-        let orderCoordinator = OrderCoordinator(type: .order, navigationController: orderNavigationController)
-        orderNavigationController.tabBarItem = UITabBarItem(title: "Order", image: UIImage(resource: .order), tag: 1)
-        orderCoordinator.finishDelegate = finishDelegate
-        orderCoordinator.start()
+        let cartNavigationController = UINavigationController()
+        let cartCoordinator = CartCoordinator(type: .cart, navigationController: cartNavigationController)
+        cartNavigationController.tabBarItem = UITabBarItem(title: "Cart", image: UIImage(resource: .cart), tag: 1)
+        cartCoordinator.finishDelegate = finishDelegate
+        cartCoordinator.start()
         
         let listNavigationController = UINavigationController()
-        let listCoordinator = ListCoordinator(type: .list, navigationController: listNavigationController)
-        listNavigationController.tabBarItem = UITabBarItem(title: "My List", image: UIImage(resource: .list), tag: 2)
+        let listCoordinator = ListCoordinator(type: .order, navigationController: listNavigationController)
+        listNavigationController.tabBarItem = UITabBarItem(title: "My List", image: UIImage(resource: .order), tag: 2)
         listCoordinator.finishDelegate = finishDelegate
         listCoordinator.start()
         
@@ -89,11 +89,11 @@ struct SceneFactory {
         profileCoordinator.start()
         
         coordinator.addChildCoordinator(homeCoordinator)
-        coordinator.addChildCoordinator(orderCoordinator)
+        coordinator.addChildCoordinator(cartCoordinator)
         coordinator.addChildCoordinator(listCoordinator)
         coordinator.addChildCoordinator(profileCoordinator)
         
-        let tabBarControllers = [homeNavigationController, orderNavigationController, listNavigationController, profileNavigationController]
+        let tabBarControllers = [homeNavigationController, cartNavigationController, listNavigationController, profileNavigationController]
         let tabBarController = TabBarController(tabBarControllers: tabBarControllers)
         
         return tabBarController
@@ -128,12 +128,16 @@ struct SceneFactory {
         return controller
     }
     
-    static func makeOrderScene(coordinator: OrderCoordinator) -> OrderViewController {
-        let presenter = OrderPresenter(coordinator: coordinator)
-        let controller = OrderViewController(presenter: presenter)
-        presenter.view = controller
-        return controller
-    }
+    static func makeMenuItemDetailScene(menuItem: MenuItem) -> MenuItemDetailViewController {
+            return MenuItemDetailViewController(menuItem: menuItem)
+        }
+
+        static func makeCartScene(coordinator: CartCoordinator, cart: Cart) -> CartViewController {
+            let viewController = CartViewController()
+            let presenter = CartPresenter(view: viewController, cart: cart)
+            viewController.presenter = presenter
+            return viewController
+        }
     
     static func makeProfileScene(coordinator: ProfileCoordinator) -> ProfileViewController {
             let presenter = ProfilePresenter(coordinator: coordinator)

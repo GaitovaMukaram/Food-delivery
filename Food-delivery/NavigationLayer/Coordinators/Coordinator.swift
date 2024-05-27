@@ -12,8 +12,8 @@ enum CoordinatorType {
     case onboarding
     case login
     case home
+    case cart
     case order
-    case list
     case profile
 }
 

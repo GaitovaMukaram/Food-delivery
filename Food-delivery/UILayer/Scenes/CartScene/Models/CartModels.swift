@@ -1,19 +1,21 @@
 //
-//  OrderModels.swift
+//  CartModels.swift
 //  Food-delivery
 //
-//  Created by Mukaram Gaitova on 27.05.2024.
+//  Created by Mukaram Gaitova on 26.05.2024.
 //
 
-struct Order {
+import UIKit
+
+struct Cart {
     let userId: Int
     let id: Int
     var totalPrice: Double
     let restaurant: Restaurant
 }
 
-struct OrderMenuItem {
-    let order: Order
+struct CartMenuItem {
+    let cart: Cart
     let menuItem: MenuItem
     var quantity: Int
     var totalPrice: Double
