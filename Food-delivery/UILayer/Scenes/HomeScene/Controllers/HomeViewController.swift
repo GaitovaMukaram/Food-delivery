@@ -29,6 +29,12 @@ class HomeViewController: UIViewController, HomeView {
         Category(id: 8, name: "Snack", icon: UIImage(named: "snackIcon"))
     ]
     
+    private var selectedCategory: Category? {
+        didSet {
+            updateBigHCollection()
+        }
+    }
+    
     
     private var restaurants: [Restaurant] = []
     private var subcategories: [Subcategory]
@@ -42,6 +48,7 @@ class HomeViewController: UIViewController, HomeView {
         self.presenter = presenter
         self.subcategories = initializeSubcategories(categories: categories)
         super.init(nibName: nil, bundle: nil)
+        self.selectedCategory = categories.first
     }
     
     required init?(coder: NSCoder) {
@@ -75,7 +82,7 @@ class HomeViewController: UIViewController, HomeView {
     
     private let bigHTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Food Menu"
+        label.text = "Menu"
         label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -112,6 +119,19 @@ class HomeViewController: UIViewController, HomeView {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openMap))
         addressView.addGestureRecognizer(tapGesture)
         addressView.isUserInteractionEnabled = true
+        
+        // Выбираем первую ячейку при запуске приложения
+        if let firstIndexPath = IndexPath(item: 0, section: 0) as IndexPath? {
+            collectionView(smallHCollection, didSelectItemAt: firstIndexPath)
+        }
+    }
+    
+    private func updateBigHCollection() {
+        guard let selectedCategory = selectedCategory else { return }
+        bigHTitleLabel.text = "\(selectedCategory.name) Menu"
+        // Обновляем подкатегории для выбранной категории
+        subcategories = initializeSubcategories(categories: [selectedCategory])
+        bigHCollection.reloadData()
     }
     
     // Временная функция для получения элементов меню для выбранного ресторана
@@ -371,6 +391,9 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView.tag {
+        case 1:
+            let selectedCategory = categories[indexPath.item]
+            self.selectedCategory = selectedCategory
         case 2:
             let selectedSubcategoryItem = subcategories[indexPath.item]
             // Получаем элементы меню для выбранной подкатегории
