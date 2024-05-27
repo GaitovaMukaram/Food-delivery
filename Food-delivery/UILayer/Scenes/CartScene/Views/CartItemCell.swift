@@ -8,93 +8,96 @@
 import UIKit
 
 protocol CartItemCellDelegate: AnyObject {
-    func didTapDeleteButton(for item: CartMenuItem)
+    func didTapIncreaseButton(for item: CartMenuItem)
+    func didTapDecreaseButton(for item: CartMenuItem)
 }
 
 class CartItemCell: UITableViewCell {
-
+    
     weak var delegate: CartItemCellDelegate?
-    private var cartMenuItem: CartMenuItem?
-
-    private let itemImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        return imageView
-    }()
-
-    private let itemNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 16)
-        return label
-    }()
-
-    private let itemPriceLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .green
-        label.font = .systemFont(ofSize: 16)
-        return label
-    }()
-
-    private let deleteButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "trash"), for: .normal)
-        button.tintColor = .red
-        return button
-    }()
-
+    private var item: CartMenuItem?
+    
+    private let itemImageView = UIImageView()
+    private let nameLabel = UILabel()
+    private let priceLabel = UILabel()
+    private let quantityLabel = UILabel()
+    private let increaseButton = UIButton()
+    private let decreaseButton = UIButton()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func setupUI() {
+        itemImageView.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        priceLabel.translatesAutoresizingMaskIntoConstraints = false
+        quantityLabel.translatesAutoresizingMaskIntoConstraints = false
+        increaseButton.translatesAutoresizingMaskIntoConstraints = false
+        decreaseButton.translatesAutoresizingMaskIntoConstraints = false
+        
         contentView.addSubview(itemImageView)
-        contentView.addSubview(itemNameLabel)
-        contentView.addSubview(itemPriceLabel)
-        contentView.addSubview(deleteButton)
-
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(priceLabel)
+        contentView.addSubview(quantityLabel)
+        contentView.addSubview(increaseButton)
+        contentView.addSubview(decreaseButton)
+        
         NSLayoutConstraint.activate([
-            itemImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            itemImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             itemImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            itemImageView.widthAnchor.constraint(equalToConstant: 60),
-            itemImageView.heightAnchor.constraint(equalToConstant: 60),
-
-            itemNameLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 10),
-            itemNameLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -10),
-            itemNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-
-            itemPriceLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 10),
-            itemPriceLabel.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -10),
-            itemPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-
-            deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            deleteButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            deleteButton.widthAnchor.constraint(equalToConstant: 30),
-            deleteButton.heightAnchor.constraint(equalToConstant: 30)
+            itemImageView.widthAnchor.constraint(equalToConstant: 80),
+            itemImageView.heightAnchor.constraint(equalToConstant: 80),
+            
+            nameLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 16),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            
+            priceLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 16),
+            priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+            
+            decreaseButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            decreaseButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            decreaseButton.widthAnchor.constraint(equalToConstant: 30),
+            decreaseButton.heightAnchor.constraint(equalToConstant: 30),
+            
+            quantityLabel.trailingAnchor.constraint(equalTo: decreaseButton.leadingAnchor, constant: -8),
+            quantityLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            increaseButton.trailingAnchor.constraint(equalTo: quantityLabel.leadingAnchor, constant: -8),
+            increaseButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            increaseButton.widthAnchor.constraint(equalToConstant: 30),
+            increaseButton.heightAnchor.constraint(equalToConstant: 30),
         ])
-
-        deleteButton.addTarget(self, action: #selector(didTapDeleteButton), for: .touchUpInside)
+        
+        increaseButton.setTitle("+", for: .normal)
+        increaseButton.setTitleColor(.systemBlue, for: .normal)
+        increaseButton.addTarget(self, action: #selector(increaseButtonTapped), for: .touchUpInside)
+        
+        decreaseButton.setTitle("-", for: .normal)
+        decreaseButton.setTitleColor(.systemRed, for: .normal)
+        decreaseButton.addTarget(self, action: #selector(decreaseButtonTapped), for: .touchUpInside)
     }
-
-    @objc private func didTapDeleteButton() {
-        guard let item = cartMenuItem else { return }
-        delegate?.didTapDeleteButton(for: item)
-    }
-
+    
     func configure(with item: CartMenuItem) {
-        cartMenuItem = item
-        itemNameLabel.text = item.menuItem.name
-        itemPriceLabel.text = "$\(item.totalPrice)"
-        // Загрузите изображение из item.menuItem.imageUrl если доступно
+        self.item = item
+        itemImageView.image = item.menuItem.image
+        nameLabel.text = item.menuItem.name
+        priceLabel.text = String(format: "$%.2f", item.menuItem.price)
+        quantityLabel.text = "\(item.quantity)"
+    }
+    
+    @objc private func increaseButtonTapped() {
+        guard let item = item else { return }
+        delegate?.didTapIncreaseButton(for: item)
+    }
+    
+    @objc private func decreaseButtonTapped() {
+        guard let item = item else { return }
+        delegate?.didTapDecreaseButton(for: item)
     }
 }
-

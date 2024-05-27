@@ -157,3 +157,8 @@ class MenuItemDetailViewController: UIViewController {
     
 }
 
+import Foundation
+
+extension Notification.Name {
+    static let addMenuItemToCart = Notification.Name("addMenuItemToCart")
+}

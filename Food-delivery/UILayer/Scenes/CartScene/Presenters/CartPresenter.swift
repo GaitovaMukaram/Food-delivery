@@ -13,6 +13,7 @@ protocol CartPresenterProtocol {
     func didTapSendButton()
     func didTapDeleteButton(for item: CartMenuItem)
     func addMenuItemToCart(menuItem: MenuItem)
+    func didTapDecreaseButton(for item: CartMenuItem)
 }
 
 class CartPresenter: CartPresenterProtocol {
@@ -73,9 +74,19 @@ class CartPresenter: CartPresenterProtocol {
         }
         checkCartItems()
     }
-}
 
-extension Notification.Name {
-    static let addMenuItemToCart = Notification.Name("addMenuItemToCart")
+    func didTapDecreaseButton(for item: CartMenuItem) {
+        print("Decreasing item quantity: \(item.menuItem.name)")
+        if let index = cartItems.firstIndex(where: { $0.menuItem.id == item.menuItem.id }) {
+            cartItems[index].quantity -= 1
+            if cartItems[index].quantity <= 0 {
+                cartItems.remove(at: index)
+                print("Item removed from cart: \(item.menuItem.name)")
+            } else {
+                cartItems[index].totalPrice = Double(cartItems[index].quantity) * item.menuItem.price
+                print("Updated quantity for item: \(item.menuItem.name), new quantity: \(cartItems[index].quantity)")
+            }
+            checkCartItems()
+        }
+    }
 }
-

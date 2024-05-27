@@ -13,14 +13,13 @@ protocol CartViewControllerProtocol: AnyObject {
 }
 
 class CartViewController: UIViewController, CartViewControllerProtocol {
-
+    
     var presenter: CartPresenterProtocol!
-
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(CartItemCell.self, forCellReuseIdentifier: "CartItemCell")
-        tableView.isHidden = true
         return tableView
     }()
     
@@ -57,7 +56,7 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
         
         return view
     }()
-
+    
     private let sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send Order", for: .normal)
@@ -65,16 +64,15 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.isHidden = true
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         presenter.checkCartItems()
     }
-
+    
     private func setupUI() {
         view.backgroundColor = .white
         navigationItem.title = "Cart"
@@ -84,7 +82,7 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
         
         tableView.delegate = self
         tableView.dataSource = self
-
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -102,13 +100,13 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
         
         sendButton.addTarget(self, action: #selector(didTapSendButton), for: .touchUpInside)
     }
-
+    
     @objc private func didTapSendButton() {
         presenter.didTapSendButton()
     }
-
+    
     // MARK: - CartViewControllerProtocol
-
+    
     func reloadData() {
         print("Reloading table data")
         tableView.isHidden = false
@@ -125,11 +123,11 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
     }
 }
 
-extension CartViewController: UITableViewDelegate, UITableViewDataSource {
+extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartItemCellDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter.cartItems.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CartItemCell", for: indexPath) as! CartItemCell
         let item = presenter.cartItems[indexPath.row]
@@ -137,11 +135,18 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         cell.delegate = self
         return cell
     }
-}
-
-extension CartViewController: CartItemCellDelegate {
-    func didTapDeleteButton(for item: CartMenuItem) {
-        presenter.didTapDeleteButton(for: item)
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100 // Adjust this value to increase/decrease the cell height
+    }
+    
+    func didTapIncreaseButton(for item: CartMenuItem) {
+        presenter.addMenuItemToCart(menuItem: item.menuItem)
+    }
+    
+    func didTapDecreaseButton(for item: CartMenuItem) {
+        presenter.didTapDecreaseButton(for: item)
     }
 }
+
 
