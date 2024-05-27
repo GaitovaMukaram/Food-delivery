@@ -30,11 +30,7 @@ class HomePresenter: NSObject {
             Category(id: 1, name: "Food", icon: UIImage(resource: .foodIcon)),
             Category(id: 2, name: "Drink", icon: UIImage(named: "drinkIcon")),
             Category(id: 3, name: "Cake", icon: UIImage(named: "cakeIcon")),
-            Category(id: 4, name: "Snack", icon: UIImage(named: "snackIcon")),
-            Category(id: 5, name: "Food", icon: UIImage(named: "foodIcon")),
-            Category(id: 6, name: "Drink", icon: UIImage(named: "drinkIcon")),
-            Category(id: 7, name: "Cake", icon: UIImage(named: "cakeIcon")),
-            Category(id: 8, name: "Snack", icon: UIImage(named: "snackIcon"))
+            Category(id: 4, name: "Snack", icon: UIImage(named: "snackIcon"))
         ]
         
         self.subcategories = initializeSubcategories(categories: categories)
