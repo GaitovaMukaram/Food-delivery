@@ -19,32 +19,36 @@ class HomeViewController: UIViewController, HomeView {
     
     // Массивы данных для секций
     private var categories: [Category] = [
-        Category(name: "Food", icon: UIImage(resource: .foodIcon)),
-        Category(name: "Drink", icon: UIImage(named: "drinkIcon")),
-        Category(name: "Cake", icon: UIImage(named: "cakeIcon")),
-        Category(name: "Snack", icon: UIImage(named: "snackIcon")),
-        Category(name: "Food", icon: UIImage(named: "foodIcon")),
-        Category(name: "Drink", icon: UIImage(named: "drinkIcon")),
-        Category(name: "Cake", icon: UIImage(named: "cakeIcon")),
-        Category(name: "Snack", icon: UIImage(named: "snackIcon"))
+        Category(id: 1, name: "Food", icon: UIImage(resource: .foodIcon)),
+        Category(id: 2, name: "Drink", icon: UIImage(named: "drinkIcon")),
+        Category(id: 3, name: "Cake", icon: UIImage(named: "cakeIcon")),
+        Category(id: 4, name: "Snack", icon: UIImage(named: "snackIcon")),
+        Category(id: 5, name: "Food", icon: UIImage(named: "foodIcon")),
+        Category(id: 6, name: "Drink", icon: UIImage(named: "drinkIcon")),
+        Category(id: 7, name: "Cake", icon: UIImage(named: "cakeIcon")),
+        Category(id: 8, name: "Snack", icon: UIImage(named: "snackIcon"))
     ]
+    
     
     private var restaurants: [Restaurant] = []
+    private var subcategories: [Subcategory]
     
-    private var menuItems: [Subcategory] = [
-        Subcategory(name: "Burgers", image: UIImage(named: "burgerImage")),
-        Subcategory(name: "Pizza", image: UIImage(named: "pizzaImage")),
-        Subcategory(name: "BBQ", image: UIImage(named: "bbqImage")),
-        Subcategory(name: "Fruit", image: UIImage(named: "fruitImage")),
-        Subcategory(name: "Sushi", image: UIImage(named: "sushiImage")),
-        Subcategory(name: "Noodle", image: UIImage(named: "noodleImage")),
-        Subcategory(name: "Burgers", image: UIImage(named: "burgerImage")),
-        Subcategory(name: "Pizza", image: UIImage(named: "pizzaImage")),
-        Subcategory(name: "BBQ", image: UIImage(named: "bbqImage")),
-        Subcategory(name: "Fruit", image: UIImage(named: "fruitImage")),
-        Subcategory(name: "Sushi", image: UIImage(named: "sushiImage")),
-        Subcategory(name: "Noodle", image: UIImage(named: "noodleImage"))
-    ]
+    // Функция для получения категории по имени
+    private func getCategoryByName(_ name: String) -> Category {
+        return categories.first { $0.name == name }!
+    }
+    
+    init(presenter: HomePresenter) {
+        self.presenter = presenter
+        self.subcategories = initializeSubcategories(categories: categories)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     
     
     lazy var smallHCollection: UICollectionView = {
@@ -98,15 +102,6 @@ class HomeViewController: UIViewController, HomeView {
         return label
     }()
     
-    init(presenter: HomePresenter) {
-        self.presenter = presenter
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
@@ -117,6 +112,26 @@ class HomeViewController: UIViewController, HomeView {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openMap))
         addressView.addGestureRecognizer(tapGesture)
         addressView.isUserInteractionEnabled = true
+    }
+    
+    // Временная функция для получения элементов меню для выбранного ресторана
+    private func getMenuItems(for restaurant: Restaurant) -> [MenuItem] {
+        // Здесь можно добавить логику для генерации фейковых данных
+        return [
+            MenuItem(id: 1, restaurant: restaurant, subcategory: restaurant.subcategory, name: "Burger", image: UIImage(named: "burgerImage"), price: 5.99, likeIcon: nil, likes: 10, dislikeIcon: nil, dislikes: 2),
+            MenuItem(id: 2, restaurant: restaurant, subcategory: restaurant.subcategory, name: "Pizza", image: UIImage(named: "pizzaImage"), price: 8.99, likeIcon: nil, likes: 20, dislikeIcon: nil, dislikes: 1),
+            // Добавьте больше элементов по аналогии
+        ]
+    }
+    
+    // Временная функция для получения элементов меню для выбранной подкатегории
+    private func getMenuItems(for subcategory: Subcategory) -> [MenuItem] {
+        // Логика генерации фейковых данных для подкатегории
+        return [
+            MenuItem(id: 1, restaurant: Restaurant(id: 1, name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, subcategory: [subcategory]), subcategory: [subcategory], name: "Burger", image: UIImage(named: "burgerImage"), price: 5.99, likeIcon: nil, likes: 10, dislikeIcon: nil, dislikes: 2),
+            MenuItem(id: 2, restaurant: Restaurant(id: 1, name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, subcategory: [subcategory]), subcategory: [subcategory], name: "Pizza", image: UIImage(named: "pizzaImage"), price: 8.99, likeIcon: nil, likes: 20, dislikeIcon: nil, dislikes: 1),
+            // Добавьте больше элементов по аналогии
+        ]
     }
 }
 
@@ -296,7 +311,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case 1:
             return categories.count
         case 2:
-            return menuItems.count
+            return subcategories.count
         case 3:
             return restaurants.count
         default:
@@ -314,7 +329,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BigHCollectionViewCell", for: indexPath) as! BigHCollectionViewCell
-            let menuItem = menuItems[indexPath.item]
+            let menuItem = subcategories[indexPath.item]
             cell.configure(with: menuItem)
             // Установка цвета фона
             switch indexPath.item % 3 {
@@ -357,14 +372,17 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView.tag {
         case 2:
-            let selectedMenuItem = menuItems[indexPath.item]
-            let filteredVC = FilteredRestaurantsViewController(menuItem: selectedMenuItem, restaurants: presenter.allRestaurants)
+            let selectedSubcategoryItem = subcategories[indexPath.item]
+            // Получаем элементы меню для выбранной подкатегории
+            let menuItems = getMenuItems(for: selectedSubcategoryItem)
+            let filteredVC = FilteredRestaurantsViewController(subcategory: selectedSubcategoryItem, restaurants: presenter.allRestaurants, menuItems: menuItems)
             navigationController?.pushViewController(filteredVC, animated: true)
         case 3:
-               let selectedRestaurant = restaurants[indexPath.item]
-               let menuVC = RestaurantMenuViewController(menuItems: selectedRestaurant.menuItems)
-               menuVC.title = selectedRestaurant.name
-               navigationController?.pushViewController(menuVC, animated: true)
+            let selectedRestaurant = restaurants[indexPath.item]
+            let relatedMenuItems = getMenuItems(for: selectedRestaurant)
+            let menuVC = RestaurantMenuViewController(menuItems: relatedMenuItems)
+            menuVC.title = selectedRestaurant.name
+            navigationController?.pushViewController(menuVC, animated: true)
         default:
             break
         }

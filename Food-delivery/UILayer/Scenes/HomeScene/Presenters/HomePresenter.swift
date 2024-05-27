@@ -11,7 +11,7 @@ import CoreLocation
 protocol HomeView: AnyObject {
     func updateSearchResults()
     func updateLocation()
-    func updateNearbyRestaurants(_ restaurants: [Restaurant]) // Добавлено
+    func updateNearbyRestaurants(_ restaurants: [Restaurant])
 }
 
 class HomePresenter: NSObject {
@@ -21,13 +21,31 @@ class HomePresenter: NSObject {
     private let locationManager = CLLocationManager()
     private var userLocation: CLLocation?
     
-    // Добавлен массив для всех ресторанов и для отфильтрованных ресторанов
-    var allRestaurants: [Restaurant] = [
-        // Пример данных ресторанов
-        Restaurant(name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, subcategory: ["Burgers","Noodle"], menuItems: [MenuItem(name: "Dogmie jagong tutung", image: UIImage(named: "restaurantImage"), price: 99.99, likeIcon: UIImage(resource: .like), likes: 999, dislikeIcon: UIImage(resource: .dislike), dislikes: 93)]),
-        Restaurant(name: "Another Restaurant", address: "14th Street, 47 W 12th St, NY", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 40.740, longitude: -73.95, subcategory: ["Noodle", "Sushi"], menuItems: [MenuItem(name: "akjhbdvfa.sknclD", image: UIImage(named: "restaurantImage"), price: 99.99, likeIcon: UIImage(resource: .like), likes: 999, dislikeIcon: UIImage(resource: .dislike), dislikes: 93)]),
-        Restaurant(name: "Coffee cafe", address: "улица Нурмакова, 79", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 43.247690, longitude: 76.906667, subcategory: ["Burgers", "Pizza"], menuItems: [MenuItem(name: "Dhviauhdvuhdv", image: UIImage(named: "restaurantImage"), price: 99.99, likeIcon: UIImage(resource: .like), likes: 999, dislikeIcon: UIImage(resource: .dislike), dislikes: 93)])
-    ]
+    var categories: [Category]
+    var subcategories: [Subcategory]
+    var allRestaurants: [Restaurant]
+    
+    override init() {
+        self.categories = [
+            Category(id: 1, name: "Food", icon: UIImage(resource: .foodIcon)),
+            Category(id: 2, name: "Drink", icon: UIImage(named: "drinkIcon")),
+            Category(id: 3, name: "Cake", icon: UIImage(named: "cakeIcon")),
+            Category(id: 4, name: "Snack", icon: UIImage(named: "snackIcon")),
+            Category(id: 5, name: "Food", icon: UIImage(named: "foodIcon")),
+            Category(id: 6, name: "Drink", icon: UIImage(named: "drinkIcon")),
+            Category(id: 7, name: "Cake", icon: UIImage(named: "cakeIcon")),
+            Category(id: 8, name: "Snack", icon: UIImage(named: "snackIcon"))
+        ]
+        
+        self.subcategories = initializeSubcategories(categories: categories)
+        
+        self.allRestaurants = [
+            Restaurant(id: 1, name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, subcategory: [subcategories[0], subcategories[1]] ),
+            Restaurant(id: 2, name: "Another Restaurant", address: "14th Street, 47 W 12th St, NY", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 3.0, latitude: 40.740, longitude: -73.95, subcategory: [subcategories[2]]),
+            Restaurant(id: 3, name: "Coffee cafe", address: "улица Нурмакова, 79", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 43.247690, longitude: 76.906667, subcategory: [subcategories[0], subcategories[3]])
+        ]
+
+    }
     
     private var nearbyRestaurants: [Restaurant] = []
     

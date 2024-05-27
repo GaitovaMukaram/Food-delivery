@@ -8,17 +8,21 @@
 import UIKit
 
 class FilteredRestaurantsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
-
+    
     private let collectionView: UICollectionView
     private var filteredRestaurants: [Restaurant]
-    private let menuItem: Subcategory
+    private let subcategory: Subcategory
     private let allRestaurants: [Restaurant]
     private let searchBar = UISearchBar()
-
-    init(menuItem: Subcategory, restaurants: [Restaurant]) {
-        self.menuItem = menuItem
-        self.allRestaurants = restaurants.filter { $0.subcategory.contains(menuItem.name) }
-        self.filteredRestaurants = self.allRestaurants
+    private let allMenuItems: [MenuItem]
+    
+    init(subcategory: Subcategory, restaurants: [Restaurant], menuItems: [MenuItem]) {
+        self.subcategory = subcategory
+        self.allRestaurants = restaurants
+        self.filteredRestaurants = restaurants.filter { restaurant in
+            restaurant.subcategory.contains(where: { $0.id == subcategory.id })
+        }
+        self.allMenuItems = menuItems
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.headerReferenceSize = .zero
@@ -30,14 +34,14 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
         self.collectionView.dataSource = self
         self.collectionView.register(RestaurantCollectionViewCell.self, forCellWithReuseIdentifier: "RestaurantCollectionViewCell")
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = menuItem.name
+        self.title = subcategory.name
         setupNavigationBar()
         setupSearchBar()
         setupLayout()
@@ -52,7 +56,7 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
         navigationItem.leftBarButtonItem = backButtonItem
         navigationItem.leftBarButtonItem?.tintColor = AppColors.black
     }
-
+    
     private func setupLayout() {
         view.backgroundColor = .white
         view.addSubview(searchBar)
@@ -70,12 +74,12 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
+    
     private func setupSearchBar() {
         searchBar.delegate = self
         searchBar.placeholder = "Search"
     }
-
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
             filteredRestaurants = allRestaurants
@@ -84,27 +88,27 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
         }
         collectionView.reloadData()
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return filteredRestaurants.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RestaurantCollectionViewCell", for: indexPath) as! RestaurantCollectionViewCell
         let restaurant = filteredRestaurants[indexPath.item]
         cell.configure(with: restaurant)
         return cell
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 130)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            let selectedRestaurant = filteredRestaurants[indexPath.item]
-            let menuVC = RestaurantMenuViewController(menuItems: selectedRestaurant.menuItems)
-            menuVC.title = selectedRestaurant.name
-            navigationController?.pushViewController(menuVC, animated: true)
+        let selectedRestaurant = filteredRestaurants[indexPath.item]
+        let relatedMenuItems = allMenuItems.filter { $0.restaurant.id == selectedRestaurant.id && $0.subcategory.contains(where: { $0.id == subcategory.id }) }
+        let menuVC = RestaurantMenuViewController(menuItems: relatedMenuItems)
+        menuVC.title = selectedRestaurant.name
+        navigationController?.pushViewController(menuVC, animated: true)
     }
-
 }
