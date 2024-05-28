@@ -9,7 +9,7 @@ import Foundation
 
 protocol LoginViewOutput: AnyObject {
     func loginStart(login: String, password: String)
-    func registrationStart()
+    func registrationStart(email: String, firstName: String, lastName: String, password: String, passwordConfirmation: String)
     func goToFacebookLogin()
     func goToGoogleLogin()
     func goToSignIn()
@@ -53,13 +53,24 @@ extension LoginPresenter: LoginViewOutput {
         }
     }
     
-    func loginStart() {
-        
-    }
     
-    func registrationStart() {
-        
-    }
+    func registrationStart(email: String, firstName: String, lastName: String, password: String, passwordConfirmation: String) {
+            print("Attempting to register user with email: \(email)")
+            viewInput?.startLoader()
+            signUpUser(email: email, firstName: firstName, lastName: lastName, password: password, passwordConfirmation: passwordConfirmation) { [weak self] result in
+                DispatchQueue.main.async {
+                    self?.viewInput?.stopLoader()
+                    switch result {
+                    case .success(let signUpResponse):
+                        print("Sign Up Successful: \(signUpResponse)")
+                        self?.goToSignIn()
+                    case .failure(let error):
+                        print("Error: \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
+
     
     func goToFacebookLogin() {
         

@@ -26,6 +26,10 @@
 		9F64069E2C04EFD800190AC0 /* CartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F64069D2C04EFD800190AC0 /* CartPresenter.swift */; };
 		9F6406A02C04F19600190AC0 /* CartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F64069F2C04F19600190AC0 /* CartCoordinator.swift */; };
 		9F6406A32C04F54F00190AC0 /* CartItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6406A22C04F54F00190AC0 /* CartItemCell.swift */; };
+		9F8AB9892C055435001E7B13 /* SignUpModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB9882C055435001E7B13 /* SignUpModels.swift */; };
+		9F8AB98B2C05545C001E7B13 /* SignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB98A2C05545C001E7B13 /* SignUpRequest.swift */; };
+		9F8AB98E2C057428001E7B13 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB98D2C057428001E7B13 /* SignInModels.swift */; };
+		9F8AB9902C057493001E7B13 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB98F2C057493001E7B13 /* SignInRequest.swift */; };
 		9FE71D952BFF329400B691E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D942BFF329400B691E9 /* AppDelegate.swift */; };
 		9FE71D972BFF329400B691E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D962BFF329400B691E9 /* SceneDelegate.swift */; };
 		9FE71D9F2BFF329400B691E9 /* Food_delivery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D9D2BFF329400B691E9 /* Food_delivery.xcdatamodeld */; };
@@ -102,6 +106,10 @@
 		9F64069D2C04EFD800190AC0 /* CartPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPresenter.swift; sourceTree = "<group>"; };
 		9F64069F2C04F19600190AC0 /* CartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCoordinator.swift; sourceTree = "<group>"; };
 		9F6406A22C04F54F00190AC0 /* CartItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemCell.swift; sourceTree = "<group>"; };
+		9F8AB9882C055435001E7B13 /* SignUpModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModels.swift; sourceTree = "<group>"; };
+		9F8AB98A2C05545C001E7B13 /* SignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequest.swift; sourceTree = "<group>"; };
+		9F8AB98D2C057428001E7B13 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
+		9F8AB98F2C057493001E7B13 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
 		9FE71D912BFF329400B691E9 /* Food-delivery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food-delivery.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FE71D942BFF329400B691E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9FE71D962BFF329400B691E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -287,6 +295,33 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		9F8AB9862C05531E001E7B13 /* IntegrationWithBack */ = {
+			isa = PBXGroup;
+			children = (
+				9F8AB98C2C0573B0001E7B13 /* Auth */,
+				9F8AB9872C05533B001E7B13 /* Reg */,
+			);
+			path = IntegrationWithBack;
+			sourceTree = "<group>";
+		};
+		9F8AB9872C05533B001E7B13 /* Reg */ = {
+			isa = PBXGroup;
+			children = (
+				9F8AB9882C055435001E7B13 /* SignUpModels.swift */,
+				9F8AB98A2C05545C001E7B13 /* SignUpRequest.swift */,
+			);
+			path = Reg;
+			sourceTree = "<group>";
+		};
+		9F8AB98C2C0573B0001E7B13 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				9F8AB98D2C057428001E7B13 /* SignInModels.swift */,
+				9F8AB98F2C057493001E7B13 /* SignInRequest.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		9FE71D882BFF329400B691E9 = {
 			isa = PBXGroup;
 			children = (
@@ -440,6 +475,7 @@
 		9FE71DF42C0074FB00B691E9 /* AuthScene */ = {
 			isa = PBXGroup;
 			children = (
+				9F8AB9862C05531E001E7B13 /* IntegrationWithBack */,
 				9FE71DFB2C0076B400B691E9 /* Presenters */,
 				9FE71DF92C00769500B691E9 /* Views */,
 				9FE71DFA2C0076A800B691E9 /* Controllers */,
@@ -669,6 +705,7 @@
 				9FE71E082C01E4E600B691E9 /* LoginCoordinator.swift in Sources */,
 				9F64069B2C04EFA200190AC0 /* CartViewController.swift in Sources */,
 				9FE71DE52BFF5C6200B691E9 /* TabBarController.swift in Sources */,
+				9F8AB9902C057493001E7B13 /* SignInRequest.swift in Sources */,
 				9FE71E062C00FE1900B691E9 /* LoginPresenter.swift in Sources */,
 				9FE71DF02C0059B500B691E9 /* UserStorage.swift in Sources */,
 				9FE71DE12BFF5C1000B691E9 /* ListCoordinator.swift in Sources */,
@@ -702,10 +739,13 @@
 				9F2EF6112C0331D600E20340 /* RestaurantMenuViewController.swift in Sources */,
 				9FE71DDB2BFF575000B691E9 /* OnboardingCoordinator.swift in Sources */,
 				9F2EF6322C038A6600E20340 /* AddCreditCardViewController.swift in Sources */,
+				9F8AB98E2C057428001E7B13 /* SignInModels.swift in Sources */,
 				9FE71E2F2C02B7D900B691E9 /* FilteredRestaurantsViewController.swift in Sources */,
 				9FE71DDD2BFF5B9100B691E9 /* HomeCoordinator.swift in Sources */,
 				9FE71E2D2C02A76800B691E9 /* MapViewController.swift in Sources */,
+				9F8AB98B2C05545C001E7B13 /* SignUpRequest.swift in Sources */,
 				9F2EF62E2C03824800E20340 /* ChangePasswordViewController.swift in Sources */,
+				9F8AB9892C055435001E7B13 /* SignUpModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

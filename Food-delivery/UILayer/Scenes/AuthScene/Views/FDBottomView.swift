@@ -113,8 +113,3 @@ private extension FDBottomView {
         button2Action?()
     }
 }
-
-
-//#Preview("BottomView", traits: .fixedLayout(width: 400, height: 150)) {
-//    FDBottomView()
-//}

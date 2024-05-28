@@ -32,6 +32,8 @@ class LoginViewController: UIViewController {
     private lazy var signInUsername = FDTextField()
     private lazy var signInPassword = FDTextField()
     private lazy var signUpUsername = FDTextField()
+    private lazy var signUpFirstName = FDTextField()
+    private lazy var signUpLastName = FDTextField()
     private lazy var signUpPassword = FDTextField()
     private lazy var signUpReEnterPass = FDTextField()
     private lazy var forgotPasswordLabel = UILabel()
@@ -99,6 +101,8 @@ private extension LoginViewController {
         case .signUp:
             setupBottomView()
             setupStack()
+            setupSignUpFirstName()
+            setupSignUpLastName()
             setupSignUpPassword()
             setupSignUpUsername()
             setupSignUpRePassword()
@@ -140,6 +144,8 @@ private extension LoginViewController {
                 stackViewBottomCT
             ])
         case .signUp:
+            verticalStack.addArrangedSubview(signUpFirstName)
+            verticalStack.addArrangedSubview(signUpLastName)
             verticalStack.addArrangedSubview(signUpUsername)
             verticalStack.addArrangedSubview(signUpPassword)
             verticalStack.addArrangedSubview(signUpReEnterPass)
@@ -270,6 +276,7 @@ private extension LoginViewController {
         signUpButton.setTitle("Sign up")
         signUpButton.scheme = .grey
         signUpButton.action = { [weak self] in
+            print("Sign Up button tapped")
             self?.onSignUpTapped()
         }
         
@@ -293,6 +300,29 @@ private extension LoginViewController {
             forgotPasswordLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30)
         ])
     }
+    
+    func setupSignUpFirstName() {
+        signUpFirstName.translatesAutoresizingMaskIntoConstraints = false
+        signUpFirstName.placeholder = "Enter First Name"
+        
+        NSLayoutConstraint.activate([
+            signUpFirstName.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30),
+            signUpFirstName.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30),
+            signUpFirstName.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    func setupSignUpLastName() {
+        signUpLastName.translatesAutoresizingMaskIntoConstraints = false
+        signUpLastName.placeholder = "Enter Last Name"
+        
+        NSLayoutConstraint.activate([
+            signUpLastName.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30),
+            signUpLastName.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30),
+            signUpLastName.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
     
     func setupSignUpPassword() {
         signUpPassword.translatesAutoresizingMaskIntoConstraints = false
@@ -408,7 +438,17 @@ private extension LoginViewController {
             print(#function)
             viewOutput?.loginStart(login: signInUsername.text ?? "", password: signInPassword.text ?? "")
         case .signUp:
-            return
+            print(#function)
+            print("Registering user")
+            let email = signUpUsername.text ?? ""
+            let firstName = "FirstName"
+            let lastName = "LastName"
+            let password = signUpPassword.text ?? "ValidPassword123"
+            let passwordConfirmation = signUpReEnterPass.text ?? "ValidPassword123"
+            
+            print("Email: \(email), First Name: \(firstName), Last Name: \(lastName), Password: \(password), Password Confirmation: \(passwordConfirmation)")
+            
+            viewOutput?.registrationStart(email: email, firstName: firstName, lastName: lastName, password: password, passwordConfirmation: passwordConfirmation)
         }
     }
     
@@ -423,6 +463,8 @@ private extension LoginViewController {
         }
     }
     
+    
+    
     func onFacebookTapped() {
         
     }
@@ -434,6 +476,8 @@ private extension LoginViewController {
     func onForgotPasswordTapped() {
         
     }
+    
+    
 }
 
 // MARK: - LoginViewInput delegate
@@ -450,6 +494,3 @@ extension LoginViewController: LoginViewInput {
     
 }
 
-//#Preview("LoginVC") {
-//    LoginViewController(viewOutput: LoginPresenter(), state: .initial)
-//}
