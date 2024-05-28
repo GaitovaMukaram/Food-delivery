@@ -19,6 +19,8 @@ class HomeViewController: UIViewController, HomeView {
     
     // Массивы данных для секций
     private var categories: [Category] = []
+    private var subcategories: [Subcategory] = []
+    private var filteredSubcategories: [Subcategory] = [] // Добавляем массив для отфильтрованных подкатегорий
     
     private var selectedCategory: Category? {
         didSet {
@@ -26,28 +28,17 @@ class HomeViewController: UIViewController, HomeView {
         }
     }
     
-    
     private var restaurants: [Restaurant] = []
-    private var subcategories: [Subcategory]
-    
-    // Функция для получения категории по имени
-    private func getCategoryByName(_ name: String) -> Category {
-        return categories.first { $0.name == name }!
-    }
     
     init(presenter: HomePresenter) {
         self.presenter = presenter
-        self.subcategories = initializeSubcategories(categories: categories)
         super.init(nibName: nil, bundle: nil)
-        self.selectedCategory = categories.first
+        self.presenter.view = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
     
     lazy var smallHCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -104,7 +95,6 @@ class HomeViewController: UIViewController, HomeView {
         super.viewDidLoad()
         setupLayout()
         setupSearchController()
-        presenter.view = self
         presenter.viewDidLoad()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openMap))
@@ -113,19 +103,29 @@ class HomeViewController: UIViewController, HomeView {
     }
     
     func updateCategories(_ categories: [Category]) {
+        DispatchQueue.main.async {
             self.categories = categories
             self.selectedCategory = categories.first
-            smallHCollection.reloadData()
-            updateBigHCollection()
+            self.smallHCollection.reloadData()
+            self.updateBigHCollection() // обновляем подкатегории при первой загрузке категорий
         }
+    }
     
-
+    func updateSubcategories(_ subcategories: [Subcategory]) {
+        DispatchQueue.main.async {
+            self.subcategories = subcategories
+            self.updateBigHCollection() // обновляем подкатегории при загрузке всех подкатегорий
+        }
+    }
+    
     private func updateBigHCollection() {
         guard let selectedCategory = selectedCategory else { return }
-        bigHTitleLabel.text = "\(selectedCategory.name) Menu"
-        // Обновляем подкатегории для выбранной категории
-        subcategories = initializeSubcategories(categories: [selectedCategory])
-        bigHCollection.reloadData()
+        DispatchQueue.main.async {
+            self.bigHTitleLabel.text = "\(selectedCategory.name) Menu"
+            // Фильтруем подкатегории для выбранной категории
+            self.filteredSubcategories = self.subcategories.filter { $0.category == selectedCategory.id }
+            self.bigHCollection.reloadData()
+        }
     }
     
     // Временная функция для получения элементов меню для выбранного ресторана
@@ -212,8 +212,10 @@ extension HomeViewController {
     }
     
     func updateNearbyRestaurants(_ restaurants: [Restaurant]) {
-        self.restaurants = restaurants
-        bigVCollection.reloadData()
+        DispatchQueue.main.async {
+            self.restaurants = restaurants
+            self.bigVCollection.reloadData()
+        }
     }
     
     private func setupAddressView() {
@@ -266,8 +268,8 @@ extension HomeViewController {
         bigHCollection.register(BigHCollectionViewCell.self, forCellWithReuseIdentifier: "BigHCollectionViewCell")
         
         NSLayoutConstraint.activate([
-            bigHCollection.topAnchor.constraint(equalTo: smallHCollection.bottomAnchor, constant: 70),
-            bigHCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 30),
+            bigHCollection.topAnchor.constraint(equalTo: bigHTitleLabel.bottomAnchor, constant: 10), // Исправляем позицию bigHCollection
+            bigHCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             bigHCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             bigHCollection.heightAnchor.constraint(equalToConstant: 130*2+20)
         ])
@@ -293,8 +295,8 @@ extension HomeViewController {
         bigVCollection.register(RestaurantCollectionViewCell.self, forCellWithReuseIdentifier: "RestaurantCollectionViewCell")
         
         NSLayoutConstraint.activate([
-            bigVCollection.topAnchor.constraint(equalTo: bigHCollection.bottomAnchor, constant: 70),
-            bigVCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 30),
+            bigVCollection.topAnchor.constraint(equalTo: nearMeTitleLabel.bottomAnchor, constant: 10), // Исправляем позицию bigVCollection
+            bigVCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             bigVCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
             bigVCollection.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
             bigVCollection.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
@@ -310,11 +312,11 @@ extension HomeViewController {
     }
 }
 
-
 // MARK: - UISearchResultsUpdating
 extension HomeViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
+        // Implement search functionality here
     }
 }
 
@@ -325,7 +327,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case 1:
             return categories.count
         case 2:
-            return subcategories.count
+            return filteredSubcategories.count // Обновляем для использования отфильтрованных подкатегорий
         case 3:
             return restaurants.count
         default:
@@ -343,7 +345,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BigHCollectionViewCell", for: indexPath) as! BigHCollectionViewCell
-            let menuItem = subcategories[indexPath.item]
+            let menuItem = filteredSubcategories[indexPath.item] // Используем отфильтрованные подкатегории
             cell.configure(with: menuItem)
             // Установка цвета фона
             switch indexPath.item % 3 {
@@ -383,13 +385,14 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: 0, height: 0)
         }
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         switch collectionView.tag {
         case 1:
             let selectedCategory = categories[indexPath.item]
             self.selectedCategory = selectedCategory
         case 2:
-            let selectedSubcategoryItem = subcategories[indexPath.item]
+            let selectedSubcategoryItem = filteredSubcategories[indexPath.item] // Используем отфильтрованные подкатегории
             // Получаем элементы меню для выбранной подкатегории
             let menuItems = getMenuItems(for: selectedSubcategoryItem)
             let filteredVC = FilteredRestaurantsViewController(subcategory: selectedSubcategoryItem, restaurants: presenter.allRestaurants, menuItems: menuItems)
@@ -405,5 +408,3 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
         }
     }
 }
-
-

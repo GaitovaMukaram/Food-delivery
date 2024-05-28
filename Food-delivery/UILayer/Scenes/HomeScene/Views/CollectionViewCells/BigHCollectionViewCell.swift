@@ -45,35 +45,56 @@ class BigHCollectionViewCell: UICollectionViewCell {
     }
     
     func setupImageView() {
-            topView.addSubview(imageView)
-            
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.contentMode = .scaleAspectFit
-            
-            NSLayoutConstraint.activate([
-                imageView.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
-                imageView.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
-                imageView.widthAnchor.constraint(equalToConstant: 130),
-                imageView.heightAnchor.constraint(equalToConstant: 130)
-            ])
-        }
+        topView.addSubview(imageView)
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: topView.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: topView.centerYAnchor),
+            imageView.widthAnchor.constraint(equalToConstant: 130),
+            imageView.heightAnchor.constraint(equalToConstant: 130)
+        ])
+    }
     
     func setupBottomLabel() {
         contentView.addSubview(titleLabel)
         
-        titleLabel.font = .Roboto.bold.size(of: 15)
+        titleLabel.font = .boldSystemFont(ofSize: 15)
         titleLabel.text = "Title label"
-        titleLabel.textColor = .white
+        titleLabel.textColor = .black
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topView.topAnchor, constant: 10),
+            titleLabel.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 10),
             titleLabel.leftAnchor.constraint(equalTo: topView.leftAnchor, constant: 15),
         ])
     }
     
     func configure(with menuItem: Subcategory) {
-        imageView.image = menuItem.image
         titleLabel.text = menuItem.name
+        loadImage(from: menuItem.image)
+    }
+    
+    private func loadImage(from urlString: String) {
+        guard let url = URL(string: urlString) else {
+            imageView.image = nil
+            return
+        }
+        
+        // Асинхронная загрузка изображения
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+            if let data = data, let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.imageView.image = nil
+                }
+            }
+        }.resume()
     }
 }

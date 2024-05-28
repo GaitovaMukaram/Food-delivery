@@ -84,17 +84,15 @@ class SmallHCollectionViewCell: UICollectionViewCell {
                     }
                 } else {
                     DispatchQueue.main.async {
-                        self.iconView.image = nil // Или установите placeholder изображение
+                        self.iconView.image = nil
                     }
                 }
             }.resume()
         } else {
-            iconView.image = nil // Или установите placeholder изображение
+            iconView.image = nil
         }
         bottomLabel.text = category.name
     }
-
-
 
     override var isSelected: Bool {
         didSet {

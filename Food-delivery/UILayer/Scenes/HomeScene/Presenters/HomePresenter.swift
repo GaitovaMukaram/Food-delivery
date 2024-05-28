@@ -13,6 +13,7 @@ protocol HomeView: AnyObject {
     func updateLocation()
     func updateNearbyRestaurants(_ restaurants: [Restaurant])
     func updateCategories(_ categories: [Category])
+    func updateSubcategories(_ subcategories: [Subcategory])
 }
 
 class HomePresenter: NSObject {
@@ -34,8 +35,7 @@ class HomePresenter: NSObject {
     
     func viewDidLoad() {
         setupLocationManager()
-        filterNearByRestaurants()
-        fetchCategories()
+        fetchDataForHomeScreen()
     }
     
     private func setupLocationManager() {
@@ -61,31 +61,61 @@ class HomePresenter: NSObject {
 
         view?.updateNearbyRestaurants(nearbyRestaurants)
     }
-
     
-    private func fetchCategories() {
-        Food_delivery.fetchCategories { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let categories):
-                    self?.categories = categories
-                    self?.initializeSubcategories(categories: categories)
-                    self?.initializeRestaurants()
-                    self?.view?.updateCategories(categories)
-                case .failure(let error):
-                    print("Error fetching categories: \(error.localizedDescription)")
-                }
+    private func fetchDataForHomeScreen() {
+        let dispatchGroup = DispatchGroup()
+
+        dispatchGroup.enter()
+        fetchCategories { [weak self] result in
+            switch result {
+            case .success(let categories):
+                self?.categories = categories
+                self?.view?.updateCategories(categories)
+            case .failure(let error):
+                print("Error fetching categories: \(error)")
             }
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.enter()
+        fetchSubcategories { [weak self] result in
+            switch result {
+            case .success(let subcategories):
+                self?.subcategories = subcategories
+                self?.view?.updateSubcategories(subcategories)
+            case .failure(let error):
+                print("Error fetching subcategories: \(error)")
+            }
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            self?.initializeRestaurants()
+            self?.filterNearByRestaurants()
         }
     }
     
-    private func initializeSubcategories(categories: [Category]) {
-        self.subcategories = categories.flatMap { category in
-            return [
-                Subcategory(id: 1, name: "\(category.name) Burgers", image: UIImage(named: "burgerImage"), category: category),
-                Subcategory(id: 2, name: "\(category.name) Pizza", image: UIImage(named: "pizzaImage"), category: category),
-                // Добавьте другие подкатегории по аналогии
-            ]
+    private func fetchCategories(completion: @escaping (Result<[Category], Error>) -> Void) {
+        let urlString = "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/categories/"
+        fetchData(from: urlString) { (result: Result<CategoryResponse, Error>) in
+            switch result {
+            case .success(let categoryResponse):
+                completion(.success(categoryResponse.results))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    private func fetchSubcategories(completion: @escaping (Result<[Subcategory], Error>) -> Void) {
+        let urlString = "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/subcategories/"
+        fetchData(from: urlString) { (result: Result<SubcategoryResponse, Error>) in
+            switch result {
+            case .success(let subcategoryResponse):
+                completion(.success(subcategoryResponse.results))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
     

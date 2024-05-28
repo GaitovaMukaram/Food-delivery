@@ -30,7 +30,7 @@
 		9F8AB98B2C05545C001E7B13 /* SignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB98A2C05545C001E7B13 /* SignUpRequest.swift */; };
 		9F8AB98E2C057428001E7B13 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB98D2C057428001E7B13 /* SignInModels.swift */; };
 		9F8AB9902C057493001E7B13 /* SignInRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB98F2C057493001E7B13 /* SignInRequest.swift */; };
-		9F8AB9942C057B62001E7B13 /* CategoriesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB9932C057B62001E7B13 /* CategoriesRequest.swift */; };
+		9F8AB9942C057B62001E7B13 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB9932C057B62001E7B13 /* Request.swift */; };
 		9FE71D952BFF329400B691E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D942BFF329400B691E9 /* AppDelegate.swift */; };
 		9FE71D972BFF329400B691E9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D962BFF329400B691E9 /* SceneDelegate.swift */; };
 		9FE71D9F2BFF329400B691E9 /* Food_delivery.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9FE71D9D2BFF329400B691E9 /* Food_delivery.xcdatamodeld */; };
@@ -106,7 +106,7 @@
 		9F8AB98A2C05545C001E7B13 /* SignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequest.swift; sourceTree = "<group>"; };
 		9F8AB98D2C057428001E7B13 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
 		9F8AB98F2C057493001E7B13 /* SignInRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRequest.swift; sourceTree = "<group>"; };
-		9F8AB9932C057B62001E7B13 /* CategoriesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CategoriesRequest.swift; path = Category/CategoriesRequest.swift; sourceTree = "<group>"; };
+		9F8AB9932C057B62001E7B13 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Request.swift; path = Category/Request.swift; sourceTree = "<group>"; };
 		9FE71D912BFF329400B691E9 /* Food-delivery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Food-delivery.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FE71D942BFF329400B691E9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9FE71D962BFF329400B691E9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -317,7 +317,7 @@
 		9F8AB9912C057AF7001E7B13 /* IntegrationWithBack */ = {
 			isa = PBXGroup;
 			children = (
-				9F8AB9932C057B62001E7B13 /* CategoriesRequest.swift */,
+				9F8AB9932C057B62001E7B13 /* Request.swift */,
 			);
 			path = IntegrationWithBack;
 			sourceTree = "<group>";
@@ -735,7 +735,7 @@
 				9FE71DDB2BFF575000B691E9 /* OnboardingCoordinator.swift in Sources */,
 				9F2EF6322C038A6600E20340 /* AddCreditCardViewController.swift in Sources */,
 				9F8AB98E2C057428001E7B13 /* SignInModels.swift in Sources */,
-				9F8AB9942C057B62001E7B13 /* CategoriesRequest.swift in Sources */,
+				9F8AB9942C057B62001E7B13 /* Request.swift in Sources */,
 				9FE71E2F2C02B7D900B691E9 /* FilteredRestaurantsViewController.swift in Sources */,
 				9FE71DDD2BFF5B9100B691E9 /* HomeCoordinator.swift in Sources */,
 				9FE71E2D2C02A76800B691E9 /* MapViewController.swift in Sources */,

@@ -7,8 +7,8 @@
 
 import Foundation
 
-func fetchCategories(completion: @escaping (Result<[Category], Error>) -> Void) {
-    guard let url = URL(string: "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/categories/") else {
+func fetchData<T: Decodable>(from urlString: String, completion: @escaping (Result<T, Error>) -> Void) {
+    guard let url = URL(string: urlString) else {
         completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
         return
     }
@@ -16,6 +16,7 @@ func fetchCategories(completion: @escaping (Result<[Category], Error>) -> Void) 
     var request = URLRequest(url: url)
     request.httpMethod = "GET"
     request.addValue("application/json", forHTTPHeaderField: "accept")
+    
     // Получение токена из UserDefaults
     if let accessToken = UserDefaults.standard.string(forKey: "accessToken") {
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
@@ -36,8 +37,8 @@ func fetchCategories(completion: @escaping (Result<[Category], Error>) -> Void) 
         }
         
         do {
-            let categoryResponse = try JSONDecoder().decode(CategoryResponse.self, from: data)
-            completion(.success(categoryResponse.results))
+            let decodedData = try JSONDecoder().decode(T.self, from: data)
+            completion(.success(decodedData))
         } catch {
             completion(.failure(error))
         }

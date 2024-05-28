@@ -20,37 +20,20 @@ struct CategoryResponse: Decodable {
     let results: [Category]
 }
 
-struct Subcategory {
+struct Subcategory: Decodable {
     let id: Int
     let name: String
-    let image: UIImage?
-    let category: Category
+    let image: String
+    let category: Int
 }
 
-// Глобальная функция для получения категории по имени
-func getCategoryByName(_ name: String, from categories: [Category]) -> Category? {
-    return categories.first { $0.name == name }
+struct SubcategoryResponse: Decodable {
+    let count: Int
+    let next: String?
+    let previous: String?
+    let results: [Subcategory]
 }
 
-// Глобальная функция для инициализации menuItems
-func initializeSubcategories(categories: [Category]) -> [Subcategory] {
-    guard let foodCategory = getCategoryByName("Food", from: categories) else { return [] }
-    
-    return [
-        Subcategory(id: 1, name: "Burgers", image: UIImage(named: "burgerImage"), category: foodCategory),
-        Subcategory(id: 2, name: "Pizza", image: UIImage(named: "pizzaImage"), category: foodCategory),
-        Subcategory(id: 3, name: "BBQ", image: UIImage(named: "bbqImage"), category: foodCategory),
-        Subcategory(id: 4, name: "Fruit", image: UIImage(named: "fruitImage"), category: foodCategory),
-        Subcategory(id: 5, name: "Sushi", image: UIImage(named: "sushiImage"), category: foodCategory),
-        Subcategory(id: 6, name: "Noodle", image: UIImage(named: "noodleImage"), category: foodCategory),
-        Subcategory(id: 7, name: "Burgers", image: UIImage(named: "burgerImage"), category: foodCategory),
-        Subcategory(id: 8, name: "Pizza", image: UIImage(named: "pizzaImage"), category: foodCategory),
-        Subcategory(id: 9, name: "BBQ", image: UIImage(named: "bbqImage"), category: foodCategory),
-        Subcategory(id: 10, name: "Fruit", image: UIImage(named: "fruitImage"), category: foodCategory),
-        Subcategory(id: 11, name: "Sushi", image: UIImage(named: "sushiImage"), category: foodCategory),
-        Subcategory(id: 12, name: "Noodle", image: UIImage(named: "noodleImage"), category: foodCategory)
-    ]
-}
 
 struct Restaurant {
     let id: Int
