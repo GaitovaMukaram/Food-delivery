@@ -60,14 +60,6 @@ struct Restaurant: Decodable {
         // Возвращаем нулевое значение по умолчанию, необходимо реализовать расчет дистанции
         return 0.0
     }
-    
-    var uiImage: UIImage? {
-        guard let url = URL(string: image) else { return nil }
-        if let data = try? Data(contentsOf: url) {
-            return UIImage(data: data)
-        }
-        return nil
-    }
 }
 
 struct MenuItemResponse: Decodable {
@@ -84,8 +76,6 @@ struct MenuItem: Decodable {
     let name: String
     let image: String
     let price: Float
-    let likeIcon: String
     let likes: Int
-    let dislikeIcon: String
     let dislikes: Int
 }
