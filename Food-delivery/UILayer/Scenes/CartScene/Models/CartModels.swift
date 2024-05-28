@@ -10,7 +10,7 @@ import UIKit
 struct Cart {
     let userId: Int
     let id: Int
-    var totalPrice: Double
+    var totalPrice: Float
     let restaurant: Restaurant
 }
 
@@ -18,5 +18,5 @@ struct CartMenuItem {
     let cart: Cart
     let menuItem: MenuItem
     var quantity: Int
-    var totalPrice: Double
+    var totalPrice: Float
 }

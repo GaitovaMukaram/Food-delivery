@@ -10,7 +10,7 @@ import UIKit
 protocol CartViewControllerProtocol: AnyObject {
     func reloadData()
     func showEmptyCart()
-    func updateTotalPrice(_ totalPrice: Double)
+    func updateTotalPrice(_ totalPrice: Float)
     func updateCell(for item: CartMenuItem)
 }
 
@@ -139,7 +139,7 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
         totalPriceLabel.isHidden = true
     }
     
-    func updateTotalPrice(_ totalPrice: Double) {
+    func updateTotalPrice(_ totalPrice: Float) {
         totalPriceLabel.text = String(format: "Total: $%.2f", totalPrice)
     }
 }

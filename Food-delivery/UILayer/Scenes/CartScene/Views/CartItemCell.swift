@@ -91,7 +91,7 @@ class CartItemCell: UITableViewCell {
         quantityLabel.text = "\(item.quantity)"
     }
     
-    func updateQuantity(_ quantity: Int, totalPrice: Double) {
+    func updateQuantity(_ quantity: Int, totalPrice: Float) {
         quantityLabel.text = "\(quantity)"
         priceLabel.text = String(format: "$%.2f", totalPrice)
     }

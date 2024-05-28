@@ -8,7 +8,7 @@
 struct Order {
     let userId: Int
     let id: Int
-    var totalPrice: Double
+    var totalPrice: Float
     let restaurant: Restaurant
 }
 
@@ -16,5 +16,5 @@ struct OrderMenuItem {
     let order: Order
     let menuItem: MenuItem
     var quantity: Int
-    var totalPrice: Double
+    var totalPrice: Float
 }

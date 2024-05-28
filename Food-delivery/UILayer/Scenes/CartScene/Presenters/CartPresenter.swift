@@ -66,7 +66,7 @@ class CartPresenter: CartPresenterProtocol {
         print("Adding item to cart: \(menuItem.name)")
         if let index = cartItems.firstIndex(where: { $0.menuItem.id == menuItem.id }) {
             cartItems[index].quantity += 1
-            cartItems[index].totalPrice = Double(cartItems[index].quantity) * menuItem.price
+            cartItems[index].totalPrice = Float(cartItems[index].quantity) * menuItem.price
             print("Updated quantity for item: \(menuItem.name), new quantity: \(cartItems[index].quantity)")
             view?.updateCell(for: cartItems[index])
         } else {
@@ -86,7 +86,7 @@ class CartPresenter: CartPresenterProtocol {
                 cartItems.remove(at: index)
                 print("Item removed from cart: \(item.menuItem.name)")
             } else {
-                cartItems[index].totalPrice = Double(cartItems[index].quantity) * item.menuItem.price
+                cartItems[index].totalPrice = Float(cartItems[index].quantity) * item.menuItem.price
                 print("Updated quantity for item: \(item.menuItem.name), new quantity: \(cartItems[index].quantity)")
                 view?.updateCell(for: cartItems[index])
             }

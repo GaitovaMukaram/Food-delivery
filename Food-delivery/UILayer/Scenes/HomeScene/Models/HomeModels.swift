@@ -56,11 +56,11 @@ struct Restaurant {
     let id: Int
     let name: String
     let address: String
-    let distance: Double
+    let distance: Float
     let image: UIImage?
-    let rating: Double
-    let latitude: Double
-    let longitude: Double
+    let rating: Float
+    let latitude: Float
+    let longitude: Float
     let subcategory: [Subcategory]
 }
 
@@ -70,7 +70,7 @@ struct MenuItem {
     let subcategory: [Subcategory]
     let name: String
     let image: UIImage?
-    let price: Double
+    let price: Float
     let likeIcon: UIImage?
     let likes: Int
     let dislikeIcon: UIImage?

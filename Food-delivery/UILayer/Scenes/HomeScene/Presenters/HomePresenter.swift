@@ -52,16 +52,16 @@ class HomePresenter: NSObject {
             view?.updateNearbyRestaurants(nearbyRestaurants)
             return
         }
-        
-        // Фильтрация ресторанов по расстоянию от пользователя (например, 5 км)
+
         nearbyRestaurants = allRestaurants.filter { restaurant in
-            let restaurantLocation = CLLocation(latitude: restaurant.latitude, longitude: restaurant.longitude)
-            let distance = userLocation.distance(from: restaurantLocation) / 1000 // В км
-            return distance <= 5.0 // Показываем только рестораны в радиусе 5 км
+            let restaurantLocation = CLLocation(latitude: CLLocationDegrees(restaurant.latitude), longitude: CLLocationDegrees(restaurant.longitude))
+            let distance = userLocation.distance(from: restaurantLocation) / 1000
+            return distance <= 5.0
         }
-        
+
         view?.updateNearbyRestaurants(nearbyRestaurants)
     }
+
     
     private func fetchCategories() {
         Food_delivery.fetchCategories { [weak self] result in
