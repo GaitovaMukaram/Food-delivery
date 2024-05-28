@@ -35,27 +35,57 @@ struct SubcategoryResponse: Decodable {
 }
 
 
-struct Restaurant {
+struct RestaurantResponse: Decodable {
+    let count: Int
+    let next: String?
+    let previous: String?
+    let results: [Restaurant]
+}
+
+struct Restaurant: Decodable {
     let id: Int
     let name: String
-    let address: String
-    let distance: Float
-    let image: UIImage?
+    let address_simplify: String
+    let image: String
     let rating: Float
     let latitude: Float
     let longitude: Float
-    let subcategory: [Subcategory]
+    let subcategories: [Int]
+    
+    var address: String {
+        return address_simplify
+    }
+    
+    var distance: Float {
+        // Возвращаем нулевое значение по умолчанию, необходимо реализовать расчет дистанции
+        return 0.0
+    }
+    
+    var uiImage: UIImage? {
+        guard let url = URL(string: image) else { return nil }
+        if let data = try? Data(contentsOf: url) {
+            return UIImage(data: data)
+        }
+        return nil
+    }
 }
 
-struct MenuItem {
+struct MenuItemResponse: Decodable {
+    let count: Int
+    let next: String?
+    let previous: String?
+    let results: [MenuItem]
+}
+
+struct MenuItem: Decodable {
     let id: Int
-    let restaurant: Restaurant
-    let subcategory: [Subcategory]
+    let restaurant: Int
+    let subcategory: Int
     let name: String
-    let image: UIImage?
+    let image: String
     let price: Float
-    let likeIcon: UIImage?
+    let likeIcon: String
     let likes: Int
-    let dislikeIcon: UIImage?
+    let dislikeIcon: String
     let dislikes: Int
 }

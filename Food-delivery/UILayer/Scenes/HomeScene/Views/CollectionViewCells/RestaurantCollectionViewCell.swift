@@ -151,10 +151,31 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with restaurant: Restaurant) {
-        imageView.image = restaurant.image
+        loadImage(from: restaurant.image)
         nameLabel.text = restaurant.name
         addressLabel.text = restaurant.address
         distanceLabel.text = "\(restaurant.distance) km"
         ratingLabel.text = String(repeating: "★", count: Int(restaurant.rating))
+    }
+    
+    private func loadImage(from urlString: String) {
+        guard let url = URL(string: urlString) else {
+            imageView.image = nil
+            return
+        }
+        
+        // Асинхронная загрузка изображения
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+            if let data = data, let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.imageView.image = nil
+                }
+            }
+        }.resume()
     }
 }

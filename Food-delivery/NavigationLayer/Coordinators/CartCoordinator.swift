@@ -21,10 +21,9 @@ class CartCoordinator: Coordinator {
      
     func showCartScene() {
         guard let navigationController = navigationController else { return }
-        let cart = Cart(userId: 1, id: 1, totalPrice: 0, restaurant: Restaurant(id: 1, name: "Restaurant", address: "", distance: 0, image: nil, rating: 0, latitude: 0, longitude: 0, subcategory: []))
+        let cart = Cart(userId: 1, id: 1, totalPrice: 0, restaurant: Restaurant(id: 1, name: "Restaurant", address_simplify: "", image: "", rating: 0, latitude: 0, longitude: 0, subcategories: []))
         let vc = factory.makeCartScene(coordinator: self, cart: cart)
         navigationController.pushViewController(vc, animated: true)
     }
 }
-
 

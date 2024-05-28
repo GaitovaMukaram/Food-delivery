@@ -14,15 +14,15 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
     private let subcategory: Subcategory
     private let allRestaurants: [Restaurant]
     private let searchBar = UISearchBar()
-    private let allMenuItems: [MenuItem]
+    private let presenter: HomePresenter // Добавляем презентер
     
-    init(subcategory: Subcategory, restaurants: [Restaurant], menuItems: [MenuItem]) {
+    init(subcategory: Subcategory, restaurants: [Restaurant], presenter: HomePresenter) {
         self.subcategory = subcategory
         self.allRestaurants = restaurants
         self.filteredRestaurants = restaurants.filter { restaurant in
-            restaurant.subcategory.contains(where: { $0.id == subcategory.id })
+            restaurant.subcategories.contains(subcategory.id)
         }
-        self.allMenuItems = menuItems
+        self.presenter = presenter // Инициализируем презентер
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.headerReferenceSize = .zero
@@ -48,13 +48,13 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
     }
     
     func setupNavigationBar() {
-        let backImage = UIImage(resource: .back)
+        let backImage = UIImage(systemName: "chevron.left")
         let backButtonItem = UIBarButtonItem(image: backImage,
                                              style: .plain,
                                              target: navigationController,
                                              action: #selector(navigationController?.popViewController(animated:)))
         navigationItem.leftBarButtonItem = backButtonItem
-        navigationItem.leftBarButtonItem?.tintColor = AppColors.black
+        navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     private func setupLayout() {
@@ -106,9 +106,17 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedRestaurant = filteredRestaurants[indexPath.item]
-        let relatedMenuItems = allMenuItems.filter { $0.restaurant.id == selectedRestaurant.id && $0.subcategory.contains(where: { $0.id == subcategory.id }) }
-        let menuVC = RestaurantMenuViewController(menuItems: relatedMenuItems)
-        menuVC.title = selectedRestaurant.name
-        navigationController?.pushViewController(menuVC, animated: true)
+        presenter.fetchMenuItems(for: selectedRestaurant) { [weak self] result in
+            switch result {
+            case .success(let menuItems):
+                DispatchQueue.main.async {
+                    let menuVC = RestaurantMenuViewController(menuItems: menuItems)
+                    menuVC.title = selectedRestaurant.name
+                    self?.navigationController?.pushViewController(menuVC, animated: true)
+                }
+            case .failure(let error):
+                print("Failed to fetch menu items: \(error)")
+            }
+        }
     }
 }

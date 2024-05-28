@@ -72,9 +72,9 @@ class BigHCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(with menuItem: Subcategory) {
-        titleLabel.text = menuItem.name
-        loadImage(from: menuItem.image)
+    func configure(with subcategory: Subcategory) {
+        titleLabel.text = subcategory.name
+        loadImage(from: subcategory.image)
     }
     
     private func loadImage(from urlString: String) {

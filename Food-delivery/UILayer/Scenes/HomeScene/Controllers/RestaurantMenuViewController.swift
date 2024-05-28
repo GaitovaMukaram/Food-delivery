@@ -8,7 +8,7 @@
 import UIKit
 
 class RestaurantMenuViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+    
     private let collectionView: UICollectionView
     private var menuItems: [MenuItem]
 
@@ -37,13 +37,13 @@ class RestaurantMenuViewController: UIViewController, UICollectionViewDelegate, 
     }
     
     func setupNavigationBar() {
-        let backImage = UIImage(resource: .back)
+        let backImage = UIImage(systemName: "chevron.left")
         let backButtonItem = UIBarButtonItem(image: backImage,
                                              style: .plain,
                                              target: navigationController,
                                              action: #selector(navigationController?.popViewController(animated:)))
         navigationItem.leftBarButtonItem = backButtonItem
-        navigationItem.leftBarButtonItem?.tintColor = AppColors.black
+        navigationItem.leftBarButtonItem?.tintColor = .black
     }
 
     private func setupLayout() {
@@ -80,6 +80,4 @@ class RestaurantMenuViewController: UIViewController, UICollectionViewDelegate, 
         menuItemDetailVC.title = selectedMenuItem.name
         navigationController?.pushViewController(menuItemDetailVC, animated: true)
     }
-    
 }
-

@@ -85,10 +85,31 @@ class CartItemCell: UITableViewCell {
     
     func configure(with item: CartMenuItem) {
         self.item = item
-        itemImageView.image = item.menuItem.image
+        loadImage(from: item.menuItem.image)
         nameLabel.text = item.menuItem.name
         priceLabel.text = String(format: "$%.2f", item.totalPrice)
         quantityLabel.text = "\(item.quantity)"
+    }
+    
+    private func loadImage(from urlString: String) {
+        guard let url = URL(string: urlString) else {
+            itemImageView.image = nil
+            return
+        }
+        
+        // Асинхронная загрузка изображения
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+            if let data = data, let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self.itemImageView.image = image
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.itemImageView.image = nil
+                }
+            }
+        }.resume()
     }
     
     func updateQuantity(_ quantity: Int, totalPrice: Float) {

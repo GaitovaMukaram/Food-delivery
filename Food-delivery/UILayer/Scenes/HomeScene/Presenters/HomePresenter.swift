@@ -14,6 +14,7 @@ protocol HomeView: AnyObject {
     func updateNearbyRestaurants(_ restaurants: [Restaurant])
     func updateCategories(_ categories: [Category])
     func updateSubcategories(_ subcategories: [Subcategory])
+    func updateMenuItems(_ menuItems: [MenuItem])
 }
 
 class HomePresenter: NSObject {
@@ -89,8 +90,19 @@ class HomePresenter: NSObject {
             dispatchGroup.leave()
         }
 
+        dispatchGroup.enter()
+        fetchRestaurants { [weak self] result in
+            switch result {
+            case .success(let restaurants):
+                self?.allRestaurants = restaurants
+                self?.view?.updateNearbyRestaurants(restaurants) // Обновляем рестораны в представлении
+            case .failure(let error):
+                print("Error fetching restaurants: \(error)")
+            }
+            dispatchGroup.leave()
+        }
+
         dispatchGroup.notify(queue: .main) { [weak self] in
-            self?.initializeRestaurants()
             self?.filterNearByRestaurants()
         }
     }
@@ -118,14 +130,29 @@ class HomePresenter: NSObject {
             }
         }
     }
+
+    private func fetchRestaurants(completion: @escaping (Result<[Restaurant], Error>) -> Void) {
+        let urlString = "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/restaurants/"
+        fetchData(from: urlString) { (result: Result<RestaurantResponse, Error>) in
+            switch result {
+            case .success(let restaurantResponse):
+                completion(.success(restaurantResponse.results))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
     
-    private func initializeRestaurants() {
-        guard subcategories.count >= 4 else { return }
-        self.allRestaurants = [
-            Restaurant(id: 1, name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, subcategory: [subcategories[0], subcategories[1]] ),
-            Restaurant(id: 2, name: "Another Restaurant", address: "14th Street, 47 W 12th St, NY", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 3.0, latitude: 40.740, longitude: -73.95, subcategory: [subcategories[2]]),
-            Restaurant(id: 3, name: "Coffee cafe", address: "улица Нурмакова, 79", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 43.247690, longitude: 76.906667, subcategory: [subcategories[0], subcategories[3]])
-        ]
+    func fetchMenuItems(for restaurant: Restaurant, completion: @escaping (Result<[MenuItem], Error>) -> Void) {
+        let urlString = "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/menu/?restaurant=\(restaurant.id)"
+        fetchData(from: urlString) { (result: Result<MenuItemResponse, Error>) in
+            switch result {
+            case .success(let menuItemResponse):
+                completion(.success(menuItemResponse.results))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 }
 

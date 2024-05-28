@@ -111,7 +111,7 @@ class MenuItemDetailViewController: UIViewController {
     }
     
     private func configureView() {
-        imageView.image = menuItem.image
+        loadImage(from: menuItem.image)
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
@@ -147,6 +147,27 @@ class MenuItemDetailViewController: UIViewController {
         addToOrderButton.layer.cornerRadius = 25
         
         addToOrderButton.addTarget(self, action: #selector(addToOrderButtonTapped), for: .touchUpInside)
+    }
+    
+    private func loadImage(from urlString: String) {
+        guard let url = URL(string: urlString) else {
+            imageView.image = nil
+            return
+        }
+        
+        // Асинхронная загрузка изображения
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self else { return }
+            if let data = data, let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self.imageView.image = image
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.imageView.image = nil
+                }
+            }
+        }.resume()
     }
     
     @objc private func addToOrderButtonTapped() {

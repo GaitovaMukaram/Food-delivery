@@ -9,8 +9,8 @@ import UIKit
 import CoreLocation
 
 class HomeViewController: UIViewController, HomeView {
-    
-    private let presenter: HomePresenter
+
+    private var presenter: HomePresenter
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let searchController = UISearchController(searchResultsController: nil)
@@ -118,6 +118,22 @@ class HomeViewController: UIViewController, HomeView {
         }
     }
     
+    func updateNearbyRestaurants(_ restaurants: [Restaurant]) {
+        DispatchQueue.main.async {
+            self.restaurants = restaurants
+            self.bigVCollection.reloadData()
+        }
+    }
+    
+    func updateMenuItems(_ menuItems: [MenuItem]) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            let menuVC = RestaurantMenuViewController(menuItems: menuItems)
+            menuVC.title = "Menu" // Установите заголовок, если нужно
+            self.navigationController?.pushViewController(menuVC, animated: true)
+        }
+    }
+    
     private func updateBigHCollection() {
         guard let selectedCategory = selectedCategory else { return }
         DispatchQueue.main.async {
@@ -126,26 +142,6 @@ class HomeViewController: UIViewController, HomeView {
             self.filteredSubcategories = self.subcategories.filter { $0.category == selectedCategory.id }
             self.bigHCollection.reloadData()
         }
-    }
-    
-    // Временная функция для получения элементов меню для выбранного ресторана
-    private func getMenuItems(for restaurant: Restaurant) -> [MenuItem] {
-        // Здесь можно добавить логику для генерации фейковых данных
-        return [
-            MenuItem(id: 1, restaurant: restaurant, subcategory: restaurant.subcategory, name: "Burger", image: UIImage(named: "burgerImage"), price: 5.99, likeIcon: nil, likes: 10, dislikeIcon: nil, dislikes: 2),
-            MenuItem(id: 2, restaurant: restaurant, subcategory: restaurant.subcategory, name: "Pizza", image: UIImage(named: "pizzaImage"), price: 8.99, likeIcon: nil, likes: 20, dislikeIcon: nil, dislikes: 1),
-            // Добавьте больше элементов по аналогии
-        ]
-    }
-    
-    // Временная функция для получения элементов меню для выбранной подкатегории
-    private func getMenuItems(for subcategory: Subcategory) -> [MenuItem] {
-        // Логика генерации фейковых данных для подкатегории
-        return [
-            MenuItem(id: 1, restaurant: Restaurant(id: 1, name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, subcategory: [subcategory]), subcategory: [subcategory], name: "Burger", image: UIImage(named: "burgerImage"), price: 5.99, likeIcon: nil, likes: 10, dislikeIcon: nil, dislikes: 2),
-            MenuItem(id: 2, restaurant: Restaurant(id: 1, name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, subcategory: [subcategory]), subcategory: [subcategory], name: "Pizza", image: UIImage(named: "pizzaImage"), price: 8.99, likeIcon: nil, likes: 20, dislikeIcon: nil, dislikes: 1),
-            // Добавьте больше элементов по аналогии
-        ]
     }
 }
 
@@ -204,18 +200,11 @@ extension HomeViewController {
     }
     
     func updateSearchResults() {
-        
+        // Implement search functionality here
     }
     
     func updateLocation() {
-        
-    }
-    
-    func updateNearbyRestaurants(_ restaurants: [Restaurant]) {
-        DispatchQueue.main.async {
-            self.restaurants = restaurants
-            self.bigVCollection.reloadData()
-        }
+        // Implement location update functionality here
     }
     
     private func setupAddressView() {
@@ -393,16 +382,19 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             self.selectedCategory = selectedCategory
         case 2:
             let selectedSubcategoryItem = filteredSubcategories[indexPath.item] // Используем отфильтрованные подкатегории
-            // Получаем элементы меню для выбранной подкатегории
-            let menuItems = getMenuItems(for: selectedSubcategoryItem)
-            let filteredVC = FilteredRestaurantsViewController(subcategory: selectedSubcategoryItem, restaurants: presenter.allRestaurants, menuItems: menuItems)
+            let filteredRestaurants = restaurants.filter { $0.subcategories.contains(selectedSubcategoryItem.id) }
+            let filteredVC = FilteredRestaurantsViewController(subcategory: selectedSubcategoryItem, restaurants: filteredRestaurants, presenter: presenter) // Передаем презентер
             navigationController?.pushViewController(filteredVC, animated: true)
         case 3:
             let selectedRestaurant = restaurants[indexPath.item]
-            let relatedMenuItems = getMenuItems(for: selectedRestaurant)
-            let menuVC = RestaurantMenuViewController(menuItems: relatedMenuItems)
-            menuVC.title = selectedRestaurant.name
-            navigationController?.pushViewController(menuVC, animated: true)
+            presenter.fetchMenuItems(for: selectedRestaurant) { [weak self] result in
+                switch result {
+                case .success(let menuItems):
+                    self?.updateMenuItems(menuItems)
+                case .failure(let error):
+                    print("Error fetching menu items: \(error)")
+                }
+            }
         default:
             break
         }
