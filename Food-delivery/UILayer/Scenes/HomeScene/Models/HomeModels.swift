@@ -7,10 +7,17 @@
 
 import UIKit
 
-struct Category {
+struct Category: Decodable {
     let id: Int
     let name: String
-    let icon: UIImage?
+    let icon: String?
+}
+
+struct CategoryResponse: Decodable {
+    let count: Int
+    let next: String?
+    let previous: String?
+    let results: [Category]
 }
 
 struct Subcategory {

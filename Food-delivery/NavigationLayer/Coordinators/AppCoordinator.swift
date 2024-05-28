@@ -20,7 +20,7 @@ class AppCoordinator: Coordinator, TabBarCoordinator {
 //        } else {
 //            showOnboardingFlow()
 //        }
-        showAuthFlow()
+        showMainFlow()
     }
     
     override func finish() {

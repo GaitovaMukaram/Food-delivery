@@ -12,6 +12,7 @@ protocol HomeView: AnyObject {
     func updateSearchResults()
     func updateLocation()
     func updateNearbyRestaurants(_ restaurants: [Restaurant])
+    func updateCategories(_ categories: [Category])
 }
 
 class HomePresenter: NSObject {
@@ -21,26 +22,12 @@ class HomePresenter: NSObject {
     private let locationManager = CLLocationManager()
     private var userLocation: CLLocation?
     
-    var categories: [Category]
-    var subcategories: [Subcategory]
-    var allRestaurants: [Restaurant]
-    
-    override init() {
-        self.categories = [
-            Category(id: 1, name: "Food", icon: UIImage(resource: .foodIcon)),
-            Category(id: 2, name: "Drink", icon: UIImage(named: "drinkIcon")),
-            Category(id: 3, name: "Cake", icon: UIImage(named: "cakeIcon")),
-            Category(id: 4, name: "Snack", icon: UIImage(named: "snackIcon"))
-        ]
-        
-        self.subcategories = initializeSubcategories(categories: categories)
-        
-        self.allRestaurants = [
-            Restaurant(id: 1, name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, subcategory: [subcategories[0], subcategories[1]] ),
-            Restaurant(id: 2, name: "Another Restaurant", address: "14th Street, 47 W 12th St, NY", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 3.0, latitude: 40.740, longitude: -73.95, subcategory: [subcategories[2]]),
-            Restaurant(id: 3, name: "Coffee cafe", address: "улица Нурмакова, 79", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 43.247690, longitude: 76.906667, subcategory: [subcategories[0], subcategories[3]])
-        ]
+    var categories: [Category] = []
+    var subcategories: [Subcategory] = []
+    var allRestaurants: [Restaurant] = []
 
+    override init() {
+        super.init()
     }
     
     private var nearbyRestaurants: [Restaurant] = []
@@ -48,6 +35,7 @@ class HomePresenter: NSObject {
     func viewDidLoad() {
         setupLocationManager()
         filterNearByRestaurants()
+        fetchCategories()
     }
     
     private func setupLocationManager() {
@@ -73,6 +61,41 @@ class HomePresenter: NSObject {
         }
         
         view?.updateNearbyRestaurants(nearbyRestaurants)
+    }
+    
+    private func fetchCategories() {
+        Food_delivery.fetchCategories { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let categories):
+                    self?.categories = categories
+                    self?.initializeSubcategories(categories: categories)
+                    self?.initializeRestaurants()
+                    self?.view?.updateCategories(categories)
+                case .failure(let error):
+                    print("Error fetching categories: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    private func initializeSubcategories(categories: [Category]) {
+        self.subcategories = categories.flatMap { category in
+            return [
+                Subcategory(id: 1, name: "\(category.name) Burgers", image: UIImage(named: "burgerImage"), category: category),
+                Subcategory(id: 2, name: "\(category.name) Pizza", image: UIImage(named: "pizzaImage"), category: category),
+                // Добавьте другие подкатегории по аналогии
+            ]
+        }
+    }
+    
+    private func initializeRestaurants() {
+        guard subcategories.count >= 4 else { return }
+        self.allRestaurants = [
+            Restaurant(id: 1, name: "Dapur Ijah Restaurant", address: "13th Street, 46 W 12th St, NY", distance: 1.1, image: UIImage(named: "restaurantImage"), rating: 4.5, latitude: 40.737, longitude: -73.99, subcategory: [subcategories[0], subcategories[1]] ),
+            Restaurant(id: 2, name: "Another Restaurant", address: "14th Street, 47 W 12th St, NY", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 3.0, latitude: 40.740, longitude: -73.95, subcategory: [subcategories[2]]),
+            Restaurant(id: 3, name: "Coffee cafe", address: "улица Нурмакова, 79", distance: 2.2, image: UIImage(named: "restaurantImage"), rating: 4.0, latitude: 43.247690, longitude: 76.906667, subcategory: [subcategories[0], subcategories[3]])
+        ]
     }
 }
 

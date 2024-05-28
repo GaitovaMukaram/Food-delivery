@@ -8,7 +8,7 @@
 import Foundation
 
 func loginUser(email: String, password: String, completion: @escaping (Result<LoginResponse, Error>) -> Void) {
-    let url = URL(string: "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/token/pair")!
+    let url = URL(string: "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/auth/sign-in/")!
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")

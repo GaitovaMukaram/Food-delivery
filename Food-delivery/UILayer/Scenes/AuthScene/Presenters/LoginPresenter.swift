@@ -38,39 +38,39 @@ extension LoginPresenter {
 extension LoginPresenter: LoginViewOutput {
     func loginStart(login: String, password: String) {
         viewInput?.startLoader()
-        if login.lowercased() == "test@mail.com" && password == "Test123" {
-            DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
-                DispatchQueue.main.async {
-                    self.viewInput?.stopLoader()
-                    self.goToMainScreen()
-                }
-            }
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                print("wrong email or password")
+        loginUser(email: login, password: password) { result in
+            DispatchQueue.main.async {
                 self.viewInput?.stopLoader()
+                switch result {
+                case .success(let loginResponse):
+                    print("Login Successful: Access Token: \(loginResponse.access)")
+                    UserDefaults.standard.set(loginResponse.access, forKey: "accessToken")
+                    UserDefaults.standard.set(loginResponse.refresh, forKey: "refreshToken")
+                    self.goToMainScreen()
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                }
             }
         }
     }
     
-    
     func registrationStart(email: String, firstName: String, lastName: String, password: String, passwordConfirmation: String) {
-            print("Attempting to register user with email: \(email)")
-            viewInput?.startLoader()
-            signUpUser(email: email, firstName: firstName, lastName: lastName, password: password, passwordConfirmation: passwordConfirmation) { [weak self] result in
-                DispatchQueue.main.async {
-                    self?.viewInput?.stopLoader()
-                    switch result {
-                    case .success(let signUpResponse):
-                        print("Sign Up Successful: \(signUpResponse)")
-                        self?.goToSignIn()
-                    case .failure(let error):
-                        print("Error: \(error.localizedDescription)")
-                    }
+        print("Attempting to register user with email: \(email)")
+        viewInput?.startLoader()
+        signUpUser(email: email, firstName: firstName, lastName: lastName, password: password, passwordConfirmation: passwordConfirmation) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.viewInput?.stopLoader()
+                switch result {
+                case .success(let signUpResponse):
+                    print("Sign Up Successful: \(signUpResponse)")
+                    self?.goToSignIn()
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
                 }
             }
         }
-
+    }
+    
     
     func goToFacebookLogin() {
         

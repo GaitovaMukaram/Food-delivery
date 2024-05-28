@@ -74,11 +74,27 @@ class SmallHCollectionViewCell: UICollectionViewCell {
     }
 
     func configure(with category: Category) {
-        iconView.image = category.icon?.withRenderingMode(.alwaysTemplate)
-        iconView.tintColor = .black
-        iconView.image = category.icon
+        if let iconURLString = category.icon, let iconURL = URL(string: iconURLString) {
+            // Загружаем изображение асинхронно
+            URLSession.shared.dataTask(with: iconURL) { data, response, error in
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self.iconView.image = image.withRenderingMode(.alwaysTemplate)
+                        self.iconView.tintColor = .black
+                    }
+                } else {
+                    DispatchQueue.main.async {
+                        self.iconView.image = nil // Или установите placeholder изображение
+                    }
+                }
+            }.resume()
+        } else {
+            iconView.image = nil // Или установите placeholder изображение
+        }
         bottomLabel.text = category.name
     }
+
+
 
     override var isSelected: Bool {
         didSet {

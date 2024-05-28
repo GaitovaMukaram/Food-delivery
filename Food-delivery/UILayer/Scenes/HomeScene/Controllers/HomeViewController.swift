@@ -18,16 +18,7 @@ class HomeViewController: UIViewController, HomeView {
     private let addressView = AddressView()
     
     // Массивы данных для секций
-    private var categories: [Category] = [
-        Category(id: 1, name: "Food", icon: UIImage(resource: .foodIcon)),
-        Category(id: 2, name: "Drink", icon: UIImage(named: "drinkIcon")),
-        Category(id: 3, name: "Cake", icon: UIImage(named: "cakeIcon")),
-        Category(id: 4, name: "Snack", icon: UIImage(named: "snackIcon")),
-        Category(id: 5, name: "Food", icon: UIImage(named: "foodIcon")),
-        Category(id: 6, name: "Drink", icon: UIImage(named: "drinkIcon")),
-        Category(id: 7, name: "Cake", icon: UIImage(named: "cakeIcon")),
-        Category(id: 8, name: "Snack", icon: UIImage(named: "snackIcon"))
-    ]
+    private var categories: [Category] = []
     
     private var selectedCategory: Category? {
         didSet {
@@ -119,13 +110,16 @@ class HomeViewController: UIViewController, HomeView {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openMap))
         addressView.addGestureRecognizer(tapGesture)
         addressView.isUserInteractionEnabled = true
-        
-        // Выбираем первую ячейку при запуске приложения
-        if let firstIndexPath = IndexPath(item: 0, section: 0) as IndexPath? {
-            collectionView(smallHCollection, didSelectItemAt: firstIndexPath)
-        }
     }
     
+    func updateCategories(_ categories: [Category]) {
+            self.categories = categories
+            self.selectedCategory = categories.first
+            smallHCollection.reloadData()
+            updateBigHCollection()
+        }
+    
+
     private func updateBigHCollection() {
         guard let selectedCategory = selectedCategory else { return }
         bigHTitleLabel.text = "\(selectedCategory.name) Menu"
