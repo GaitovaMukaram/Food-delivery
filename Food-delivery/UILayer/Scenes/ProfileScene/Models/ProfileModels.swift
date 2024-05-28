@@ -7,9 +7,9 @@
 
 import UIKit
 
-struct Profile {
+struct User {
     let name: String
-    let phoneNumber: String
+    let email: String
     let avatarImage: UIImage?
 }
 

@@ -16,6 +16,7 @@ enum LoginViewState {
 protocol LoginViewInput: AnyObject {
     func startLoader()
     func stopLoader()
+    func showAlert(message: String)
 }
 
 class LoginViewController: UIViewController {
@@ -435,22 +436,60 @@ private extension LoginViewController {
         case .initial:
             viewOutput?.goToSignIn()
         case .signIn:
-            print(#function)
-            viewOutput?.loginStart(login: signInUsername.text ?? "", password: signInPassword.text ?? "")
+            guard let email = signInUsername.text, isValidEmail(email),
+                  let password = signInPassword.text, !password.isEmpty else {
+                showAlert(message: "Please enter a valid email and password.")
+                return
+            }
+            viewOutput?.checkCredentials(email: email, password: password)
         case .signUp:
             print(#function)
             print("Registering user")
             let email = signUpUsername.text ?? ""
-            let firstName = "FirstName"
-            let lastName = "LastName"
-            let password = signUpPassword.text ?? "ValidPassword123"
-            let passwordConfirmation = signUpReEnterPass.text ?? "ValidPassword123"
+            let firstName = signUpFirstName.text ?? ""
+            let lastName = signUpLastName.text ?? ""
+            let password = signUpPassword.text ?? ""
+            let passwordConfirmation = signUpReEnterPass.text ?? ""
+            
+            if !isValidEmail(email) {
+                showAlert(message: "Invalid email format.")
+                return
+            }
+            
+            if firstName.isEmpty || lastName.isEmpty {
+                showAlert(message: "First name and last name cannot be empty.")
+                return
+            }
+            
+            if !isValidPassword(password) {
+                showAlert(message: "Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character.")
+                return
+            }
+            
+            if password != passwordConfirmation {
+                showAlert(message: "Passwords do not match.")
+                return
+            }
             
             print("Email: \(email), First Name: \(firstName), Last Name: \(lastName), Password: \(password), Password Confirmation: \(passwordConfirmation)")
             
             viewOutput?.registrationStart(email: email, firstName: firstName, lastName: lastName, password: password, passwordConfirmation: passwordConfirmation)
         }
     }
+    
+    
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Z0-9a-z.-]+\\.[A-Za-z]{2,64}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: email)
+    }
+    
+    func isValidPassword(_ password: String) -> Bool {
+        let passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,}$"
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegex)
+        return passwordTest.evaluate(with: password)
+    }
+    
     
     func onSignUpTapped() {
         switch state {
@@ -492,5 +531,9 @@ extension LoginViewController: LoginViewInput {
         loader.stopAnimating()
     }
     
+    func showAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }
-

@@ -14,7 +14,7 @@ protocol HomeView: AnyObject {
     func updateNearbyRestaurants(_ restaurants: [Restaurant])
     func updateCategories(_ categories: [Category])
     func updateSubcategories(_ subcategories: [Subcategory])
-    func updateMenuItems(_ menuItems: [MenuItem])
+    func updateMenuItems(_ menuItems: [MenuItem], restaurantName: String)
 }
 
 class HomePresenter: NSObject {
@@ -143,14 +143,14 @@ class HomePresenter: NSObject {
         }
     }
     
-    func fetchMenuItems(for restaurant: Restaurant, completion: @escaping (Result<[MenuItem], Error>) -> Void) {
+    func fetchMenuItems(for restaurant: Restaurant, completion: @escaping (Result<[MenuItem], Error>, String) -> Void) {
         let urlString = "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/menu/?restaurant=\(restaurant.id)"
         fetchData(from: urlString) { (result: Result<MenuItemResponse, Error>) in
             switch result {
             case .success(let menuItemResponse):
-                completion(.success(menuItemResponse.results))
+                completion(.success(menuItemResponse.results), restaurant.name)
             case .failure(let error):
-                completion(.failure(error))
+                completion(.failure(error), restaurant.name)
             }
         }
     }

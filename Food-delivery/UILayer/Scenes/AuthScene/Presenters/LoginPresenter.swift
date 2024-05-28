@@ -8,7 +8,7 @@
 import Foundation
 
 protocol LoginViewOutput: AnyObject {
-    func loginStart(login: String, password: String)
+    func checkCredentials(email: String, password: String)
     func registrationStart(email: String, firstName: String, lastName: String, password: String, passwordConfirmation: String)
     func goToFacebookLogin()
     func goToGoogleLogin()
@@ -36,23 +36,30 @@ extension LoginPresenter {
 }
 
 extension LoginPresenter: LoginViewOutput {
-    func loginStart(login: String, password: String) {
-        viewInput?.startLoader()
-        loginUser(email: login, password: password) { result in
-            DispatchQueue.main.async {
-                self.viewInput?.stopLoader()
-                switch result {
-                case .success(let loginResponse):
-                    print("Login Successful: Access Token: \(loginResponse.access)")
-                    UserDefaults.standard.set(loginResponse.access, forKey: "accessToken")
-                    UserDefaults.standard.set(loginResponse.refresh, forKey: "refreshToken")
-                    self.goToMainScreen()
-                case .failure(let error):
-                    print("Error: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
+    
+    func checkCredentials(email: String, password: String) {
+           viewInput?.startLoader()
+
+           loginUser(email: email, password: password) { [weak self] result in
+               DispatchQueue.main.async {
+                   self?.viewInput?.stopLoader()
+                   switch result {
+                   case .success(let loginResponse):
+                       print("Login Successful: Access Token: \(loginResponse.access)")
+                       UserDefaults.standard.set(loginResponse.access, forKey: "accessToken")
+                       UserDefaults.standard.set(loginResponse.refresh, forKey: "refreshToken")
+                       self?.goToMainScreen()
+                   case .failure(let error):
+                       if (error as NSError).code == 401 {
+                           self?.viewInput?.showAlert(message: "Incorrect email or password.")
+                       } else {
+                           self?.viewInput?.showAlert(message: "An error occurred: \(error.localizedDescription)")
+                       }
+                       print("Error: \(error.localizedDescription)")
+                   }
+               }
+           }
+       }
     
     func registrationStart(email: String, firstName: String, lastName: String, password: String, passwordConfirmation: String) {
         print("Attempting to register user with email: \(email)")
@@ -63,14 +70,13 @@ extension LoginPresenter: LoginViewOutput {
                 switch result {
                 case .success(let signUpResponse):
                     print("Sign Up Successful: \(signUpResponse)")
-                    self?.goToSignIn()
+                    self?.goToMainScreen()
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
                 }
             }
         }
     }
-    
     
     func goToFacebookLogin() {
         

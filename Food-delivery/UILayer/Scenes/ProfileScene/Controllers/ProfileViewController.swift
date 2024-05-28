@@ -111,10 +111,10 @@ class ProfileViewController: UIViewController, ProfileView, UITableViewDelegate,
         tableView.dataSource = self
     }
     
-    func updateProfile(_ profile: Profile) {
+    func updateProfile(_ profile: User) {
         avatarImageView.image = profile.avatarImage
         nameLabel.text = profile.name
-        phoneNumberLabel.text = profile.phoneNumber
+        phoneNumberLabel.text = profile.email
     }
     
     func updateOptions(_ options: [ProfileOption]) {

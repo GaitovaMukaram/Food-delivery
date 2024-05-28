@@ -64,7 +64,6 @@ class HomeViewController: UIViewController, HomeView {
     
     private let bigHTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Menu"
         label.font = .boldSystemFont(ofSize: 20)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -125,11 +124,11 @@ class HomeViewController: UIViewController, HomeView {
         }
     }
     
-    func updateMenuItems(_ menuItems: [MenuItem]) {
+    func updateMenuItems(_ menuItems: [MenuItem], restaurantName: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             let menuVC = RestaurantMenuViewController(menuItems: menuItems)
-            menuVC.title = "Menu" // Установите заголовок, если нужно
+            menuVC.title = restaurantName // Установите заголовок
             self.navigationController?.pushViewController(menuVC, animated: true)
         }
     }
@@ -387,10 +386,10 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             navigationController?.pushViewController(filteredVC, animated: true)
         case 3:
             let selectedRestaurant = restaurants[indexPath.item]
-            presenter.fetchMenuItems(for: selectedRestaurant) { [weak self] result in
+            presenter.fetchMenuItems(for: selectedRestaurant) { [weak self] result, restaurantName in
                 switch result {
                 case .success(let menuItems):
-                    self?.updateMenuItems(menuItems)
+                    self?.updateMenuItems(menuItems, restaurantName: restaurantName)
                 case .failure(let error):
                     print("Error fetching menu items: \(error)")
                 }

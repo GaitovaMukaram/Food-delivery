@@ -106,12 +106,12 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedRestaurant = filteredRestaurants[indexPath.item]
-        presenter.fetchMenuItems(for: selectedRestaurant) { [weak self] result in
+        presenter.fetchMenuItems(for: selectedRestaurant) { [weak self] result, restaurantName in
             switch result {
             case .success(let menuItems):
                 DispatchQueue.main.async {
                     let menuVC = RestaurantMenuViewController(menuItems: menuItems)
-                    menuVC.title = selectedRestaurant.name
+                    menuVC.title = restaurantName
                     self?.navigationController?.pushViewController(menuVC, animated: true)
                 }
             case .failure(let error):

@@ -35,6 +35,10 @@ func loginUser(email: String, password: String, completion: @escaping (Result<Lo
         
         if let httpResponse = response as? HTTPURLResponse {
             print("HTTP Response Code: \(httpResponse.statusCode)")
+            if httpResponse.statusCode == 401 {
+                completion(.failure(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: "Unauthorized"])))
+                return
+            }
         }
         
         guard let data = data else {

@@ -25,10 +25,6 @@ class ProfileCoordinator: Coordinator {
         print("ProfileCoordinator finish")
     }
     
-    func showMyProfile() {
-        // Код для отображения экрана "My Profile"
-    }
-    
     func showChangePassword() {
         let changePasswordVC = ChangePasswordViewController()
         navigationController?.pushViewController(changePasswordVC, animated: true)
