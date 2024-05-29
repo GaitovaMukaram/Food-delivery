@@ -25,8 +25,8 @@ class BigHCollectionViewCell: UICollectionViewCell {
     private func setupCell() {
         contentView.backgroundColor = .white
         setupTopView()
-        setupImageView()
         setupBottomLabel()
+        setupImageView()
     }
     
     private func setupTopView() {
@@ -58,12 +58,12 @@ class BigHCollectionViewCell: UICollectionViewCell {
     
     private func setupBottomLabel() {
         contentView.addSubview(titleLabel)
-        titleLabel.font = .boldSystemFont(ofSize: 15)
-        titleLabel.textColor = .black
+        titleLabel.font = .Roboto.bold.size(of: 14)
+        titleLabel.textColor = AppColors.white
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 10),
+            titleLabel.topAnchor.constraint(equalTo: topView.topAnchor, constant: 10),
             titleLabel.leftAnchor.constraint(equalTo: topView.leftAnchor, constant: 15),
         ])
     }
