@@ -72,40 +72,40 @@ class MenuItemDetailViewController: UIViewController {
         addToOrderButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 17),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.widthAnchor.constraint(equalToConstant: 200),
-            imageView.heightAnchor.constraint(equalToConstant: 200),
+            imageView.widthAnchor.constraint(equalToConstant: 322),
+            imageView.heightAnchor.constraint(equalToConstant: 322),
             
             nameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
             nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            likesImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
-            likesImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            likesImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 19),
+            likesImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             likesImageView.widthAnchor.constraint(equalToConstant: 24),
             likesImageView.heightAnchor.constraint(equalToConstant: 24),
             
             likesLabel.centerYAnchor.constraint(equalTo: likesImageView.centerYAnchor),
-            likesLabel.leadingAnchor.constraint(equalTo: likesImageView.trailingAnchor, constant: 8),
+            likesLabel.leadingAnchor.constraint(equalTo: likesImageView.trailingAnchor, constant: 10),
             
-            dislikesImageView.leadingAnchor.constraint(equalTo: likesLabel.trailingAnchor, constant: 20),
+            dislikesImageView.leadingAnchor.constraint(equalTo: likesLabel.trailingAnchor, constant: 5),
             dislikesImageView.centerYAnchor.constraint(equalTo: likesImageView.centerYAnchor),
             dislikesImageView.widthAnchor.constraint(equalToConstant: 24),
             dislikesImageView.heightAnchor.constraint(equalToConstant: 24),
             
             dislikesLabel.centerYAnchor.constraint(equalTo: dislikesImageView.centerYAnchor),
-            dislikesLabel.leadingAnchor.constraint(equalTo: dislikesImageView.trailingAnchor, constant: 8),
+            dislikesLabel.leadingAnchor.constraint(equalTo: dislikesImageView.trailingAnchor, constant: 10),
             
-            priceLabel.topAnchor.constraint(equalTo: likesImageView.bottomAnchor, constant: 10),
+            priceLabel.topAnchor.constraint(equalTo: likesImageView.bottomAnchor, constant: 12),
             priceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             descriptionLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 20),
-            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -48),
             
-            addToOrderButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            addToOrderButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            addToOrderButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            addToOrderButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            addToOrderButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            addToOrderButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -28),
             addToOrderButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
@@ -113,37 +113,38 @@ class MenuItemDetailViewController: UIViewController {
     private func configureView() {
         loadImage(from: menuItem.image)
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
         
         nameLabel.text = menuItem.name
-        nameLabel.font = .boldSystemFont(ofSize: 24)
-        nameLabel.textColor = .black
+        nameLabel.font = .Roboto.bold.size(of: 24)
+        nameLabel.textColor = AppColors.black
         
         likesImageView.image = UIImage(named: "like")
-        likesImageView.tintColor = .gray
+        likesImageView.tintColor = AppColors.BottomViewGrey
         likesLabel.text = "\(menuItem.likes)+ |"
-        likesLabel.font = .systemFont(ofSize: 16)
-        likesLabel.textColor = .gray
+        likesLabel.font = .Roboto.regular.size(of: 16)
+        likesLabel.textColor = AppColors.BottomViewGrey
         
         dislikesImageView.image = UIImage(named: "dislike")
-        dislikesImageView.tintColor = .gray
+        dislikesImageView.tintColor = AppColors.BottomViewGrey
         dislikesLabel.text = "\(menuItem.dislikes)+"
-        dislikesLabel.font = .systemFont(ofSize: 16)
-        dislikesLabel.textColor = .gray
+        dislikesLabel.font = .Roboto.regular.size(of: 16)
+        dislikesLabel.textColor = AppColors.BottomViewGrey
         
         priceLabel.text = "$\(menuItem.price)"
-        priceLabel.font = .systemFont(ofSize: 24)
+        priceLabel.font = .Roboto.medium.size(of: 24)
         priceLabel.textColor = .systemGreen
         
         descriptionLabel.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-        descriptionLabel.font = .systemFont(ofSize: 16)
-        descriptionLabel.textColor = .black
+        descriptionLabel.font = .Roboto.regular.size(of: 16)
+        descriptionLabel.textColor = AppColors.black
         descriptionLabel.numberOfLines = 0
         
         addToOrderButton.setTitle("Add to order", for: .normal)
-        addToOrderButton.backgroundColor = UIColor(red: 1, green: 0.5, blue: 0, alpha: 1)
+        addToOrderButton.backgroundColor = AppColors.accentOrange
         addToOrderButton.setTitleColor(.white, for: .normal)
+        addToOrderButton.titleLabel?.font = .Roboto.bold.size(of: 18)
         addToOrderButton.layer.cornerRadius = 25
         
         addToOrderButton.addTarget(self, action: #selector(addToOrderButtonTapped), for: .touchUpInside)
@@ -155,7 +156,6 @@ class MenuItemDetailViewController: UIViewController {
             return
         }
         
-        // Асинхронная загрузка изображения
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self else { return }
             if let data = data, let image = UIImage(data: data) {
