@@ -104,14 +104,15 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
     
     private func setupCardImageView() {
         contentView.addSubview(cardImageView)
-        cardImageView.image = UIImage(named: "card_image")
+        cardImageView.image = UIImage(named: "creditCardImage")
         cardImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            cardImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            cardImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            cardImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            cardImageView.heightAnchor.constraint(equalToConstant: 200)
+            cardImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 30),
+            cardImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            cardImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            cardImageView.heightAnchor.constraint(equalToConstant: 196),
+            cardImageView.widthAnchor.constraint(equalToConstant: 354)
         ])
     }
     
@@ -123,13 +124,10 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
         
         contentView.addSubview(stackView)
         
-        bankNameTextField.placeholder = "Bank name"
-        nameTextField.placeholder = "Your name"
         cardNumberTextField.placeholder = "Card number"
         expiryDateTextField.placeholder = "Date"
         cvvTextField.placeholder = "CVV"
         
-        // Set delegates
         bankNameTextField.delegate = self
         nameTextField.delegate = self
         cardNumberTextField.delegate = self
@@ -164,18 +162,19 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
     private func setupAddButton() {
         contentView.addSubview(addButton)
         addButton.setTitle("Add", for: .normal)
-        addButton.backgroundColor = UIColor(red: 233/255, green: 115/255, blue: 32/255, alpha: 1.0)
+        addButton.backgroundColor = AppColors.accentOrange
+        addButton.titleLabel?.font = .Roboto.bold.size(of: 18)
         addButton.tintColor = .white
-        addButton.layer.cornerRadius = 20
+        addButton.layer.cornerRadius = 25
         addButton.translatesAutoresizingMaskIntoConstraints = false
         
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            addButton.topAnchor.constraint(equalTo: defaultSwitch.bottomAnchor, constant: 20),
-            addButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            addButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            addButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            addButton.topAnchor.constraint(equalTo: defaultSwitch.bottomAnchor, constant: 130),
+            addButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
+            addButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            addButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -30),
             addButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
@@ -184,7 +183,7 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
             guard let cardNumber = cardNumberTextField.text, !cardNumber.isEmpty,
                   let expiryDateText = expiryDateTextField.text, !expiryDateText.isEmpty,
                   let cvv = cvvTextField.text, !cvv.isEmpty else {
-                showAlert(message: "Please fill in all fields")
+                showAlert(title: "Error", message: "Please fill in all fields")
                 return
             }
 
@@ -200,7 +199,7 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
                 let cardData = CardData(card_number: cardNumber, expiration_year: expiryYear, expiration_month: expiryMonth, cvv: cvv)
                 saveCardData(cardData: cardData)
             } else {
-                showAlert(message: "Invalid date format. Please use MM/yy.")
+                showAlert(title: "Error", message: "Invalid date format. Please use MM/yy.")
             }
         }
         
@@ -209,18 +208,24 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
             sendData(to: "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/payments/cards/", method: "POST", data: cardData) { (result: Result<CardDataResponse, Error>) in
                 switch result {
                 case .success(let response):
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Sucsess", message: "Card data saved successfully")
+                        self.cardNumberTextField.text = ""
+                        self.expiryDateTextField.text = ""
+                        self.cvvTextField.text = ""
+                    }
                     print("Card data saved successfully: \(response)")
                 case .failure(let error):
                     DispatchQueue.main.async {
-                        self.showAlert(message: "Failed to save card data: \(error.localizedDescription)")
+                        self.showAlert(title: "Error", message: "Failed to save card data: \(error.localizedDescription)")
                     }
                     print("Error details: \(error.localizedDescription)")
                 }
             }
         }
     
-    private func showAlert(message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
