@@ -14,20 +14,15 @@ class HomeViewController: UIViewController, HomeView {
     private let scrollView = UIScrollView()
     private let contentView = UIView()
     private let searchController = UISearchController(searchResultsController: nil)
-    
     private let addressView = AddressView()
-    
-    // Массивы данных для секций
     private var categories: [Category] = []
     private var subcategories: [Subcategory] = []
-    private var filteredSubcategories: [Subcategory] = [] // Добавляем массив для отфильтрованных подкатегорий
-    
+    private var filteredSubcategories: [Subcategory] = []
     private var selectedCategory: Category? {
         didSet {
             updateBigHCollection()
         }
     }
-    
     private var restaurants: [Restaurant] = []
     
     init(presenter: HomePresenter) {
@@ -64,8 +59,8 @@ class HomeViewController: UIViewController, HomeView {
     
     private let bigHTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
-        label.textColor = .black
+        label.font = .Roboto.bold.size(of: 18)
+        label.textColor = AppColors.black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -84,8 +79,8 @@ class HomeViewController: UIViewController, HomeView {
     private let nearMeTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Near Me"
-        label.font = .boldSystemFont(ofSize: 20)
-        label.textColor = .black
+        label.font = .Roboto.bold.size(of: 18)
+        label.textColor = AppColors.black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -106,14 +101,14 @@ class HomeViewController: UIViewController, HomeView {
             self.categories = categories
             self.selectedCategory = categories.first
             self.smallHCollection.reloadData()
-            self.updateBigHCollection() // обновляем подкатегории при первой загрузке категорий
+            self.updateBigHCollection()
         }
     }
     
     func updateSubcategories(_ subcategories: [Subcategory]) {
         DispatchQueue.main.async {
             self.subcategories = subcategories
-            self.updateBigHCollection() // обновляем подкатегории при загрузке всех подкатегорий
+            self.updateBigHCollection()
         }
     }
     
@@ -128,7 +123,7 @@ class HomeViewController: UIViewController, HomeView {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             let menuVC = RestaurantMenuViewController(menuItems: menuItems)
-            menuVC.title = restaurantName // Установите заголовок
+            menuVC.title = restaurantName
             self.navigationController?.pushViewController(menuVC, animated: true)
         }
     }
@@ -137,7 +132,6 @@ class HomeViewController: UIViewController, HomeView {
         guard let selectedCategory = selectedCategory else { return }
         DispatchQueue.main.async {
             self.bigHTitleLabel.text = "\(selectedCategory.name) Menu"
-            // Фильтруем подкатегории для выбранной категории
             self.filteredSubcategories = self.subcategories.filter { $0.category == selectedCategory.id }
             self.bigHCollection.reloadData()
         }
@@ -199,11 +193,9 @@ extension HomeViewController {
     }
     
     func updateSearchResults() {
-        // Implement search functionality here
     }
     
     func updateLocation() {
-        // Implement location update functionality here
     }
     
     private func setupAddressView() {
@@ -215,7 +207,7 @@ extension HomeViewController {
             addressView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             addressView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             addressView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
-            addressView.heightAnchor.constraint(equalToConstant: 30)
+            addressView.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
     
@@ -240,10 +232,10 @@ extension HomeViewController {
         contentView.addSubview(bigHTitleLabel)
         
         NSLayoutConstraint.activate([
-            bigHTitleLabel.topAnchor.constraint(equalTo: smallHCollection.bottomAnchor, constant: 20),
+            bigHTitleLabel.topAnchor.constraint(equalTo: smallHCollection.bottomAnchor, constant: 30),
             bigHTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-            bigHTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            bigHTitleLabel.heightAnchor.constraint(equalToConstant: 30)
+            bigHTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            bigHTitleLabel.heightAnchor.constraint(equalToConstant: 21)
         ])
     }
     
@@ -256,7 +248,7 @@ extension HomeViewController {
         bigHCollection.register(BigHCollectionViewCell.self, forCellWithReuseIdentifier: "BigHCollectionViewCell")
         
         NSLayoutConstraint.activate([
-            bigHCollection.topAnchor.constraint(equalTo: bigHTitleLabel.bottomAnchor, constant: 10), // Исправляем позицию bigHCollection
+            bigHCollection.topAnchor.constraint(equalTo: bigHTitleLabel.bottomAnchor, constant: 26),
             bigHCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             bigHCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             bigHCollection.heightAnchor.constraint(equalToConstant: 130*2+20)
@@ -270,20 +262,20 @@ extension HomeViewController {
             nearMeTitleLabel.topAnchor.constraint(equalTo: bigHCollection.bottomAnchor, constant: 20),
             nearMeTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             nearMeTitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            nearMeTitleLabel.heightAnchor.constraint(equalToConstant: 30)
+            nearMeTitleLabel.heightAnchor.constraint(equalToConstant: 21)
         ])
     }
     
     func setupBigVCollection() {
         contentView.addSubview(bigVCollection)
         bigVCollection.translatesAutoresizingMaskIntoConstraints = false
-        bigVCollection.showsHorizontalScrollIndicator = false
+        bigVCollection.showsVerticalScrollIndicator = false
         bigVCollection.delegate = self
         bigVCollection.dataSource = self
         bigVCollection.register(RestaurantCollectionViewCell.self, forCellWithReuseIdentifier: "RestaurantCollectionViewCell")
         
         NSLayoutConstraint.activate([
-            bigVCollection.topAnchor.constraint(equalTo: nearMeTitleLabel.bottomAnchor, constant: 10), // Исправляем позицию bigVCollection
+            bigVCollection.topAnchor.constraint(equalTo: nearMeTitleLabel.bottomAnchor, constant: 26),
             bigVCollection.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             bigVCollection.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
             bigVCollection.heightAnchor.constraint(equalTo: scrollView.heightAnchor),
@@ -304,7 +296,6 @@ extension HomeViewController {
 extension HomeViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text else { return }
-        // Implement search functionality here
     }
 }
 
@@ -315,7 +306,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case 1:
             return categories.count
         case 2:
-            return filteredSubcategories.count // Обновляем для использования отфильтрованных подкатегорий
+            return filteredSubcategories.count
         case 3:
             return restaurants.count
         default:
@@ -333,7 +324,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return cell
         case 2:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BigHCollectionViewCell", for: indexPath) as! BigHCollectionViewCell
-            let menuItem = filteredSubcategories[indexPath.item] // Используем отфильтрованные подкатегории
+            let menuItem = filteredSubcategories[indexPath.item]
             cell.configure(with: menuItem)
             // Установка цвета фона
             switch indexPath.item % 3 {
@@ -380,9 +371,9 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
             let selectedCategory = categories[indexPath.item]
             self.selectedCategory = selectedCategory
         case 2:
-            let selectedSubcategoryItem = filteredSubcategories[indexPath.item] // Используем отфильтрованные подкатегории
+            let selectedSubcategoryItem = filteredSubcategories[indexPath.item]
             let filteredRestaurants = restaurants.filter { $0.subcategories.contains(selectedSubcategoryItem.id) }
-            let filteredVC = FilteredRestaurantsViewController(subcategory: selectedSubcategoryItem, restaurants: filteredRestaurants, presenter: presenter) // Передаем презентер
+            let filteredVC = FilteredRestaurantsViewController(subcategory: selectedSubcategoryItem, restaurants: filteredRestaurants, presenter: presenter)
             navigationController?.pushViewController(filteredVC, animated: true)
         case 3:
             let selectedRestaurant = restaurants[indexPath.item]
