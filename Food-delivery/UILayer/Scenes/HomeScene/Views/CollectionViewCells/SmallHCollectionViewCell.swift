@@ -111,8 +111,8 @@ class SmallHCollectionViewCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet {
-            topView.backgroundColor = isSelected ? .orange : .systemGray6
-            iconView.tintColor = isSelected ? .white : .black
+            topView.backgroundColor = isSelected ? AppColors.accentOrange : AppColors.gray
+            iconView.tintColor = isSelected ? AppColors.white : AppColors.gray
         }
     }
 }

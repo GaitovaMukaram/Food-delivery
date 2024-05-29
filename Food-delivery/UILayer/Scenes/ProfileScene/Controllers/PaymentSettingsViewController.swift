@@ -20,6 +20,7 @@ class PaymentSettingsViewController: UIViewController, UITableViewDelegate, UITa
         setupTableView()
         setupAddNewPaymentButtonView()
         setupLayout()
+        setupNavigationBar()
         
         NotificationCenter.default.addObserver(self, selector: #selector(addNewPaymentButtonTapped), name: .addPaymentMethodTapped, object: nil)
         
@@ -34,6 +35,16 @@ class PaymentSettingsViewController: UIViewController, UITableViewDelegate, UITa
                 print("Error fetching cards: \(error)")
             }
         }
+    }
+    
+    func setupNavigationBar() {
+        let backImage = UIImage(systemName: "chevron.left")
+        let backButtonItem = UIBarButtonItem(image: backImage,
+                                             style: .plain,
+                                             target: navigationController,
+                                             action: #selector(navigationController?.popViewController(animated:)))
+        navigationItem.leftBarButtonItem = backButtonItem
+        navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     private func setupTableView() {

@@ -51,6 +51,17 @@ class ChangePasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
+        setupNavigationBar()
+    }
+    
+    func setupNavigationBar() {
+        let backImage = UIImage(systemName: "chevron.left")
+        let backButtonItem = UIBarButtonItem(image: backImage,
+                                             style: .plain,
+                                             target: navigationController,
+                                             action: #selector(navigationController?.popViewController(animated:)))
+        navigationItem.leftBarButtonItem = backButtonItem
+        navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     private func setupLayout() {

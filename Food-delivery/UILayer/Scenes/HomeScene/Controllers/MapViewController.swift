@@ -20,7 +20,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         super.viewDidLoad()
         setupMapView()
         setupLocationManager()
-        setupNavigationBar()
+        setupNavigationBarLeft()
+        setupNavigationBarRight()
     }
     
     private func setupMapView() {
@@ -45,9 +46,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.startUpdatingLocation()
     }
     
-    private func setupNavigationBar() {
+    private func setupNavigationBarRight() {
         let selectButton = UIBarButtonItem(title: "Select", style: .done, target: self, action: #selector(selectLocation))
         navigationItem.rightBarButtonItem = selectButton
+        navigationItem.rightBarButtonItem?.tintColor = AppColors.black
+    }
+    
+    func setupNavigationBarLeft() {
+        let backImage = UIImage(systemName: "chevron.left")
+        let backButtonItem = UIBarButtonItem(image: backImage,
+                                             style: .plain,
+                                             target: navigationController,
+                                             action: #selector(navigationController?.popViewController(animated:)))
+        navigationItem.leftBarButtonItem = backButtonItem
+        navigationItem.leftBarButtonItem?.tintColor = AppColors.black
     }
     
     @objc private func selectLocation() {

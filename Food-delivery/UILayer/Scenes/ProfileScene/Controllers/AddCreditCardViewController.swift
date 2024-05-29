@@ -36,6 +36,7 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
         setupTextFields()
         setupDefaultSwitch()
         setupAddButton()
+        setupNavigationBar()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -46,6 +47,16 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func setupNavigationBar() {
+        let backImage = UIImage(systemName: "chevron.left")
+        let backButtonItem = UIBarButtonItem(image: backImage,
+                                             style: .plain,
+                                             target: navigationController,
+                                             action: #selector(navigationController?.popViewController(animated:)))
+        navigationItem.leftBarButtonItem = backButtonItem
+        navigationItem.leftBarButtonItem?.tintColor = .black
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -177,9 +188,8 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
                 return
             }
 
-            // Преобразование даты в месяц и год
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd" // формат ввода, ожидаемый пользователем
+            dateFormatter.dateFormat = "MM/yy"
             if let date = dateFormatter.date(from: expiryDateText) {
                 dateFormatter.dateFormat = "yyyy"
                 let expiryYear = Int(dateFormatter.string(from: date)) ?? 0
@@ -190,14 +200,12 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
                 let cardData = CardData(card_number: cardNumber, expiration_year: expiryYear, expiration_month: expiryMonth, cvv: cvv)
                 saveCardData(cardData: cardData)
             } else {
-                showAlert(message: "Invalid date format. Please use YYYY-MM-DD.")
+                showAlert(message: "Invalid date format. Please use MM/yy.")
             }
         }
         
         private func saveCardData(cardData: CardData) {
-            // Логирование данных перед отправкой
             print("Sending card data: \(cardData)")
-
             sendData(to: "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/payments/cards/", method: "POST", data: cardData) { (result: Result<CardDataResponse, Error>) in
                 switch result {
                 case .success(let response):
@@ -217,7 +225,7 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
         present(alert, animated: true, completion: nil)
     }
     
-    // UITextFieldDelegate method to hide keyboard on return key press
+    // MARK: - UITextFieldDelegate method to hide keyboard on return key press
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

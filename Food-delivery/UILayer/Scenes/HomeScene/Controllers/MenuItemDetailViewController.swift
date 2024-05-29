@@ -39,7 +39,7 @@ class MenuItemDetailViewController: UIViewController {
     }
     
     func setupNavigationBar() {
-        let backImage = UIImage(resource: .back)
+        let backImage = UIImage(systemName: "chevron.left")
         let backButtonItem = UIBarButtonItem(image: backImage,
                                              style: .plain,
                                              target: navigationController,
