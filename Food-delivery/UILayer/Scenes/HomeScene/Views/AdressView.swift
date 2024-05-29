@@ -14,6 +14,7 @@ class AddressView: UIView, CLLocationManagerDelegate {
     let geocoder = CLGeocoder()
     private var requestQueue: [CLLocation] = []
     private var isRequestInProgress = false
+    private var lastRequestTime: Date?
     
     let locationIcon: UIImageView = {
         let imageView = UIImageView()
@@ -79,9 +80,25 @@ class AddressView: UIView, CLLocationManagerDelegate {
     
     private func processNextRequest() {
         guard !isRequestInProgress, !requestQueue.isEmpty else { return }
-        
+
         isRequestInProgress = true
         let location = requestQueue.removeFirst()
+        
+        // Проверка времени последнего запроса
+        if let lastRequestTime = lastRequestTime {
+            let timeSinceLastRequest = Date().timeIntervalSince(lastRequestTime)
+            if timeSinceLastRequest < 1 {
+                let delay = 1 - timeSinceLastRequest
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    self.isRequestInProgress = false
+                    self.processNextRequest()
+                }
+                return
+            }
+        }
+
+        lastRequestTime = Date()
+        
         geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
             defer { self?.isRequestInProgress = false }
             
@@ -102,7 +119,7 @@ class AddressView: UIView, CLLocationManagerDelegate {
                 }
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
                 self?.processNextRequest()
             }
         }
