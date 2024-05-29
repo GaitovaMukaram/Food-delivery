@@ -47,6 +47,7 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
         setupLayout()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
     
@@ -71,7 +72,6 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            searchBar.heightAnchor.constraint(equalToConstant: 60),
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 28),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),

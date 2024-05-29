@@ -95,7 +95,7 @@ class HomePresenter: NSObject {
             switch result {
             case .success(let restaurants):
                 self?.allRestaurants = restaurants
-                self?.view?.updateNearbyRestaurants(restaurants) // Обновляем рестораны в представлении
+                self?.view?.updateNearbyRestaurants(restaurants)
             case .failure(let error):
                 print("Error fetching restaurants: \(error)")
             }
