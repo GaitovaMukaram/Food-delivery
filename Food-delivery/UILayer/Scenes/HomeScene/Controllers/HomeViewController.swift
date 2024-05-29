@@ -328,7 +328,6 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BigHCollectionViewCell", for: indexPath) as! BigHCollectionViewCell
             let menuItem = filteredSubcategories[indexPath.item]
             cell.configure(with: menuItem)
-            // Установка цвета фона
             switch indexPath.item % 3 {
             case 0:
                 cell.topView.backgroundColor = UIColor(red: 52/255, green: 152/255, blue: 219/255, alpha: 0.3)

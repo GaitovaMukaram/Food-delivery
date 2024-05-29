@@ -12,6 +12,8 @@ class AddressView: UIView, CLLocationManagerDelegate {
     
     let locationManager = CLLocationManager()
     let geocoder = CLGeocoder()
+    private var requestQueue: [CLLocation] = []
+    private var isRequestInProgress = false
     
     let locationIcon: UIImageView = {
         let imageView = UIImageView()
@@ -67,22 +69,25 @@ class AddressView: UIView, CLLocationManagerDelegate {
     // CLLocationManagerDelegate methods
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        geocodeLocation(location)
+        requestQueue.append(location)
+        processNextRequest()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to get user location: \(error.localizedDescription)")
     }
     
-    private func geocodeLocation(_ location: CLLocation) {
+    private func processNextRequest() {
+        guard !isRequestInProgress, !requestQueue.isEmpty else { return }
+        
+        isRequestInProgress = true
+        let location = requestQueue.removeFirst()
         geocoder.reverseGeocodeLocation(location) { [weak self] (placemarks, error) in
-            guard let self = self else { return }
+            defer { self?.isRequestInProgress = false }
+            
             if let error = error {
                 print("Failed to geocode location: \(error.localizedDescription)")
-                return
-            }
-            
-            if let placemark = placemarks?.first {
+            } else if let placemark = placemarks?.first {
                 let address = [
                     placemark.subThoroughfare,
                     placemark.thoroughfare,
@@ -93,8 +98,12 @@ class AddressView: UIView, CLLocationManagerDelegate {
                 ].compactMap { $0 }.joined(separator: ", ")
                 
                 DispatchQueue.main.async {
-                    self.addressLabel.text = address
+                    self?.addressLabel.text = address
                 }
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self?.processNextRequest()
             }
         }
     }

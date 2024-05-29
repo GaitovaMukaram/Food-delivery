@@ -48,7 +48,6 @@ class HomePresenter: NSObject {
     
     private func filterNearByRestaurants() {
         guard let userLocation = userLocation else {
-            // Если локация пользователя недоступна, показываем все рестораны
             nearbyRestaurants = allRestaurants
             view?.updateNearbyRestaurants(nearbyRestaurants)
             return
@@ -57,7 +56,7 @@ class HomePresenter: NSObject {
         nearbyRestaurants = allRestaurants.filter { restaurant in
             let restaurantLocation = CLLocation(latitude: CLLocationDegrees(restaurant.latitude), longitude: CLLocationDegrees(restaurant.longitude))
             let distance = userLocation.distance(from: restaurantLocation) / 1000
-            return distance <= 5.0
+            return distance <= 1.0
         }
 
         view?.updateNearbyRestaurants(nearbyRestaurants)
