@@ -22,16 +22,15 @@ class BigHCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupCell() {
+    private func setupCell() {
         contentView.backgroundColor = .white
         setupTopView()
         setupImageView()
         setupBottomLabel()
     }
     
-    func setupTopView() {
+    private func setupTopView() {
         contentView.addSubview(topView)
-        
         topView.translatesAutoresizingMaskIntoConstraints = false
         topView.layer.cornerRadius = 20
         topView.layer.masksToBounds = true
@@ -44,9 +43,8 @@ class BigHCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setupImageView() {
+    private func setupImageView() {
         topView.addSubview(imageView)
-        
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         
@@ -58,11 +56,9 @@ class BigHCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setupBottomLabel() {
+    private func setupBottomLabel() {
         contentView.addSubview(titleLabel)
-        
         titleLabel.font = .boldSystemFont(ofSize: 15)
-        titleLabel.text = "Title label"
         titleLabel.textColor = .black
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -78,22 +74,26 @@ class BigHCollectionViewCell: UICollectionViewCell {
     }
     
     private func loadImage(from urlString: String) {
+        if let cachedImage = ImageCache.shared.fetchImage(from: urlString) {
+            imageView.image = cachedImage
+            return
+        }
+        
         guard let url = URL(string: urlString) else {
             imageView.image = nil
             return
         }
         
-        // Асинхронная загрузка изображения
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self else { return }
-            if let data = data, let image = UIImage(data: data) {
+            guard let self = self, let data = data, let image = UIImage(data: data) else {
                 DispatchQueue.main.async {
-                    self.imageView.image = image
+                    self?.imageView.image = nil
                 }
-            } else {
-                DispatchQueue.main.async {
-                    self.imageView.image = nil
-                }
+                return
+            }
+            DispatchQueue.main.async {
+                ImageCache.shared.saveImage(urlString: urlString, image: image)
+                self.imageView.image = image
             }
         }.resume()
     }

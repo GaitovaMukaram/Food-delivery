@@ -105,21 +105,26 @@ class MenuItemCollectionViewCell: UICollectionViewCell {
     }
     
     private func loadImage(from urlString: String) {
+        if let cachedImage = ImageCache.shared.fetchImage(from: urlString) {
+            imageView.image = cachedImage
+            return
+        }
+        
         guard let url = URL(string: urlString) else {
             imageView.image = nil
             return
         }
-        // Асинхронная загрузка изображения
+        
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self else { return }
-            if let data = data, let image = UIImage(data: data) {
+            guard let self = self, let data = data, let image = UIImage(data: data) else {
                 DispatchQueue.main.async {
-                    self.imageView.image = image
+                    self?.imageView.image = nil
                 }
-            } else {
-                DispatchQueue.main.async {
-                    self.imageView.image = nil
-                }
+                return
+            }
+            DispatchQueue.main.async {
+                ImageCache.shared.saveImage(urlString: urlString, image: image)
+                self.imageView.image = image
             }
         }.resume()
     }

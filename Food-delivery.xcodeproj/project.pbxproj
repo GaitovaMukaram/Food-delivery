@@ -26,6 +26,7 @@
 		9F64069E2C04EFD800190AC0 /* CartPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F64069D2C04EFD800190AC0 /* CartPresenter.swift */; };
 		9F6406A02C04F19600190AC0 /* CartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F64069F2C04F19600190AC0 /* CartCoordinator.swift */; };
 		9F6406A32C04F54F00190AC0 /* CartItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F6406A22C04F54F00190AC0 /* CartItemCell.swift */; };
+		9F70AFC62C0781FD00ACCD8A /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F70AFC52C0781FD00ACCD8A /* ImageCache.swift */; };
 		9F8AB9892C055435001E7B13 /* SignUpModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB9882C055435001E7B13 /* SignUpModels.swift */; };
 		9F8AB98B2C05545C001E7B13 /* SignUpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB98A2C05545C001E7B13 /* SignUpRequest.swift */; };
 		9F8AB98E2C057428001E7B13 /* SignInModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8AB98D2C057428001E7B13 /* SignInModels.swift */; };
@@ -102,6 +103,7 @@
 		9F64069D2C04EFD800190AC0 /* CartPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartPresenter.swift; sourceTree = "<group>"; };
 		9F64069F2C04F19600190AC0 /* CartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCoordinator.swift; sourceTree = "<group>"; };
 		9F6406A22C04F54F00190AC0 /* CartItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemCell.swift; sourceTree = "<group>"; };
+		9F70AFC52C0781FD00ACCD8A /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		9F8AB9882C055435001E7B13 /* SignUpModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpModels.swift; sourceTree = "<group>"; };
 		9F8AB98A2C05545C001E7B13 /* SignUpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpRequest.swift; sourceTree = "<group>"; };
 		9F8AB98D2C057428001E7B13 /* SignInModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModels.swift; sourceTree = "<group>"; };
@@ -287,6 +289,14 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		9F70AFC42C0781DE00ACCD8A /* CasheImage */ = {
+			isa = PBXGroup;
+			children = (
+				9F70AFC52C0781FD00ACCD8A /* ImageCache.swift */,
+			);
+			path = CasheImage;
+			sourceTree = "<group>";
+		};
 		9F8AB9862C05531E001E7B13 /* IntegrationWithBack */ = {
 			isa = PBXGroup;
 			children = (
@@ -341,6 +351,7 @@
 		9FE71D932BFF329400B691E9 /* Food-delivery */ = {
 			isa = PBXGroup;
 			children = (
+				9F70AFC42C0781DE00ACCD8A /* CasheImage */,
 				9F8AB9912C057AF7001E7B13 /* IntegrationWithBack */,
 				9FE71DEE2C00599B00B691E9 /* ServicesLayer */,
 				9FE71DE62BFF902200B691E9 /* UILayer */,
@@ -710,6 +721,7 @@
 				9F2EF6192C035AB900E20340 /* CartModels.swift in Sources */,
 				9F2EF6302C038A3F00E20340 /* PaymentSettingsViewController.swift in Sources */,
 				9FE71DCE2BFF485600B691E9 /* UIColor+extension.swift in Sources */,
+				9F70AFC62C0781FD00ACCD8A /* ImageCache.swift in Sources */,
 				9FE71E022C009E6D00B691E9 /* FDButton.swift in Sources */,
 				9F2EF6152C03442200E20340 /* MenuItemDetailViewController.swift in Sources */,
 				9FE71DD12BFF498700B691E9 /* AppColors.swift in Sources */,

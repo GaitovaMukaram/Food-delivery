@@ -10,7 +10,7 @@ import UIKit
 struct Category: Decodable {
     let id: Int
     let name: String
-    let icon: String?
+    let icon: String
 }
 
 struct CategoryResponse: Decodable {

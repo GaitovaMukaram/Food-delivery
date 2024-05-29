@@ -72,26 +72,42 @@ class SmallHCollectionViewCell: UICollectionViewCell {
             bottomLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }
-
+    
     func configure(with category: Category) {
-        if let iconURLString = category.icon, let iconURL = URL(string: iconURLString) {
-            // Загружаем изображение асинхронно
-            URLSession.shared.dataTask(with: iconURL) { data, response, error in
-                if let data = data, let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self.iconView.image = image.withRenderingMode(.alwaysTemplate)
-                        self.iconView.tintColor = .black
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        self.iconView.image = nil
-                    }
-                }
-            }.resume()
-        } else {
-            iconView.image = nil
-        }
         bottomLabel.text = category.name
+        let icon = category.icon
+        loadImage(from: icon)
+    }
+
+    private func loadImage(from urlString: String) {
+        if let cachedImage = ImageCache.shared.fetchImage(from: urlString) {
+            applyTemplateImage(cachedImage)
+            return
+        }
+        
+        guard let url = URL(string: urlString) else {
+            iconView.image = nil
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self, let data = data, let image = UIImage(data: data) else {
+                DispatchQueue.main.async {
+                    self?.iconView.image = nil
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                ImageCache.shared.saveImage(urlString: urlString, image: image)
+                self.applyTemplateImage(image)
+            }
+        }.resume()
+    }
+
+    private func applyTemplateImage(_ image: UIImage) {
+        let templateImage = image.withRenderingMode(.alwaysTemplate)
+        iconView.image = templateImage
+        iconView.tintColor = .black
     }
 
     override var isSelected: Bool {

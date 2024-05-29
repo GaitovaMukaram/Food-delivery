@@ -17,8 +17,7 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
     let distanceIcon = UIImageView()
     let distanceLabel = UILabel()
     let ratingLabel = UIView()
-    let imageCache = NSCache<NSString, UIImage>()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCell()
@@ -140,14 +139,14 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
     private func setupRatingLabel() {
         topView.addSubview(ratingLabel)
         ratingLabel.translatesAutoresizingMaskIntoConstraints = false
-        ratingLabel.backgroundColor = .clear // Устанавливаем прозрачный фон для удобного размещения звезд
+        ratingLabel.backgroundColor = .clear
 
         NSLayoutConstraint.activate([
             ratingLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
             ratingLabel.topAnchor.constraint(equalTo: distanceLabel.bottomAnchor, constant: 10),
             ratingLabel.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
             ratingLabel.bottomAnchor.constraint(equalTo: topView.bottomAnchor, constant: -20),
-            ratingLabel.heightAnchor.constraint(equalToConstant: 16) // Высота для звезд
+            ratingLabel.heightAnchor.constraint(equalToConstant: 16)
         ])
     }
 
@@ -160,68 +159,59 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
     }
 
     private func configureRating(rating: Float) {
-        ratingLabel.subviews.forEach { $0.removeFromSuperview() } // Удаляем все подвиды перед добавлением новых
+        ratingLabel.subviews.forEach { $0.removeFromSuperview() }
 
-        let roundedRating = roundRating(rating)
+        let roundedRating = (rating * 2).rounded() / 2
         let fullStars = Int(roundedRating)
         let hasHalfStar = roundedRating - Float(fullStars) >= 0.5
 
-        for _ in 0..<fullStars {
+        (0..<fullStars).forEach { _ in
             let fullStarImageView = UIImageView(image: UIImage(systemName: "star.fill"))
-            fullStarImageView.tintColor = .yellow // Устанавливаем желтый цвет
+            fullStarImageView.tintColor = .yellow
             ratingLabel.addSubview(fullStarImageView)
         }
 
         if hasHalfStar {
             let halfStarImageView = UIImageView(image: UIImage(systemName: "star.leadinghalf.filled"))
-            halfStarImageView.tintColor = .yellow // Устанавливаем желтый цвет
+            halfStarImageView.tintColor = .yellow
             ratingLabel.addSubview(halfStarImageView)
         }
 
-        // Если нужно добавить пустые звезды до 5, можно сделать это следующим образом:
         let remainingStars = 5 - fullStars - (hasHalfStar ? 1 : 0)
-        for _ in 0..<remainingStars {
+        (0..<remainingStars).forEach { _ in
             let emptyStarImageView = UIImageView(image: UIImage(systemName: "star"))
-            emptyStarImageView.tintColor = .yellow // Устанавливаем желтый цвет
+            emptyStarImageView.tintColor = .yellow
             ratingLabel.addSubview(emptyStarImageView)
         }
 
-        // Расставляем звезды горизонтально
         var xOffset: CGFloat = 0
         for subview in ratingLabel.subviews {
             subview.frame = CGRect(x: xOffset, y: 0, width: 16, height: 16)
-            xOffset += 18 // расстояние между звездами
+            xOffset += 18
         }
-    }
-
-    private func roundRating(_ rating: Float) -> Float {
-        let roundedValue = (rating * 2).rounded() / 2
-        return roundedValue
     }
 
     private func loadImage(from urlString: String) {
-        if let cachedImage = imageCache.object(forKey: NSString(string: urlString)) {
+        if let cachedImage = ImageCache.shared.fetchImage(from: urlString) {
             imageView.image = cachedImage
             return
         }
-        
+
         guard let url = URL(string: urlString) else {
             imageView.image = nil
             return
         }
-        
-        // Асинхронная загрузка изображения
+
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self else { return }
-            if let data = data, let image = UIImage(data: data) {
+            guard let self = self, let data = data, let image = UIImage(data: data) else {
                 DispatchQueue.main.async {
-                    self.imageCache.setObject(image, forKey: NSString(string: urlString))
-                    self.imageView.image = image
+                    self?.imageView.image = nil
                 }
-            } else {
-                DispatchQueue.main.async {
-                    self.imageView.image = nil
-                }
+                return
+            }
+            DispatchQueue.main.async {
+                ImageCache.shared.saveImage(urlString: urlString, image: image)
+                self.imageView.image = image
             }
         }.resume()
     }
