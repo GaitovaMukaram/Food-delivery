@@ -12,7 +12,7 @@ class ChangePasswordViewController: UIViewController {
     private let oldPasswordLabel: UILabel = {
         let label = UILabel()
         label.text = "Enter Old Password"
-        label.font = .Roboto.regular.size(of: 14)
+        label.font = .Roboto.regular.size(of: 18)
         label.textColor = AppColors.BottomViewGrey
         return label
     }()
@@ -30,7 +30,7 @@ class ChangePasswordViewController: UIViewController {
     private let newPasswordLabel: UILabel = {
         let label = UILabel()
         label.text = "Create New Password"
-        label.font = .Roboto.regular.size(of: 14)
+        label.font = .Roboto.regular.size(of: 18)
         label.textColor = AppColors.BottomViewGrey
         return label
     }()

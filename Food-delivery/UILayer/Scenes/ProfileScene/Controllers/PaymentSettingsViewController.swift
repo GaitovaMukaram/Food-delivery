@@ -49,8 +49,10 @@ class PaymentSettingsViewController: UIViewController, UITableViewDelegate, UITa
     
     private func setupTableView() {
         view.addSubview(tableView)
+        self.title = "Payment Settings"
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .none
         tableView.register(PaymentMethodTableViewCell.self, forCellReuseIdentifier: "PaymentMethodCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -62,9 +64,9 @@ class PaymentSettingsViewController: UIViewController, UITableViewDelegate, UITa
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            addPaymentMethodButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            addPaymentMethodButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            addPaymentMethodButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            addPaymentMethodButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            addPaymentMethodButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            addPaymentMethodButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             addPaymentMethodButton.heightAnchor.constraint(equalToConstant: 50),
             
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -82,6 +84,10 @@ class PaymentSettingsViewController: UIViewController, UITableViewDelegate, UITa
     // MARK: - UITableViewDelegate and UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return paymentMethods.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70.0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
