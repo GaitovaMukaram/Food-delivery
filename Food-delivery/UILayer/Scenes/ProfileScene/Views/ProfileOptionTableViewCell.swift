@@ -13,7 +13,7 @@ class ProfileOptionTableViewCell: UITableViewCell {
     
     private let optionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.Roboto.regular.size(of: 16)
         label.textColor = .black
         return label
     }()
@@ -43,12 +43,12 @@ class ProfileOptionTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             optionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            optionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            optionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             
             arrowImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            arrowImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            arrowImageView.widthAnchor.constraint(equalToConstant: 16),
-            arrowImageView.heightAnchor.constraint(equalToConstant: 16)
+            arrowImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            arrowImageView.widthAnchor.constraint(equalToConstant: 20),
+            arrowImageView.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
     
