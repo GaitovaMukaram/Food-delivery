@@ -63,7 +63,6 @@ class SmallHCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(bottomLabel)
 
         bottomLabel.font = .Roboto.regular.size(of: 14)
-        bottomLabel.text = "test label"
         bottomLabel.textColor = AppColors.black
         bottomLabel.translatesAutoresizingMaskIntoConstraints = false
 

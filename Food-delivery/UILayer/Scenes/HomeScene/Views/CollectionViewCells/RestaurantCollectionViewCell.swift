@@ -70,8 +70,8 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
     private func setupNameLabel() {
         topView.addSubview(nameLabel)
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        nameLabel.font = .boldSystemFont(ofSize: 14)
-        nameLabel.textColor = .black
+        nameLabel.font = .Roboto.bold.size(of: 14)
+        nameLabel.textColor = AppColors.black
 
         NSLayoutConstraint.activate([
             nameLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
@@ -85,11 +85,11 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
         addressIcon.translatesAutoresizingMaskIntoConstraints = false
         addressIcon.contentMode = .scaleAspectFit
         addressIcon.image = UIImage(systemName: "mappin.and.ellipse")
-        addressIcon.tintColor = .darkGray
+        addressIcon.tintColor = AppColors.BottomViewGrey
 
         NSLayoutConstraint.activate([
             addressIcon.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
-            addressIcon.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
+            addressIcon.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16),
             addressIcon.widthAnchor.constraint(equalToConstant: 16),
             addressIcon.heightAnchor.constraint(equalToConstant: 16)
         ])
@@ -98,11 +98,11 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
     private func setupAddressLabel() {
         topView.addSubview(addressLabel)
         addressLabel.translatesAutoresizingMaskIntoConstraints = false
-        addressLabel.font = .systemFont(ofSize: 12)
-        addressLabel.textColor = .darkGray
+        addressLabel.font = .Roboto.regular.size(of: 12)
+        addressLabel.textColor = AppColors.BottomViewGrey
 
         NSLayoutConstraint.activate([
-            addressLabel.leadingAnchor.constraint(equalTo: addressIcon.trailingAnchor, constant: 5),
+            addressLabel.leadingAnchor.constraint(equalTo: addressIcon.trailingAnchor, constant: 8),
             addressLabel.centerYAnchor.constraint(equalTo: addressIcon.centerYAnchor),
             addressLabel.trailingAnchor.constraint(equalTo: topView.trailingAnchor)
         ])
@@ -113,11 +113,11 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
         distanceIcon.translatesAutoresizingMaskIntoConstraints = false
         distanceIcon.contentMode = .scaleAspectFit
         distanceIcon.image = UIImage(systemName: "clock")
-        distanceIcon.tintColor = .darkGray
+        distanceIcon.tintColor = AppColors.BottomViewGrey
 
         NSLayoutConstraint.activate([
             distanceIcon.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
-            distanceIcon.topAnchor.constraint(equalTo: addressIcon.bottomAnchor, constant: 5),
+            distanceIcon.topAnchor.constraint(equalTo: addressIcon.bottomAnchor, constant: 11),
             distanceIcon.widthAnchor.constraint(equalToConstant: 16),
             distanceIcon.heightAnchor.constraint(equalToConstant: 16)
         ])
@@ -126,11 +126,11 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
     private func setupDistanceLabel() {
         topView.addSubview(distanceLabel)
         distanceLabel.translatesAutoresizingMaskIntoConstraints = false
-        distanceLabel.font = .systemFont(ofSize: 12)
-        distanceLabel.textColor = .darkGray
+        distanceLabel.font = .Roboto.regular.size(of: 12)
+        distanceLabel.textColor = AppColors.BottomViewGrey
 
         NSLayoutConstraint.activate([
-            distanceLabel.leadingAnchor.constraint(equalTo: distanceIcon.trailingAnchor, constant: 5),
+            distanceLabel.leadingAnchor.constraint(equalTo: distanceIcon.trailingAnchor, constant: 8),
             distanceLabel.centerYAnchor.constraint(equalTo: distanceIcon.centerYAnchor),
             distanceLabel.trailingAnchor.constraint(equalTo: topView.trailingAnchor)
         ])
@@ -139,7 +139,6 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
     private func setupRatingLabel() {
         topView.addSubview(ratingLabel)
         ratingLabel.translatesAutoresizingMaskIntoConstraints = false
-        ratingLabel.backgroundColor = .clear
 
         NSLayoutConstraint.activate([
             ratingLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
@@ -167,20 +166,20 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
 
         (0..<fullStars).forEach { _ in
             let fullStarImageView = UIImageView(image: UIImage(systemName: "star.fill"))
-            fullStarImageView.tintColor = .yellow
+            fullStarImageView.tintColor = AppColors.starColor
             ratingLabel.addSubview(fullStarImageView)
         }
 
         if hasHalfStar {
             let halfStarImageView = UIImageView(image: UIImage(systemName: "star.leadinghalf.filled"))
-            halfStarImageView.tintColor = .yellow
+            halfStarImageView.tintColor = AppColors.starColor
             ratingLabel.addSubview(halfStarImageView)
         }
 
         let remainingStars = 5 - fullStars - (hasHalfStar ? 1 : 0)
         (0..<remainingStars).forEach { _ in
             let emptyStarImageView = UIImageView(image: UIImage(systemName: "star"))
-            emptyStarImageView.tintColor = .yellow
+            emptyStarImageView.tintColor = AppColors.starColor
             ratingLabel.addSubview(emptyStarImageView)
         }
 
