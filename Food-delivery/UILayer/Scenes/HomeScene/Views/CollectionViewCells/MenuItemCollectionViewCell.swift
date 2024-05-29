@@ -48,16 +48,16 @@ class MenuItemCollectionViewCell: UICollectionViewCell {
             imageView.widthAnchor.constraint(equalToConstant: 100),
             imageView.heightAnchor.constraint(equalToConstant: 100),
             
-            nameLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
+            nameLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            likesImageView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
-            likesImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 13),
+            likesImageView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
+            likesImageView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 16),
             likesImageView.widthAnchor.constraint(equalToConstant: 20),
             likesImageView.heightAnchor.constraint(equalToConstant: 20),
             
-            likesLabel.leadingAnchor.constraint(equalTo: likesImageView.trailingAnchor, constant: 5),
+            likesLabel.leadingAnchor.constraint(equalTo: likesImageView.trailingAnchor, constant: 8),
             likesLabel.centerYAnchor.constraint(equalTo: likesImageView.centerYAnchor),
             
             dislikesImageView.leadingAnchor.constraint(equalTo: likesLabel.trailingAnchor, constant: 20),
@@ -65,10 +65,10 @@ class MenuItemCollectionViewCell: UICollectionViewCell {
             dislikesImageView.widthAnchor.constraint(equalToConstant: 20),
             dislikesImageView.heightAnchor.constraint(equalToConstant: 20),
             
-            dislikesLabel.leadingAnchor.constraint(equalTo: dislikesImageView.trailingAnchor, constant: 5),
+            dislikesLabel.leadingAnchor.constraint(equalTo: dislikesImageView.trailingAnchor, constant: 8),
             dislikesLabel.centerYAnchor.constraint(equalTo: dislikesImageView.centerYAnchor),
             
-            priceLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 10),
+            priceLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 20),
             priceLabel.topAnchor.constraint(equalTo: likesImageView.bottomAnchor, constant: 11),
             priceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
@@ -77,21 +77,21 @@ class MenuItemCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = 10
         imageView.clipsToBounds = true
         
-        nameLabel.font = .boldSystemFont(ofSize: 16)
-        nameLabel.textColor = .black
+        nameLabel.font = .Roboto.bold.size(of: 16)
+        nameLabel.textColor = AppColors.black
         
-        priceLabel.font = .systemFont(ofSize: 16)
+        priceLabel.font = .Roboto.regular.size(of: 16)
         priceLabel.textColor = .systemGreen
         
-        likesImageView.tintColor = .gray
+        likesImageView.tintColor = AppColors.BottomViewGrey
         
-        likesLabel.font = .systemFont(ofSize: 14)
-        likesLabel.textColor = .gray
+        likesLabel.font = .Roboto.regular.size(of: 14)
+        likesLabel.textColor = AppColors.BottomViewGrey
         
-        dislikesImageView.tintColor = .gray
+        dislikesImageView.tintColor = AppColors.BottomViewGrey
         
-        dislikesLabel.font = .systemFont(ofSize: 14)
-        dislikesLabel.textColor = .gray
+        dislikesLabel.font = .Roboto.regular.size(of: 14)
+        dislikesLabel.textColor = AppColors.BottomViewGrey
     }
     
     func configure(with menuItem: MenuItem) {

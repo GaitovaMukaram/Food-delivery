@@ -17,7 +17,7 @@ class RestaurantMenuViewController: UIViewController, UICollectionViewDelegate, 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.headerReferenceSize = .zero
-        layout.minimumInteritemSpacing = 20
+        layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 20
         self.collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         super.init(nibName: nil, bundle: nil)
@@ -52,9 +52,9 @@ class RestaurantMenuViewController: UIViewController, UICollectionViewDelegate, 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 28),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
@@ -71,7 +71,8 @@ class RestaurantMenuViewController: UIViewController, UICollectionViewDelegate, 
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width - 32, height: 150)
+        let width = collectionView.bounds.width
+        return CGSize(width: width, height: 100)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
