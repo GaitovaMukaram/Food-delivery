@@ -30,19 +30,21 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
         
-        let imageView = UIImageView(image: UIImage(named: "empty_cart"))
+        let imageView = UIImageView(image: UIImage(named: "empty-cart"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = AppColors.BottomViewGrey
+        imageView.contentMode = .scaleAspectFit
         view.addSubview(imageView)
         
         let label = UILabel()
         label.text = "Cart empty"
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .Roboto.bold.size(of: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(label)
         
         let sublabel = UILabel()
         sublabel.text = "Go to the list of places to place a new order"
-        sublabel.font = .systemFont(ofSize: 14)
+        sublabel.font = .Roboto.regular.size(of: 14)
         sublabel.textColor = .gray
         sublabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(sublabel)
@@ -50,6 +52,8 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
+            imageView.widthAnchor.constraint(equalToConstant: 100),
+            imageView.heightAnchor.constraint(equalToConstant: 100),
             label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             label.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
             sublabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -62,7 +66,7 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
     private let totalPriceLabel: UILabel = {
         let label = UILabel()
         label.text = "Total: $0.00"
-        label.font = .boldSystemFont(ofSize: 18)
+        label.font = .Roboto.bold.size(of: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -70,9 +74,10 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
     private let sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send Order", for: .normal)
-        button.backgroundColor = .orange
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
+        button.titleLabel?.font = .Roboto.bold.size(of: 18)
+        button.backgroundColor = AppColors.accentOrange
+        button.setTitleColor(AppColors.white, for: .normal)
+        button.layer.cornerRadius = 25
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -103,13 +108,13 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
             emptyCartView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyCartView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
-            totalPriceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            totalPriceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             totalPriceLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            totalPriceLabel.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -10),
+            totalPriceLabel.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -20),
             
-            sendButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            sendButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            sendButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
             sendButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
@@ -158,7 +163,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartIt
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100 // Adjust this value to increase/decrease the cell height
+        return 100
     }
     
     func didTapIncreaseButton(for item: CartMenuItem) {

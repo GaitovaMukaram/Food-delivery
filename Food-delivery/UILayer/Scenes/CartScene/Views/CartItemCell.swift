@@ -49,16 +49,16 @@ class CartItemCell: UITableViewCell {
         contentView.addSubview(decreaseButton)
         
         NSLayoutConstraint.activate([
-            itemImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            itemImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
             itemImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             itemImageView.widthAnchor.constraint(equalToConstant: 80),
             itemImageView.heightAnchor.constraint(equalToConstant: 80),
             
-            nameLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 16),
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            nameLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 20),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             
-            priceLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 16),
-            priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+            priceLabel.leadingAnchor.constraint(equalTo: itemImageView.trailingAnchor, constant: 20),
+            priceLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
             
             decreaseButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             decreaseButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -87,7 +87,10 @@ class CartItemCell: UITableViewCell {
         self.item = item
         loadImage(from: item.menuItem.image)
         nameLabel.text = item.menuItem.name
+        nameLabel.font = .Roboto.bold.size(of: 16)
         priceLabel.text = String(format: "$%.2f", item.totalPrice)
+        priceLabel.font = .Roboto.regular.size(of: 16)
+        priceLabel.textColor = .systemGreen
         quantityLabel.text = "\(item.quantity)"
     }
     
@@ -96,8 +99,7 @@ class CartItemCell: UITableViewCell {
             itemImageView.image = nil
             return
         }
-        
-        // Асинхронная загрузка изображения
+    
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self else { return }
             if let data = data, let image = UIImage(data: data) {
