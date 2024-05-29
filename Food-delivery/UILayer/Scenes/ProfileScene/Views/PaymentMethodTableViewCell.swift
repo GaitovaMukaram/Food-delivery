@@ -40,14 +40,12 @@ class PaymentMethodTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(with paymentMethod: PaymentMethod) {
-        switch paymentMethod.type {
+    func configure(with paymentMethod: PaymentMethod, paymentMethodType: PaymentMethodType) {
+        switch paymentMethodType.type {
         case .creditCard:
             iconImageView.image = UIImage(systemName: "creditcard")
-        case .addNew:
-            iconImageView.image = UIImage(systemName: "plus")
         }
-        detailsLabel.text = paymentMethod.details
+        detailsLabel.text = paymentMethod.card_number
     }
 }
 

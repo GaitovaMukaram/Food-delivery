@@ -7,10 +7,9 @@
 
 import UIKit
 
-struct User {
+struct Profile {
     let name: String
     let email: String
-    let avatarImage: UIImage?
 }
 
 struct ProfileOption {

@@ -8,23 +8,21 @@
 import UIKit
 
 protocol ProfileView: AnyObject {
-    func updateProfile(_ profile: User)
+    func updateProfile(_ profile: Profile)
     func updateOptions(_ options: [ProfileOption])
 }
 
 class ProfilePresenter {
     weak var view: ProfileView?
     private var coordinator: ProfileCoordinator?
-    private var user: User
 
-    init(coordinator: ProfileCoordinator, user: User) {
+    init(coordinator: ProfileCoordinator) {
         self.coordinator = coordinator
-        self.user = user
     }
 
     func viewDidLoad() {
         // Используем данные пользователя для обновления профиля
-        let profile = User(name: user.name, email: user.email, avatarImage: user.avatarImage)
+        let profile = Profile(name: "None", email: "None")
         view?.updateProfile(profile)
 
         // Настройка опций профиля

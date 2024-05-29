@@ -9,6 +9,7 @@ import UIKit
 
 class ProfileViewController: UIViewController, ProfileView, UITableViewDelegate, UITableViewDataSource {
     
+    
     private let presenter: ProfilePresenter
     
     private let avatarImageView: UIImageView = {
@@ -111,8 +112,8 @@ class ProfileViewController: UIViewController, ProfileView, UITableViewDelegate,
         tableView.dataSource = self
     }
     
-    func updateProfile(_ profile: User) {
-        avatarImageView.image = profile.avatarImage
+    func updateProfile(_ profile: Profile) {
+        avatarImageView.image = UIImage(named: "avatar")
         nameLabel.text = profile.name
         phoneNumberLabel.text = profile.email
     }

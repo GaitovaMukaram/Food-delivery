@@ -12,10 +12,7 @@ class PaymentSettingsViewController: UIViewController, UITableViewDelegate, UITa
     private let tableView = UITableView()
     private let addPaymentMethodButton = AddPaymentMethodButton()
     
-    private var paymentMethods: [PaymentMethod] = [
-        PaymentMethod(type: .creditCard, details: "4444 **** **** 6739"),
-        PaymentMethod(type: .creditCard, details: "ltloh@gmail.com")
-    ]
+    private var paymentMethods: [PaymentMethod] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +22,20 @@ class PaymentSettingsViewController: UIViewController, UITableViewDelegate, UITa
         setupLayout()
         
         NotificationCenter.default.addObserver(self, selector: #selector(addNewPaymentButtonTapped), name: .addPaymentMethodTapped, object: nil)
+        
+        fetchCard { result in
+            switch result {
+            case .success(let cards):
+                self.paymentMethods = cards
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                print("Error fetching cards: \(error)")
+            }
+        }
     }
-
+    
     private func setupTableView() {
         view.addSubview(tableView)
         tableView.delegate = self
@@ -34,26 +43,26 @@ class PaymentSettingsViewController: UIViewController, UITableViewDelegate, UITa
         tableView.register(PaymentMethodTableViewCell.self, forCellReuseIdentifier: "PaymentMethodCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
-
+    
     private func setupAddNewPaymentButtonView() {
         view.addSubview(addPaymentMethodButton)
         addPaymentMethodButton.translatesAutoresizingMaskIntoConstraints = false
     }
-
+    
     private func setupLayout() {
         NSLayoutConstraint.activate([
             addPaymentMethodButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             addPaymentMethodButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             addPaymentMethodButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             addPaymentMethodButton.heightAnchor.constraint(equalToConstant: 50),
-
+            
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: addPaymentMethodButton.topAnchor, constant: -20)
         ])
     }
-
+    
     @objc private func addNewPaymentButtonTapped() {
         let addCreditCardVC = AddCreditCardViewController()
         navigationController?.pushViewController(addCreditCardVC, animated: true)
@@ -67,7 +76,8 @@ class PaymentSettingsViewController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentMethodCell", for: indexPath) as! PaymentMethodTableViewCell
         let paymentMethod = paymentMethods[indexPath.row]
-        cell.configure(with: paymentMethod)
+        let paymentMethodType = PaymentMethodType(type: .creditCard)
+        cell.configure(with: paymentMethod, paymentMethodType: paymentMethodType)
         return cell
     }
     
@@ -89,6 +99,20 @@ class PaymentSettingsViewController: UIViewController, UITableViewDelegate, UITa
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    
+    private func fetchCard(completion: @escaping (Result<[PaymentMethod], Error>) -> Void) {
+        let urlString = "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/payments/cards/"
+        fetchData(from: urlString) { (result: Result<PaymentMethodResponse, Error>) in
+            switch result {
+            case .success(let cardResponse):
+                completion(.success(cardResponse.results))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 }
 

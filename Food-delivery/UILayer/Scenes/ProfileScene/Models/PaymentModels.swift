@@ -7,16 +7,26 @@
 
 import UIKit
 
-enum PaymentMethodType {
+
+struct CardDataResponse: Codable {
+    let id: Int
+    let card_number: String
+}
+
+struct CardData: Codable {
+    let card_number: String
+    let expiration_year: Int
+    let expiration_month: Int
+    let cvv: String
+}
+
+enum PaymentMethodTypeEnum {
     case creditCard
-    case addNew
     
     var icon: UIImage? {
         switch self {
         case .creditCard:
-            return UIImage(systemName: "creditcard") // Укажите правильное изображение
-        case .addNew:
-            return UIImage(systemName: "plus.circle") // Укажите правильное изображение
+            return UIImage(systemName: "creditcard")
         }
     }
     
@@ -24,23 +34,22 @@ enum PaymentMethodType {
         switch self {
         case .creditCard:
             return "Credit Card"
-        case .addNew:
-            return "Add new payment method"
         }
     }
 }
 
-
-struct PaymentMethod {
-    let type: PaymentMethodType
-    let details: String
+struct PaymentMethodType {
+    let type: PaymentMethodTypeEnum
 }
 
-struct CardDetails {
-    let cardImage: UIImage?
-    let bankNameLabel: String
-    let userName: String
-    let cardNumber: Int
-    let expiryDate: Date
-    let cvv: Int
+
+struct PaymentMethod: Decodable {
+    let id: Int
+    let card_number: String
+}
+
+
+struct PaymentMethodResponse: Decodable {
+    let count: Int
+    let results: [PaymentMethod]
 }
