@@ -17,7 +17,6 @@ func fetchData<T: Decodable>(from urlString: String, completion: @escaping (Resu
     request.httpMethod = "GET"
     request.addValue("application/json", forHTTPHeaderField: "accept")
     
-    // Получение токена из UserDefaults
     if let accessToken = UserDefaults.standard.string(forKey: "accessToken") {
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
     } else {
@@ -27,19 +26,29 @@ func fetchData<T: Decodable>(from urlString: String, completion: @escaping (Resu
     
     let task = URLSession.shared.dataTask(with: request) { data, response, error in
         if let error = error {
+            print("Error fetching data: \(error.localizedDescription)")
             completion(.failure(error))
             return
         }
         
         guard let data = data else {
+            print("No data received")
             completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
             return
         }
         
+        // Логирование сырых данных
+        if let jsonString = String(data: data, encoding: .utf8) {
+            print("Received raw data: \(jsonString)")
+        }
+        
         do {
             let decodedData = try JSONDecoder().decode(T.self, from: data)
+            // Логирование декодированных данных
+            print("Decoded data: \(decodedData)")
             completion(.success(decodedData))
         } catch {
+            print("Error decoding data: \(error.localizedDescription)")
             completion(.failure(error))
         }
     }
@@ -59,7 +68,6 @@ func sendData<T: Decodable, U: Encodable>(to urlString: String, method: String =
     request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     request.addValue("application/json", forHTTPHeaderField: "Accept")
     
-    // Получение access-токена из UserDefaults
     if let accessToken = UserDefaults.standard.string(forKey: "accessToken") {
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
     } else {
@@ -71,7 +79,6 @@ func sendData<T: Decodable, U: Encodable>(to urlString: String, method: String =
         let jsonData = try JSONEncoder().encode(data)
         request.httpBody = jsonData
         
-        // Логирование отправляемых данных
         print("Request data: \(String(data: jsonData, encoding: .utf8) ?? "No data")")
         print("Request headers: \(request.allHTTPHeaderFields ?? [:])")
     } catch {
@@ -90,7 +97,6 @@ func sendData<T: Decodable, U: Encodable>(to urlString: String, method: String =
             return
         }
         
-        // Логирование данных ответа
         print("Response data: \(String(data: data, encoding: .utf8) ?? "No data")")
         
         do {

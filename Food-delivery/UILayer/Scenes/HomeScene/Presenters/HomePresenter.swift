@@ -120,14 +120,29 @@ class HomePresenter: NSObject {
     }
 
     private func fetchSubcategories(completion: @escaping (Result<[Subcategory], Error>) -> Void) {
-        let urlString = "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/subcategories/"
-        fetchData(from: urlString) { (result: Result<SubcategoryResponse, Error>) in
-            switch result {
-            case .success(let subcategoryResponse):
-                completion(.success(subcategoryResponse.results))
-            case .failure(let error):
-                completion(.failure(error))
+        let initialURLString = "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/subcategories/"
+        var allSubcategories: [Subcategory] = []
+        var nextURLString: String? = initialURLString
+
+        func fetchNextPage(urlString: String) {
+            fetchData(from: urlString) { (result: Result<SubcategoryResponse, Error>) in
+                switch result {
+                case .success(let subcategoryResponse):
+                    allSubcategories.append(contentsOf: subcategoryResponse.results)
+                    if let next = subcategoryResponse.next {
+                        nextURLString = next
+                        fetchNextPage(urlString: next)
+                    } else {
+                        completion(.success(allSubcategories))
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
+        }
+        
+        if let nextURLString = nextURLString {
+            fetchNextPage(urlString: nextURLString)
         }
     }
 

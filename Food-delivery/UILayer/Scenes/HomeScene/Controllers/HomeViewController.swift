@@ -94,6 +94,8 @@ class HomeViewController: UIViewController, HomeView {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(openMap))
         addressView.addGestureRecognizer(tapGesture)
         addressView.isUserInteractionEnabled = true
+        
+        
     }
     
     func updateCategories(_ categories: [Category]) {
