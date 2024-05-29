@@ -14,7 +14,7 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
     private let subcategory: Subcategory
     private let allRestaurants: [Restaurant]
     private let searchBar = UISearchBar()
-    private let presenter: HomePresenter // Добавляем презентер
+    private let presenter: HomePresenter
     
     init(subcategory: Subcategory, restaurants: [Restaurant], presenter: HomePresenter) {
         self.subcategory = subcategory
@@ -22,7 +22,7 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
         self.filteredRestaurants = restaurants.filter { restaurant in
             restaurant.subcategories.contains(subcategory.id)
         }
-        self.presenter = presenter // Инициализируем презентер
+        self.presenter = presenter
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.headerReferenceSize = .zero
@@ -45,6 +45,9 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
         setupNavigationBar()
         setupSearchBar()
         setupLayout()
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
     }
     
     func setupNavigationBar() {
@@ -66,10 +69,11 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
         
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            searchBar.heightAnchor.constraint(equalToConstant: 60),
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 28),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
@@ -78,6 +82,7 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
     private func setupSearchBar() {
         searchBar.delegate = self
         searchBar.placeholder = "Search"
+        searchBar.backgroundImage = UIImage()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -87,6 +92,14 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
             filteredRestaurants = allRestaurants.filter { $0.name.lowercased().contains(searchText.lowercased()) }
         }
         collectionView.reloadData()
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
