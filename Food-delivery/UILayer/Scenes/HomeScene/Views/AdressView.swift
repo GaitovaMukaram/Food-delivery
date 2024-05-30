@@ -67,7 +67,6 @@ class AddressView: UIView, CLLocationManagerDelegate {
         locationManager.startUpdatingLocation()
     }
     
-    // CLLocationManagerDelegate methods
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         requestQueue.append(location)
@@ -84,7 +83,6 @@ class AddressView: UIView, CLLocationManagerDelegate {
         isRequestInProgress = true
         let location = requestQueue.removeFirst()
         
-        // Проверка времени последнего запроса
         if let lastRequestTime = lastRequestTime {
             let timeSinceLastRequest = Date().timeIntervalSince(lastRequestTime)
             if timeSinceLastRequest < 1 {

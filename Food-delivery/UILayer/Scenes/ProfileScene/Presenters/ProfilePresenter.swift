@@ -21,11 +21,9 @@ class ProfilePresenter {
     }
 
     func viewDidLoad() {
-        // Используем данные пользователя для обновления профиля
         let profile = Profile(name: "None", email: "None")
         view?.updateProfile(profile)
 
-        // Настройка опций профиля
         let options = [
             ProfileOption(title: "Change Password") { [weak self] in
                 self?.coordinator?.showChangePassword()

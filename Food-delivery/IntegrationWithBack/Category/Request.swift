@@ -37,14 +37,12 @@ func fetchData<T: Decodable>(from urlString: String, completion: @escaping (Resu
             return
         }
         
-        // Логирование сырых данных
         if let jsonString = String(data: data, encoding: .utf8) {
             print("Received raw data: \(jsonString)")
         }
         
         do {
             let decodedData = try JSONDecoder().decode(T.self, from: data)
-            // Логирование декодированных данных
             print("Decoded data: \(decodedData)")
             completion(.success(decodedData))
         } catch {

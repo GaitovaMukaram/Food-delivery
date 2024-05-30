@@ -180,49 +180,49 @@ class AddCreditCardViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func addButtonTapped() {
-            guard let cardNumber = cardNumberTextField.text, !cardNumber.isEmpty,
-                  let expiryDateText = expiryDateTextField.text, !expiryDateText.isEmpty,
-                  let cvv = cvvTextField.text, !cvv.isEmpty else {
-                showAlert(title: "Error", message: "Please fill in all fields")
-                return
-            }
-
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM/yy"
-            if let date = dateFormatter.date(from: expiryDateText) {
-                dateFormatter.dateFormat = "yyyy"
-                let expiryYear = Int(dateFormatter.string(from: date)) ?? 0
-                
-                dateFormatter.dateFormat = "MM"
-                let expiryMonth = Int(dateFormatter.string(from: date)) ?? 0
-                
-                let cardData = CardData(card_number: cardNumber, expiration_year: expiryYear, expiration_month: expiryMonth, cvv: cvv)
-                saveCardData(cardData: cardData)
-            } else {
-                showAlert(title: "Error", message: "Invalid date format. Please use MM/yy.")
-            }
+        guard let cardNumber = cardNumberTextField.text, !cardNumber.isEmpty,
+              let expiryDateText = expiryDateTextField.text, !expiryDateText.isEmpty,
+              let cvv = cvvTextField.text, !cvv.isEmpty else {
+            showAlert(title: "Error", message: "Please fill in all fields")
+            return
         }
         
-        private func saveCardData(cardData: CardData) {
-            print("Sending card data: \(cardData)")
-            sendData(to: "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/payments/cards/", method: "POST", data: cardData) { (result: Result<CardDataResponse, Error>) in
-                switch result {
-                case .success(let response):
-                    DispatchQueue.main.async {
-                        self.showAlert(title: "Sucsess", message: "Card data saved successfully")
-                        self.cardNumberTextField.text = ""
-                        self.expiryDateTextField.text = ""
-                        self.cvvTextField.text = ""
-                    }
-                    print("Card data saved successfully: \(response)")
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        self.showAlert(title: "Error", message: "Failed to save card data: \(error.localizedDescription)")
-                    }
-                    print("Error details: \(error.localizedDescription)")
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/yy"
+        if let date = dateFormatter.date(from: expiryDateText) {
+            dateFormatter.dateFormat = "yyyy"
+            let expiryYear = Int(dateFormatter.string(from: date)) ?? 0
+            
+            dateFormatter.dateFormat = "MM"
+            let expiryMonth = Int(dateFormatter.string(from: date)) ?? 0
+            
+            let cardData = CardData(card_number: cardNumber, expiration_year: expiryYear, expiration_month: expiryMonth, cvv: cvv)
+            saveCardData(cardData: cardData)
+        } else {
+            showAlert(title: "Error", message: "Invalid date format. Please use MM/yy.")
+        }
+    }
+    
+    private func saveCardData(cardData: CardData) {
+        print("Sending card data: \(cardData)")
+        sendData(to: "https://delivery-app-5t5oa.ondigitalocean.app/api/mobile/v0.0.1/payments/cards/", method: "POST", data: cardData) { (result: Result<CardDataResponse, Error>) in
+            switch result {
+            case .success(let response):
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Sucsess", message: "Card data saved successfully")
+                    self.cardNumberTextField.text = ""
+                    self.expiryDateTextField.text = ""
+                    self.cvvTextField.text = ""
                 }
+                print("Card data saved successfully: \(response)")
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Error", message: "Failed to save card data: \(error.localizedDescription)")
+                }
+                print("Error details: \(error.localizedDescription)")
             }
         }
+    }
     
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
