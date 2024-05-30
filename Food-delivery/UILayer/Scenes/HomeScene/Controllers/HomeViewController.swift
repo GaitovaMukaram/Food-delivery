@@ -118,8 +118,26 @@ class HomeViewController: UIViewController, HomeView {
         DispatchQueue.main.async {
             self.restaurants = restaurants
             self.bigVCollection.reloadData()
+            self.updateRestaurantsWithUserLocation()
         }
     }
+
+    private func updateRestaurantsWithUserLocation() {
+        guard let userLocation = presenter.userLocation else { return }
+        for (index, restaurant) in restaurants.enumerated() {
+            let indexPath = IndexPath(item: index, section: 0)
+            if let cell = bigVCollection.cellForItem(at: indexPath) as? RestaurantCollectionViewCell {
+                cell.configure(with: restaurant, userLocation: userLocation)
+            }
+        }
+    }
+    
+    func updateRestaurantCell(at indexPath: IndexPath, with restaurant: Restaurant, userLocation: CLLocation?) {
+        if let cell = bigVCollection.cellForItem(at: indexPath) as? RestaurantCollectionViewCell {
+            cell.configure(with: restaurant, userLocation: userLocation)
+        }
+    }
+
     
     func updateMenuItems(_ menuItems: [MenuItem], restaurantName: String) {
         DispatchQueue.main.async { [weak self] in
@@ -342,7 +360,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         case 3:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RestaurantCollectionViewCell", for: indexPath) as! RestaurantCollectionViewCell
             let restaurant = restaurants[indexPath.item]
-            cell.configure(with: restaurant)
+            cell.configure(with: restaurant, userLocation: presenter.userLocation)
             return cell
         default:
             return UICollectionViewCell()

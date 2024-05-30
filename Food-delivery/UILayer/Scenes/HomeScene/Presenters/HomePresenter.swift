@@ -15,6 +15,7 @@ protocol HomeView: AnyObject {
     func updateCategories(_ categories: [Category])
     func updateSubcategories(_ subcategories: [Subcategory])
     func updateMenuItems(_ menuItems: [MenuItem], restaurantName: String)
+    func updateRestaurantCell(at indexPath: IndexPath, with restaurant: Restaurant, userLocation: CLLocation?)
 }
 
 class HomePresenter: NSObject {
@@ -22,7 +23,7 @@ class HomePresenter: NSObject {
     var coordinator: HomeCoordinator?
     
     private let locationManager = CLLocationManager()
-    private var userLocation: CLLocation?
+    var userLocation: CLLocation?
     
     var categories: [Category] = []
     var subcategories: [Subcategory] = []
@@ -171,12 +172,21 @@ class HomePresenter: NSObject {
 }
 
 extension HomePresenter: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        userLocation = location
-        filterNearByRestaurants()
-        view?.updateLocation()
-    }
+    private func updateRestaurantsWithUserLocation() {
+            guard let userLocation = userLocation else { return }
+            for (index, restaurant) in allRestaurants.enumerated() {
+                let indexPath = IndexPath(item: index, section: 0)
+                view?.updateRestaurantCell(at: indexPath, with: restaurant, userLocation: userLocation)
+            }
+        }
+        
+        func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            guard let location = locations.last else { return }
+            userLocation = location
+            filterNearByRestaurants()
+            view?.updateLocation()
+            updateRestaurantsWithUserLocation()
+        }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Не удалось определить местоположение пользователя: \(error.localizedDescription)")

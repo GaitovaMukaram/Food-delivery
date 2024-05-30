@@ -4,4 +4,11 @@
         <attribute name="imageData" optional="YES" attributeType="Binary"/>
         <attribute name="url" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="CartItem" representedClassName="CartItem" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="price" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="RestaurantEntity" representedClassName="RestaurantEntity" syncable="YES" codeGenerationType="class"/>
 </model>

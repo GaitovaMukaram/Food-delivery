@@ -55,11 +55,6 @@ struct Restaurant: Decodable {
     var address: String {
         return address_simplify
     }
-    
-    var distance: Float {
-        // Возвращаем нулевое значение по умолчанию, необходимо реализовать расчет дистанции
-        return 0.0
-    }
 }
 
 struct MenuItemResponse: Decodable {

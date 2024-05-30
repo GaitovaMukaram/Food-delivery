@@ -109,7 +109,7 @@ class FilteredRestaurantsViewController: UIViewController, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RestaurantCollectionViewCell", for: indexPath) as! RestaurantCollectionViewCell
         let restaurant = filteredRestaurants[indexPath.item]
-        cell.configure(with: restaurant)
+        cell.configure(with: restaurant, userLocation: presenter.userLocation)
         return cell
     }
     

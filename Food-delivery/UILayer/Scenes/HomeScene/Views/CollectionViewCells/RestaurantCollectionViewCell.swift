@@ -7,6 +7,7 @@
 
 
 import UIKit
+import CoreLocation
 
 class RestaurantCollectionViewCell: UICollectionViewCell {
     let topView = UIView()
@@ -17,6 +18,20 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
     let distanceIcon = UIImageView()
     let distanceLabel = UILabel()
     let ratingLabel = UIView()
+    var distance : Float {
+        return 0.0
+    }
+    
+    var restaurantLocation: CLLocation? {
+            didSet {
+                updateDistance()
+            }
+        }
+        var userLocation: CLLocation? {
+            didSet {
+                updateDistance()
+            }
+        }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -149,13 +164,28 @@ class RestaurantCollectionViewCell: UICollectionViewCell {
         ])
     }
 
-    func configure(with restaurant: Restaurant) {
+    func configure(with restaurant: Restaurant, userLocation: CLLocation?) {
         loadImage(from: restaurant.image)
         nameLabel.text = restaurant.name
         addressLabel.text = restaurant.address
-        distanceLabel.text = "\(restaurant.distance) km"
+        let latitude = CLLocationDegrees(restaurant.latitude)
+        let longitude = CLLocationDegrees(restaurant.longitude)
+        self.restaurantLocation = CLLocation(latitude: latitude, longitude: longitude)
+        self.userLocation = userLocation
+        
         configureRating(rating: restaurant.rating)
     }
+
+
+    
+    private func updateDistance() {
+            guard let userLocation = userLocation, let restaurantLocation = restaurantLocation else {
+                distanceLabel.text = "0.0"
+                return
+            }
+            let distanceInMeters = userLocation.distance(from: restaurantLocation)
+            distanceLabel.text = String(format: "%.2f m", distanceInMeters)
+        }
 
     private func configureRating(rating: Float) {
         ratingLabel.subviews.forEach { $0.removeFromSuperview() }
