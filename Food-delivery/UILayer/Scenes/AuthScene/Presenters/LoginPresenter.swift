@@ -70,7 +70,7 @@ extension LoginPresenter: LoginViewOutput {
                 switch result {
                 case .success(let signUpResponse):
                     print("Sign Up Successful: \(signUpResponse)")
-                    self?.goToSignIn()
+                    self?.goToMainScreen()
                 case .failure(let error):
                     print("Error: \(error.localizedDescription)")
                 }
@@ -92,6 +92,10 @@ extension LoginPresenter: LoginViewOutput {
     
     func goToSingUp() {
         coordinator?.showSignUpScene()
+    }
+    
+    func goToAuthScene() {
+        coordinator?.showAuthScene()
     }
     
     func goToForgotPassword() {
