@@ -109,7 +109,6 @@ private extension LoginViewController {
             setupSignUpRePassword()
             setupTitleLabel()
             setupSignInButton()
-            setupForgotPasswordLabel()
             setupNavigationBar()
         }
         setupLoaderView()
