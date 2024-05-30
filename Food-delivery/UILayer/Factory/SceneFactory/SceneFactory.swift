@@ -78,7 +78,7 @@ struct SceneFactory {
         
         let listNavigationController = UINavigationController()
         let listCoordinator = ListCoordinator(type: .order, navigationController: listNavigationController)
-        listNavigationController.tabBarItem = UITabBarItem(title: "My List", image: UIImage(resource: .order), tag: 2)
+        listNavigationController.tabBarItem = UITabBarItem(title: "My Orders", image: UIImage(resource: .order), tag: 2)
         listCoordinator.finishDelegate = finishDelegate
         listCoordinator.start()
         

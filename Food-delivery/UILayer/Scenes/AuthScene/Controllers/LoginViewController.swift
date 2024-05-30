@@ -181,6 +181,7 @@ private extension LoginViewController {
     func setupSignInPassword() {
         signInPassword.translatesAutoresizingMaskIntoConstraints = false
         signInPassword.placeholder = "Password"
+        signInPassword.isSecureTextEntry = true
         
         NSLayoutConstraint.activate([
             signInPassword.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30),
