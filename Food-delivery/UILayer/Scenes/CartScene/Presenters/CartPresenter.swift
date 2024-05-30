@@ -50,7 +50,7 @@ class CartPresenter: CartPresenterProtocol {
     }
 
     func didTapSendButton() {
-        // Обработка отправки заказа
+        view?.presentOrderSuccessScreen()
         print("Send button tapped")
     }
 

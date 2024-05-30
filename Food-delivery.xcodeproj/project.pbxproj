@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9F2E9C8F2C0882F600C5EE7A /* SuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2E9C8E2C0882F600C5EE7A /* SuccessViewController.swift */; };
+		9F2E9C912C08840A00C5EE7A /* FailedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2E9C902C08840A00C5EE7A /* FailedViewController.swift */; };
 		9F2EF6112C0331D600E20340 /* RestaurantMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6102C0331D600E20340 /* RestaurantMenuViewController.swift */; };
 		9F2EF6132C0331FA00E20340 /* MenuItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6122C0331FA00E20340 /* MenuItemCollectionViewCell.swift */; };
 		9F2EF6152C03442200E20340 /* MenuItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F2EF6142C03442200E20340 /* MenuItemDetailViewController.swift */; };
@@ -85,6 +87,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9F2E9C8E2C0882F600C5EE7A /* SuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessViewController.swift; sourceTree = "<group>"; };
+		9F2E9C902C08840A00C5EE7A /* FailedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailedViewController.swift; sourceTree = "<group>"; };
 		9F2EF6102C0331D600E20340 /* RestaurantMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantMenuViewController.swift; sourceTree = "<group>"; };
 		9F2EF6122C0331FA00E20340 /* MenuItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		9F2EF6142C03442200E20340 /* MenuItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemDetailViewController.swift; sourceTree = "<group>"; };
@@ -178,6 +182,8 @@
 		9F2E9C872C087D1200C5EE7A /* PaymentStatus */ = {
 			isa = PBXGroup;
 			children = (
+				9F2E9C8E2C0882F600C5EE7A /* SuccessViewController.swift */,
+				9F2E9C902C08840A00C5EE7A /* FailedViewController.swift */,
 			);
 			path = PaymentStatus;
 			sourceTree = "<group>";
@@ -731,6 +737,7 @@
 				9FE71DAC2BFF32AA00B691E9 /* ViewController.swift in Sources */,
 				9F2EF6192C035AB900E20340 /* CartModels.swift in Sources */,
 				9F2EF6302C038A3F00E20340 /* PaymentSettingsViewController.swift in Sources */,
+				9F2E9C912C08840A00C5EE7A /* FailedViewController.swift in Sources */,
 				9FE71DCE2BFF485600B691E9 /* UIColor+extension.swift in Sources */,
 				9F70AFC62C0781FD00ACCD8A /* ImageCache.swift in Sources */,
 				9FE71E022C009E6D00B691E9 /* FDButton.swift in Sources */,
@@ -766,6 +773,7 @@
 				9F2EF62E2C03824800E20340 /* ChangePasswordViewController.swift in Sources */,
 				9F8AB9892C055435001E7B13 /* SignUpModels.swift in Sources */,
 				9F70AFCA2C0818A100ACCD8A /* CoreDataManager.swift in Sources */,
+				9F2E9C8F2C0882F600C5EE7A /* SuccessViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

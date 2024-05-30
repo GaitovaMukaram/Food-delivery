@@ -12,6 +12,7 @@ protocol CartViewControllerProtocol: AnyObject {
     func showEmptyCart()
     func updateTotalPrice(_ totalPrice: Float)
     func updateCell(for item: CartMenuItem)
+    func presentOrderSuccessScreen()
 }
 
 class CartViewController: UIViewController, CartViewControllerProtocol {
@@ -146,6 +147,11 @@ class CartViewController: UIViewController, CartViewControllerProtocol {
     
     func updateTotalPrice(_ totalPrice: Float) {
         totalPriceLabel.text = String(format: "Total: $%.2f", totalPrice)
+    }
+    
+    func presentOrderSuccessScreen() {
+        let orderSuccessVC = SuccessViewController()
+        self.present(orderSuccessVC, animated: true, completion: nil)
     }
 }
 
