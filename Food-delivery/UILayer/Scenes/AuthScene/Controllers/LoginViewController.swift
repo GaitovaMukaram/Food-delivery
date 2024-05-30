@@ -450,13 +450,13 @@ private extension LoginViewController {
             let password = signUpPassword.text ?? ""
             let passwordConfirmation = signUpReEnterPass.text ?? ""
             
-            if !isValidEmail(email) {
-                showAlert(message: "Invalid email format.")
+            if firstName.isEmpty || lastName.isEmpty || email.isEmpty || password.isEmpty || passwordConfirmation.isEmpty{
+                showAlert(message: "Fields cannot be empty.")
                 return
             }
             
-            if firstName.isEmpty || lastName.isEmpty {
-                showAlert(message: "First name and last name cannot be empty.")
+            if !isValidEmail(email) {
+                showAlert(message: "Invalid email format.")
                 return
             }
             
